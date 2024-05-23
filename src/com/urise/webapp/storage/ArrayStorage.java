@@ -7,9 +7,14 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
 
+    protected final Resume[] storage;
+    private final int STORAGE_LIMIT = 10000;
     private int size = 0;
+
+    public ArrayStorage() {
+        storage = new Resume[STORAGE_LIMIT];
+    }
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -17,7 +22,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size == (storage.length - 1)) {
+        if (size == STORAGE_LIMIT) {
             System.out.println("Storage is full");
         } else if (getIndex(r.getUuid()) >= 0) {
             System.out.printf("Element with ID=%s is already present, please use update method%n", r.getUuid());
