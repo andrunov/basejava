@@ -6,11 +6,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage implements Storage {
-
-    protected final Resume[] storage;
-    private final int STORAGE_LIMIT = 10000;
-    private int size = 0;
+public class ArrayStorage extends AbstractArrayStorage {
 
     public ArrayStorage() {
         storage = new Resume[STORAGE_LIMIT];
@@ -41,15 +37,6 @@ public class ArrayStorage implements Storage {
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        } else {
-            System.out.printf("Element with ID=%s not present%n", uuid);
-        }
-        return null;
-    }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
@@ -71,14 +58,10 @@ public class ArrayStorage implements Storage {
         return result;
     }
 
-    public int size() {
-        return size;
-    }
-
     /*
     return index in array storage if element is present, else return -1
      */
-    private int getIndex(String uuid) {
+    protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
