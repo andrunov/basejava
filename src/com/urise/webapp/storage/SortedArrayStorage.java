@@ -1,25 +1,15 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
-
 import java.util.Arrays;
 
+/**
+ * Array storage for Resumes with auto sorting
+ */
 public class SortedArrayStorage extends AbstractArrayStorage{
 
-    @Override
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    @Override
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            storage[index] = r;
-        } else {
-            System.out.printf("Element with ID=%s not present, updating impossible%n", r.getUuid());
-        }
+    public SortedArrayStorage() {
+        storage = new Resume[STORAGE_LIMIT];
     }
 
     @Override
@@ -51,12 +41,6 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         }
     }
 
-    @Override
-    public Resume[] getAll() {
-        Resume[] result = new Resume[size];
-        System.arraycopy(storage, 0, result, 0, size);
-        return result;
-    }
 
     @Override
     protected int getIndex(String uuid) {
