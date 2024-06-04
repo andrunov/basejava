@@ -11,26 +11,16 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage = new Resume[STORAGE_LIMIT];
     }
 
-    public void save(Resume r) {
-        if (size == STORAGE_LIMIT) {
-            System.out.println("Storage is full");
-        } else if (getIndex(r.getUuid()) >= 0) {
-            System.out.printf("Element with ID=%s is already present, please use update method%n", r.getUuid());
-        } else {
-            storage[size] = r;
-            size++;
-        }
+    @Override
+    public void add(Resume r) {
+        storage[size] = r;
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            storage[index] = storage[size - 1];
-            storage[size - 1] = null;
-            size--;
-        } else {
-            System.out.printf("Element with ID=%s not present%n", uuid);
-        }
+
+    @Override
+    public void remove(int index) {
+        storage[index] = storage[size - 1];
+        storage[size - 1] = null;
     }
 
 
