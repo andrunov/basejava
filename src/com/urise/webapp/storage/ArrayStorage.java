@@ -12,17 +12,16 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void add(Resume r) {
+    public void insertResume(int index, Resume r) {
         storage[size] = r;
     }
 
 
     @Override
-    public void remove(int index) {
+    public void removeResume(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
     }
-
 
     /*
     return index in array storage if element is present, else return -1

@@ -13,19 +13,16 @@ public class SortedArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    public void add(Resume r) {
-        int index = getIndex(r.getUuid());
-        index = - index - 1;
-        Resume[] partToBeShift = Arrays.copyOfRange(storage, index, size);
-        System.arraycopy(partToBeShift, 0, storage, index + 1, size - index);
-        storage[index] = r;
+    public void insertResume(int index, Resume r) {
+        int insertionIndex = -index - 1;
+        System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
+        storage[insertionIndex] = r;
     }
 
 
     @Override
-    public void remove(int index) {
-        Resume[] partToBeShift = Arrays.copyOfRange(storage, index + 1, size);
-        System.arraycopy(partToBeShift, 0, storage, index, size - index - 1);
+    public void removeResume(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
 
