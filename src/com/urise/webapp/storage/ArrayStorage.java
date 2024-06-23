@@ -7,6 +7,8 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+
+
     public ArrayStorage() {
         storage = new Resume[STORAGE_LIMIT];
     }
