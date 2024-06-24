@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +46,11 @@ public class AbstractArrayStorageTest {
         Assert.assertEquals(RESUME_01, storage.get(UUID_01));
     }
 
+    @Test(expected = NotExistStorageException.class)
+    public void getNotFound() {
+        storage.get(UUID_05);
+    }
+
     @Test
     public void update() {
         String updated_uuid = "updated_uuid";
@@ -50,6 +58,11 @@ public class AbstractArrayStorageTest {
         storage.update(RESUME_03);
         Assert.assertEquals(RESUME_03, storage.get(updated_uuid));
 
+    }
+
+    @Test(expected = NotExistStorageException.class)
+    public void updateNotFound() {
+        storage.update(RESUME_05);
     }
 
     @Test
@@ -74,9 +87,30 @@ public class AbstractArrayStorageTest {
         Assert.assertEquals(RESUME_04, storage.get(UUID_04));
     }
 
-    @Test
+    @Test(expected = ExistStorageException.class)
+    public void saveExist() {
+        storage.save(RESUME_01);
+    }
+
+    @Test(expected = StorageException.class)
+    public void saveOverflow() {
+        int i = storage.size() + 1;
+        try {
+            while (i <= AbstractArrayStorage.STORAGE_LIMIT) {
+                Resume resume = new Resume(String.format("uuid%s", i));
+                storage.save(resume);
+                i++;
+            }
+        } catch (StorageException e) {
+            Assert.fail("overflow events prematurely");
+        }
+        Resume resume = new Resume(String.format("uuid%s", i));
+        storage.save(resume);
+    }
+
+    @Test(expected = NotExistStorageException.class)
     public void delete() {
         storage.delete(UUID_02);
-        Assert.assertNull(storage.get(UUID_02));
+        storage.get(UUID_02);
     }
 }
