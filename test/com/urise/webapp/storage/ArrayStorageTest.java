@@ -6,25 +6,26 @@ import org.junit.Test;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
-    protected ArrayStorage arrayStorage;
+    private ArrayStorage arrayStorage;
 
     public ArrayStorageTest() {
-        super();
-        arrayStorage = (ArrayStorage)storage;
+        super(new ArrayStorage());
+        this.arrayStorage = (ArrayStorage) super.storage;
     }
 
     @Before
     public void setUp() {
-        arrayStorage.clear();
-        arrayStorage.save(RESUME_01);
-        arrayStorage.save(RESUME_02);
-        arrayStorage.save(RESUME_03);
+        storage.clear();
+        storage.save(RESUME_01);
+        storage.save(RESUME_02);
+        RESUME_03.setUuid(UUID_03);
+        storage.save(RESUME_03);
     }
 
     @Test
     public void insertResume() {
         arrayStorage.insertResume(0, RESUME_05);
-        Assert.assertEquals(RESUME_05, arrayStorage.storage[arrayStorage.size()]);
+        Assert.assertEquals(RESUME_05, arrayStorage.storage[storage.size()]);
     }
 
     @Test

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AbstractArrayStorageTest {
+public abstract class AbstractArrayStorageTest {
 
     protected static final String UUID_01 = "uuid1";
     protected static final String UUID_02 = "uuid2";
@@ -24,8 +24,8 @@ public class AbstractArrayStorageTest {
 
     protected Storage storage;
 
-    public AbstractArrayStorageTest() {
-        this.storage = new ArrayStorage();
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
     }
 
     @Before
@@ -54,10 +54,19 @@ public class AbstractArrayStorageTest {
     @Test
     public void update() {
         String updated_uuid = "updated_uuid";
+        RESUME_02.setUuid(updated_uuid);
+        storage.update(RESUME_02);
+        Assert.assertEquals(RESUME_02, storage.get(updated_uuid));
+    }
+
+
+
+    @Test
+    public void update_NOT_WORKS_FOR_SORTES_ARRAY_STORAGE() {
+        String updated_uuid = "updated_uuid";
         RESUME_03.setUuid(updated_uuid);
         storage.update(RESUME_03);
         Assert.assertEquals(RESUME_03, storage.get(updated_uuid));
-
     }
 
     @Test(expected = NotExistStorageException.class)
