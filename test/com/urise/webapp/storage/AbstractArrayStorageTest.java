@@ -76,8 +76,8 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] all_resume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
-        Assert.assertArrayEquals(all_resume, storage.getAll());
+        Resume[] allResume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
+        Assert.assertArrayEquals(allResume, storage.getAll());
 
     }
 
@@ -85,8 +85,8 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] all_resume = new Resume[0];
-        Assert.assertArrayEquals(all_resume, storage.getAll());
+        Resume[] allResume = new Resume[0];
+        Assert.assertArrayEquals(allResume, storage.getAll());
     }
 
     @Test
