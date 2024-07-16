@@ -15,12 +15,19 @@ public abstract class AbstractArrayStorageTest {
     protected static final String UUID_03 = "uuid3";
     protected static final String UUID_04 = "uuid4";
     protected static final String UUID_05 = "uuid5";
-    protected static final Resume RESUME_01 = new Resume(UUID_01);
-    protected static final Resume RESUME_02 = new Resume(UUID_02);
-    protected static final Resume RESUME_03 = new Resume(UUID_03);
-    protected static final Resume RESUME_04 = new Resume(UUID_04);
-    protected static final Resume RESUME_05 = new Resume(UUID_05);
+    protected static final Resume RESUME_01;
+    protected static final Resume RESUME_02;
+    protected static final Resume RESUME_03;
+    protected static final Resume RESUME_04;
+    protected static final Resume RESUME_05;
 
+    static {
+        RESUME_01 = new Resume(UUID_01);
+        RESUME_02 = new Resume(UUID_02);
+        RESUME_03 = new Resume(UUID_03);
+        RESUME_04 = new Resume(UUID_04);
+        RESUME_05 = new Resume(UUID_05);
+    }
 
     protected final Storage storage;
 
