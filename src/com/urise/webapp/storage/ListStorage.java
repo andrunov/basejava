@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -17,16 +16,6 @@ public class ListStorage extends AbstractStorage implements Storage{
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public void save( Resume resume ) {
-        int index = getIndex( resume.getUuid() );
-        if ( index >= 0 ) {
-            throw new ExistStorageException( resume.getUuid() );
-        } else {
-            insertResume(index, resume);
-        }
     }
 
     @Override
@@ -70,7 +59,17 @@ public class ListStorage extends AbstractStorage implements Storage{
     }
 
     @Override
+    public void increaseStorage() {
+        //do nothing
+    }
+
+    @Override
     public void decreaseStorage() {
+        //do nothing
+    }
+
+    @Override
+    public void checkOverflow(String uuid) {
         //do nothing
     }
 }
