@@ -18,6 +18,7 @@ public abstract class AbstractStorage {
     public final void delete( String uuid ) {
         int index = getExisted( uuid );
         removeResume(index);
+        decreaseStorage();
     }
 
     private int getExisted( String uuid) {
@@ -38,5 +39,7 @@ public abstract class AbstractStorage {
     public abstract Resume getResume(int index);
 
     public abstract void removeResume(int index );
+
+    public abstract void decreaseStorage();
 
 }

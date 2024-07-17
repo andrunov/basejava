@@ -55,6 +55,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         return storage[index];
     }
 
-
-
+    @Override
+    public void decreaseStorage() {
+        storage[size] = null;
+        size--;
+    }
 }

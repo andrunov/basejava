@@ -68,4 +68,9 @@ public class ListStorage extends AbstractStorage implements Storage{
     public void removeResume(int index) {
         storage.remove( index );
     }
+
+    @Override
+    public void decreaseStorage() {
+        //do nothing
+    }
 }
