@@ -12,6 +12,7 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         super();
     }
 
+    //for new resume only
     @Override
     public void insertResume(int index, Resume r) {
         int insertionIndex = -index - 1;
@@ -23,6 +24,8 @@ public class SortedArrayStorage extends AbstractArrayStorage{
     @Override
     public void removeResume(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+        storage[size] = null;
+        size--;
     }
 
 
