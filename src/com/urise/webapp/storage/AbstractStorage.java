@@ -14,12 +14,8 @@ public abstract class AbstractStorage {
     //template method
     public final void save( Resume resume ) {
         checkOverflow(resume.getUuid());
-        int index = getIndex( resume.getUuid() );
-        if ( index >= 0 ) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            insertResume( index, resume );
-        }
+        int index = getNotExisted( resume.getUuid() );
+        insertResume( index, resume );
         increaseStorage();
     }
 
@@ -38,6 +34,15 @@ public abstract class AbstractStorage {
         int index = getIndex( uuid );
         if ( index < 0 ) {
             throw new NotExistStorageException( uuid );
+        } else {
+            return index;
+        }
+    }
+
+    private int getNotExisted( String uuid ) {
+        int index = getIndex( uuid );
+        if ( index >= 0 ) {
+            throw new ExistStorageException( uuid );
         } else {
             return index;
         }
