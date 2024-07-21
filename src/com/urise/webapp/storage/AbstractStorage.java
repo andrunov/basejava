@@ -7,48 +7,50 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage {
 
     public final Resume get(String uuid ) {
-        int index = getExisted( uuid );
+        int index = getExistingSearchKey( uuid );
         return getResume( index );
     }
 
     //template method
     public final void save( Resume resume ) {
         checkOverflow(resume.getUuid());
-        int index = getNotExisted( resume.getUuid() );
+        Integer index = getNotExistingSearchKey( resume.getUuid() );
         insertResume( index, resume );
         increaseStorage();
     }
 
     public final void update( Resume resume ) {
-        int index = getExisted( resume.getUuid() );
+        int index = getExistingSearchKey( resume.getUuid() );
         updateResume(index, resume);
     }
 
     public final void delete( String uuid ) {
-        int index = getExisted( uuid );
+        int index = getExistingSearchKey( uuid );
         removeResume(index);
         decreaseStorage();
     }
 
-    private int getExisted( String uuid) {
-        int index = getIndex( uuid );
-        if ( index < 0 ) {
+    private int getExistingSearchKey(String uuid) {
+        int searchKey = (Integer) searchKey( uuid );
+        if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
         } else {
-            return index;
+            return searchKey;
         }
     }
 
-    private int getNotExisted( String uuid ) {
-        int index = getIndex( uuid );
-        if ( index >= 0 ) {
+    private int getNotExistingSearchKey(String uuid ) {
+        int searchKey = (Integer) searchKey( uuid );
+        if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
         } else {
-            return index;
+            return searchKey;
         }
     }
 
-    protected abstract int getIndex( String uuid );
+    protected abstract boolean isExist(Object key);
+
+    protected abstract Object searchKey(String uuid );
 
     public abstract void insertResume( int index, Resume resume );
 

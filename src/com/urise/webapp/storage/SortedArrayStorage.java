@@ -28,8 +28,13 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer searchKey(String uuid) {
         Resume searchElement = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchElement);
+    }
+
+    @Override
+    protected boolean isExist(Object key) {
+        return (Integer) key >= 0;
     }
 }
