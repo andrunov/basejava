@@ -16,12 +16,6 @@ public abstract class AbstractStorage {
         updateResume(index, resume);
     }
 
-    public final void delete( String uuid ) {
-        int index = getExistingSearchKey( uuid );
-        removeResume(index);
-        decreaseStorage();
-    }
-
     protected int getExistingSearchKey(String uuid) {
         int searchKey = (Integer) searchKey( uuid );
         if ( ! isExist(searchKey) ) {
@@ -51,7 +45,5 @@ public abstract class AbstractStorage {
     public abstract Resume getResume(int index);
 
     public abstract void removeResume(int index );
-
-    public abstract void decreaseStorage();
 
 }

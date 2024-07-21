@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage implements Storage{
 
-    protected List<Resume> storage;
+    protected final List<Resume> storage;
 
     public ListStorage() {
         this.storage = new ArrayList<>();
@@ -27,6 +27,11 @@ public class ListStorage extends AbstractStorage implements Storage{
     public final void save( Resume resume ) {
         int index = getNotExistingSearchKey( resume.getUuid() );
         insertResume( index, resume );
+    }
+
+    public final void delete( String uuid ) {
+        int index = getExistingSearchKey( uuid );
+        removeResume(index);
     }
 
     @Override
@@ -67,11 +72,6 @@ public class ListStorage extends AbstractStorage implements Storage{
     @Override
     protected boolean isExist(Object key) {
         return (Integer) key != -1;
-    }
-
-    @Override
-    public void decreaseStorage() {
-        //do nothing
     }
 
 }

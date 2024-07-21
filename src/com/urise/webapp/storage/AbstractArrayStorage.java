@@ -36,6 +36,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         size++;
     }
 
+    public final void delete( String uuid ) {
+        int index = getExistingSearchKey( uuid );
+        removeResume(index);
+        storage[size] = null;
+        size--;
+    }
+
     public final void clear() {
         Arrays.fill( storage, 0, size, null );
         size = 0;
@@ -49,12 +56,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
     @Override
     public final Resume getResume(int index) {
         return storage[index];
-    }
-
-    @Override
-    public void decreaseStorage() {
-        storage[size] = null;
-        size--;
     }
 
 }
