@@ -11,14 +11,6 @@ public abstract class AbstractStorage {
         return getResume( index );
     }
 
-    //template method
-    public final void save( Resume resume ) {
-        checkOverflow(resume.getUuid());
-        Integer index = getNotExistingSearchKey( resume.getUuid() );
-        insertResume( index, resume );
-        increaseStorage();
-    }
-
     public final void update( Resume resume ) {
         int index = getExistingSearchKey( resume.getUuid() );
         updateResume(index, resume);
@@ -30,7 +22,7 @@ public abstract class AbstractStorage {
         decreaseStorage();
     }
 
-    private int getExistingSearchKey(String uuid) {
+    protected int getExistingSearchKey(String uuid) {
         int searchKey = (Integer) searchKey( uuid );
         if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
@@ -39,7 +31,7 @@ public abstract class AbstractStorage {
         }
     }
 
-    private int getNotExistingSearchKey(String uuid ) {
+    protected int getNotExistingSearchKey(String uuid ) {
         int searchKey = (Integer) searchKey( uuid );
         if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
@@ -60,10 +52,6 @@ public abstract class AbstractStorage {
 
     public abstract void removeResume(int index );
 
-    public abstract void increaseStorage();
-
     public abstract void decreaseStorage();
-
-    public abstract void checkOverflow(String uuid);
 
 }

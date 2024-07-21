@@ -26,6 +26,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         return Arrays.copyOf( storage, size );
     }
 
+    //template method
+    public final void save( Resume resume ) {
+        if ( size == STORAGE_LIMIT ) {
+            throw new StorageException("Storage overflow", resume.getUuid());
+        }
+        int index = getNotExistingSearchKey( resume.getUuid() );
+        insertResume( index, resume );
+        size++;
+    }
+
     public final void clear() {
         Arrays.fill( storage, 0, size, null );
         size = 0;
@@ -41,20 +51,10 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         return storage[index];
     }
 
-    public void increaseStorage() {
-        size++;
-    }
-
     @Override
     public void decreaseStorage() {
         storage[size] = null;
         size--;
     }
 
-    @Override
-    public void checkOverflow(String uuid) {
-        if ( size == STORAGE_LIMIT ) {
-            throw new StorageException("Storage overflow", uuid);
-        }
-    }
 }

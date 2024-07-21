@@ -23,6 +23,12 @@ public class ListStorage extends AbstractStorage implements Storage{
         return storage.toArray(new Resume[0]);
     }
 
+    //template method
+    public final void save( Resume resume ) {
+        int index = getNotExistingSearchKey( resume.getUuid() );
+        insertResume( index, resume );
+    }
+
     @Override
     public int size() {
         return storage.size();
@@ -64,17 +70,8 @@ public class ListStorage extends AbstractStorage implements Storage{
     }
 
     @Override
-    public void increaseStorage() {
-        //do nothing
-    }
-
-    @Override
     public void decreaseStorage() {
         //do nothing
     }
 
-    @Override
-    public void checkOverflow(String uuid) {
-        //do nothing
-    }
 }
