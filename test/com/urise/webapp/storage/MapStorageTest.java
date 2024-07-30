@@ -7,8 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ListStorageTest {
+import java.util.Arrays;
 
+public class MapStorageTest {
     protected static final String UUID_01 = "uuid1";
     protected static final String UUID_02 = "uuid2";
     protected static final String UUID_03 = "uuid3";
@@ -30,9 +31,11 @@ public class ListStorageTest {
 
     protected final Storage storage;
 
-    public ListStorageTest() {
-        this.storage = new ListStorage();
+
+    public MapStorageTest() {
+        storage = new MapStorage();
     }
+
 
     @Before
     public void setUp() {
@@ -83,7 +86,9 @@ public class ListStorageTest {
     @Test
     public void getAll() {
         Resume[] allResume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
-        Assert.assertArrayEquals(allResume, storage.getAll());
+        Resume[] saved =storage.getAll();
+        Arrays.sort(saved);
+        Assert.assertArrayEquals(allResume, saved);
 
     }
 
@@ -106,6 +111,7 @@ public class ListStorageTest {
     public void saveExist() {
         storage.save(RESUME_01);
     }
+
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
