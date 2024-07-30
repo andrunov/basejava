@@ -26,6 +26,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         return Arrays.copyOf( storage, size );
     }
 
+    public final Resume get(String uuid ) {
+        int index = getExistingSearchKey( uuid );
+        return getResume( index );
+    }
+
+    public final void update( Resume resume ) {
+        int index = getExistingSearchKey( resume.getUuid() );
+        updateResume(index, resume);
+    }
+
     //template method
     public final void save( Resume resume ) {
         if ( size == STORAGE_LIMIT ) {
@@ -48,14 +58,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         size = 0;
     }
 
-    @Override
     public final void updateResume(int index, Resume resume) {
         storage[index] = resume;
     }
 
-    @Override
     public final Resume getResume(int index) {
         return storage[index];
     }
+
+    public abstract void insertResume( int index, Resume resume );
+
+
+    public abstract void removeResume(int index );
 
 }

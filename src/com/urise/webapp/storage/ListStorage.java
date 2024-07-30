@@ -19,19 +19,30 @@ public class ListStorage extends AbstractStorage implements Storage{
     }
 
     @Override
+    public void update(Resume resume) {
+        int index = getExistingSearchKey( resume.getUuid() );
+        storage.set(index, resume);
+   }
+
+    @Override
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
-    //template method
     public final void save( Resume resume ) {
         int index = getNotExistingSearchKey( resume.getUuid() );
         insertResume( index, resume );
     }
 
+    @Override
+    public Resume get(String uuid) {
+        int index = getExistingSearchKey( uuid );
+        return storage.get(index);
+    }
+
     public final void delete( String uuid ) {
         int index = getExistingSearchKey( uuid );
-        removeResume(index);
+        storage.remove(index);
     }
 
     @Override
@@ -48,25 +59,8 @@ public class ListStorage extends AbstractStorage implements Storage{
         return -1;
     }
 
-    @Override
     public void insertResume(int index, Resume resume) {
         storage.add(resume);
-    }
-
-    @Override
-    public void updateResume(int index, Resume resume) {
-        storage.remove(index);
-        storage.add(resume);
-    }
-
-    @Override
-    public Resume getResume(int index) {
-        return storage.get(index);
-    }
-
-    @Override
-    public void removeResume(int index) {
-        storage.remove( index );
     }
 
     @Override
