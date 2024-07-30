@@ -5,8 +5,8 @@ import com.urise.webapp.exception.NotExistStorageException;
 
 public abstract class AbstractStorage {
 
-    protected int getExistingSearchKey(String uuid) {
-        int searchKey = (Integer) searchKey( uuid );
+    protected Object getExistingSearchKey(String uuid) {
+        Object searchKey = searchKey( uuid );
         if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -14,8 +14,8 @@ public abstract class AbstractStorage {
         }
     }
 
-    protected int getNotExistingSearchKey(String uuid ) {
-        int searchKey = (Integer) searchKey( uuid );
+    protected Object getNotExistingSearchKey(String uuid ) {
+        Object searchKey = searchKey( uuid );
         if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
         } else {

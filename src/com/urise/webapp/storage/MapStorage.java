@@ -30,14 +30,14 @@ public class MapStorage extends AbstractStorage implements Storage{
 
     @Override
     public void update(Resume resume) {
-        int index = getExistingSearchKey( resume.getUuid() );
-        storage.put(resume.getUuid(), resume);
+        String key = (String) getExistingSearchKey( resume.getUuid() );
+        storage.put(key, resume);
     }
 
     @Override
     public void save(Resume resume) {
-        int index = getNotExistingSearchKey( resume.getUuid() );
-        storage.put( resume.getUuid() , resume );
+        String key = (String) getNotExistingSearchKey( resume.getUuid() );
+        storage.put( key , resume );
     }
 
     @Override
