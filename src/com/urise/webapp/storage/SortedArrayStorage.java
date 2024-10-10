@@ -14,16 +14,16 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     //for new resume only
     @Override
-    public void insertResume(int index, Resume r) {
-        int insertionIndex = -index - 1;
+    public <T> void insertResume(T index, Resume r) {
+        int insertionIndex = -(Integer) index - 1;
         System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
         storage[insertionIndex] = r;
     }
 
 
     @Override
-    public void removeResume(int index) {
-        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+    public <T> void removeResume(T index) {
+        System.arraycopy(storage, (Integer)index + 1, storage, (Integer)index, size - (Integer)index - 1);
     }
 
 
@@ -35,6 +35,6 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
     protected boolean isExist(Object key) {
-        return (Integer) key >= 0;
+        return (int) key >= 0;
     }
 }

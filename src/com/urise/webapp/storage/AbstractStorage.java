@@ -6,18 +6,18 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage {
 
-    public final Resume get(String uuid ) {
-        int index = getExistingSearchKey( uuid );
+    public final <T> Resume get(String uuid ) {
+        T index = getExistingSearchKey( uuid );
         return getResume( index );
     }
 
-    public final void update( Resume resume ) {
-        int index = getExistingSearchKey( resume.getUuid() );
+    public final <T> void update( Resume resume ) {
+        T index = getExistingSearchKey( resume.getUuid() );
         updateResume(index, resume);
     }
 
-    protected int getExistingSearchKey(String uuid) {
-        int searchKey = (Integer) searchKey( uuid );
+    protected <T> T getExistingSearchKey(String uuid) {
+        T searchKey = searchKey( uuid );
         if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -25,8 +25,8 @@ public abstract class AbstractStorage {
         }
     }
 
-    protected int getNotExistingSearchKey(String uuid ) {
-        int searchKey = (Integer) searchKey( uuid );
+    protected <T> T getNotExistingSearchKey(String uuid ) {
+        T searchKey = searchKey( uuid );
         if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
         } else {
@@ -36,14 +36,14 @@ public abstract class AbstractStorage {
 
     protected abstract boolean isExist(Object key);
 
-    protected abstract Object searchKey(String uuid );
+    protected abstract <T> T searchKey(String uuid );
 
-    public abstract void insertResume( int index, Resume resume );
+    public abstract <T> void insertResume( T index, Resume resume );
 
-    public abstract void updateResume( int index, Resume resume );
+    public abstract <T> void updateResume( T index, Resume resume );
 
-    public abstract Resume getResume(int index);
+    public abstract <T> Resume getResume(T index );
 
-    public abstract void removeResume(int index );
+    public abstract <T> void removeResume(T index );
 
 }

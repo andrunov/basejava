@@ -6,11 +6,11 @@ public interface Storage {
 
     void clear();
 
-    void update(Resume resume);
+    <T> void update(Resume resume);
 
     void save(Resume resume);
 
-    Resume get(String uuid);
+    <T> Resume get(String uuid);
 
     void delete(String uuid);
 

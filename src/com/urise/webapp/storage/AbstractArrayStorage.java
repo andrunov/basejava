@@ -49,13 +49,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
     }
 
     @Override
-    public final void updateResume(int index, Resume resume) {
-        storage[index] = resume;
+    public final <T> void updateResume(T index, Resume resume) {
+        storage[(Integer)index] = resume;
     }
 
     @Override
-    public final Resume getResume(int index) {
-        return storage[index];
+    public final <T> Resume getResume(T index) {
+        return storage[(Integer) index];
     }
 
 }

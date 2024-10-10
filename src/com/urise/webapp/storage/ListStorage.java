@@ -49,29 +49,29 @@ public class ListStorage extends AbstractStorage implements Storage{
     }
 
     @Override
-    public void insertResume(int index, Resume resume) {
+    public <T> void insertResume(T index, Resume resume) {
         storage.add(resume);
     }
 
     @Override
-    public void updateResume(int index, Resume resume) {
-        storage.remove(index);
+    public <T> void updateResume(T index, Resume resume) {
+        storage.remove(((Integer)index).intValue());
         storage.add(resume);
     }
 
     @Override
-    public Resume getResume(int index) {
-        return storage.get(index);
+    public <T> Resume getResume(T index) {
+        return storage.get( (Integer) index );
     }
 
     @Override
-    public void removeResume(int index) {
-        storage.remove( index );
+    public <T> void removeResume(T index) {
+        storage.remove(((Integer)index).intValue());
     }
 
     @Override
     protected boolean isExist(Object key) {
-        return (Integer) key != -1;
+        return (int) key != -1;
     }
 
 }

@@ -13,14 +13,14 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void insertResume(int index, Resume r) {
+    public <T> void insertResume(T index, Resume r) {
         storage[size] = r;
     }
 
 
     @Override
-    public void removeResume(int index) {
-        storage[index] = storage[size - 1];
+    public <T> void removeResume(T index) {
+        storage[(Integer) index] = storage[size - 1];
         storage[size - 1] = null;
     }
 
@@ -38,7 +38,8 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected boolean isExist(Object key) {
-        return (Integer) key != -1;
+        return (int) key != -1;
     }
+
 
 }
