@@ -2,15 +2,15 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage implements Storage{
+public class MapStorage extends AbstractStorage implements Storage{
 
-    protected final List<Resume> storage;
+    protected final Map<String, Resume> storage;
 
-    public ListStorage() {
-        this.storage = new ArrayList<>();
+    public MapStorage() {
+        this.storage = new HashMap<>();
     }
 
     @Override
@@ -20,7 +20,13 @@ public class ListStorage extends AbstractStorage implements Storage{
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        Resume[] result = new Resume[storage.size()];
+        int counter = 0;
+        for (Resume resume : storage.values()) {
+            result[counter] = resume;
+            counter++;
+        }
+        return result;
     }
 
     //template method
@@ -39,39 +45,37 @@ public class ListStorage extends AbstractStorage implements Storage{
         return storage.size();
     }
 
-    protected Integer searchKey(String uuid ) {
-        for (int i = 0; i < storage.size(); i++) {
-            if ( storage.get(i).getUuid().equals(uuid) ) {
-                return i;
-            }
+    protected String searchKey(String uuid ) {
+        if (storage.containsKey(uuid)) {
+            return uuid;
+        } else {
+            return null;
         }
-        return -1;
     }
 
     @Override
     public void insertResume(Object index, Resume resume) {
-        storage.add(resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     public void updateResume(Object index, Resume resume) {
-        storage.remove(index);
-        storage.add(resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     public Resume getResume(Object index) {
-        return storage.get((int)index);
+        return storage.get(index);
     }
 
     @Override
     public void removeResume(Object index) {
-        storage.remove( (int)index );
+        storage.remove( index );
     }
 
     @Override
     protected boolean isExist(Object key) {
-        return (Integer) key != -1;
+        return key != null;
     }
 
 }

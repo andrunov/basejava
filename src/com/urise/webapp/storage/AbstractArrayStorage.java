@@ -31,13 +31,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
         if ( size == STORAGE_LIMIT ) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        int index = getNotExistingSearchKey( resume.getUuid() );
+        Object index = getNotExistingSearchKey( resume.getUuid() );
         insertResume( index, resume );
         size++;
     }
 
     public final void delete( String uuid ) {
-        int index = getExistingSearchKey( uuid );
+        Object index = getExistingSearchKey( uuid );
         removeResume(index);
         storage[size] = null;
         size--;
@@ -49,13 +49,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
     }
 
     @Override
-    public final void updateResume(int index, Resume resume) {
-        storage[index] = resume;
+    public final void updateResume(Object index, Resume resume) {
+        storage[(int)index] = resume;
     }
 
     @Override
-    public final Resume getResume(int index) {
-        return storage[index];
+    public final Resume getResume(Object index) {
+        return storage[(int)index];
     }
 
 }
