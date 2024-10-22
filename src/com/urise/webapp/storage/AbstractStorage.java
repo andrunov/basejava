@@ -4,19 +4,19 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-public abstract class AbstractStorage {
+public abstract class AbstractStorage <T> {
 
-    public final <T> Resume get(String uuid ) {
+    public final Resume get(String uuid ) {
         T index = getExistingSearchKey( uuid );
         return getResume( index );
     }
 
-    public final <T> void update( Resume resume ) {
+    public final void update( Resume resume ) {
         T index = getExistingSearchKey( resume.getUuid() );
         updateResume(index, resume);
     }
 
-    protected <T> T getExistingSearchKey(String uuid) {
+    protected T getExistingSearchKey(String uuid) {
         T searchKey = searchKey( uuid );
         if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
@@ -25,7 +25,7 @@ public abstract class AbstractStorage {
         }
     }
 
-    protected <T> T getNotExistingSearchKey(String uuid ) {
+    protected T getNotExistingSearchKey(String uuid ) {
         T searchKey = searchKey( uuid );
         if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
@@ -36,14 +36,14 @@ public abstract class AbstractStorage {
 
     protected abstract boolean isExist(Object key);
 
-    protected abstract <T> T searchKey(String uuid );
+    protected abstract T searchKey(String uuid );
 
-    public abstract <T> void insertResume( T index, Resume resume );
+    public abstract void insertResume( T index, Resume resume );
 
-    public abstract <T> void updateResume( T index, Resume resume );
+    public abstract void updateResume( T index, Resume resume );
 
-    public abstract <T> Resume getResume(T index );
+    public abstract Resume getResume(T index );
 
-    public abstract <T> void removeResume(T index );
+    public abstract void removeResume(T index );
 
 }

@@ -13,13 +13,13 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public <T> void insertResume(T index, Resume r) {
+    public void insertResume(Integer index, Resume r) {
         storage[size] = r;
     }
 
 
     @Override
-    public <T> void removeResume(T index) {
+    public void removeResume(Integer index) {
         storage[(Integer) index] = storage[size - 1];
         storage[size - 1] = null;
     }

@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends  AbstractStorage implements Storage {
+public class MapStorage extends  AbstractStorage<String> implements Storage {
 
     protected final Map<String, Resume> storage;
 
@@ -28,22 +28,22 @@ public class MapStorage extends  AbstractStorage implements Storage {
     }
 
     @Override
-    public <T> void insertResume(T index, Resume resume) {
+    public void insertResume(String index, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    public <T> void updateResume(T index, Resume resume) {
+    public void updateResume(String index, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    public <T> Resume getResume(T index) {
+    public Resume getResume(String index) {
         return storage.get(index);
     }
 
     @Override
-    public <T> void removeResume(T index) {
+    public void removeResume(String index) {
         storage.remove(index);
     }
 

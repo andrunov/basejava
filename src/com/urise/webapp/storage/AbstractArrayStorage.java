@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage extends AbstractStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> implements Storage {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected Resume[] storage;
@@ -49,13 +49,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage implements St
     }
 
     @Override
-    public final <T> void updateResume(T index, Resume resume) {
-        storage[(Integer)index] = resume;
+    public final void updateResume(Integer index, Resume resume) {
+        storage[index] = resume;
     }
 
     @Override
-    public final <T> Resume getResume(T index) {
-        return storage[(Integer) index];
+    public final Resume getResume(Integer index) {
+        return storage[index];
     }
 
 }
