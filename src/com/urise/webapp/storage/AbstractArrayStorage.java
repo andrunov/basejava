@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
         return Arrays.copyOf( storage, size );
     }
 
-    //template method
+    @Override
     public final void save( Resume resume ) {
         if ( size == STORAGE_LIMIT ) {
             throw new StorageException("Storage overflow", resume.getUuid());

@@ -23,12 +23,6 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
         return storage.toArray(new Resume[0]);
     }
 
-    //template method
-    public final void save( Resume resume ) {
-        int index = getNotExistingSearchKey( resume.getUuid() );
-        insertResume( index, resume );
-    }
-
     public final void delete( String uuid ) {
         int index = getExistingSearchKey( uuid );
         removeResume(index);

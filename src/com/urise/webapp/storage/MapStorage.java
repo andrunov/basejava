@@ -49,12 +49,6 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public void save(Resume resume) {
-        String index = getNotExistingSearchKey( resume.getUuid() );
-        insertResume( index, resume );
-    }
-
-    @Override
     public void delete(String uuid) {
         storage.remove(uuid);
     }
