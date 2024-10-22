@@ -14,7 +14,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
 
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean isExist(String key) {
         return key != null;
     }
 

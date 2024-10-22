@@ -55,13 +55,13 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
 
     @Override
     public void updateResume(Integer index, Resume resume) {
-        storage.remove(((Integer)index).intValue());
+        storage.remove(index.intValue());
         storage.add(resume);
     }
 
     @Override
     public Resume getResume(Integer index) {
-        return storage.get( (Integer) index );
+        return storage.get( index );
     }
 
     @Override
@@ -70,8 +70,8 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    protected boolean isExist(Object key) {
-        return (int) key != -1;
+    protected boolean isExist(Integer key) {
+        return key != -1;
     }
 
 }

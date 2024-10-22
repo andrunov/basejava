@@ -34,7 +34,7 @@ public abstract class AbstractStorage <T> {
         }
     }
 
-    protected abstract boolean isExist(Object key);
+    protected abstract boolean isExist(T key);
 
     protected abstract T searchKey(String uuid );
 
