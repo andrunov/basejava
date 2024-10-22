@@ -19,7 +19,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    protected String searchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         if (storage.containsKey(uuid)) {
             return uuid;
         } else {

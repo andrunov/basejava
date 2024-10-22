@@ -17,7 +17,7 @@ public abstract class AbstractStorage <T> {
     }
 
     protected T getExistingSearchKey(String uuid) {
-        T searchKey = searchKey( uuid );
+        T searchKey = getSearchKey( uuid );
         if ( ! isExist(searchKey) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -26,7 +26,7 @@ public abstract class AbstractStorage <T> {
     }
 
     protected T getNotExistingSearchKey(String uuid ) {
-        T searchKey = searchKey( uuid );
+        T searchKey = getSearchKey( uuid );
         if ( isExist(searchKey)) {
             throw new ExistStorageException( uuid );
         } else {
@@ -36,7 +36,7 @@ public abstract class AbstractStorage <T> {
 
     protected abstract boolean isExist(T key);
 
-    protected abstract T searchKey(String uuid );
+    protected abstract T getSearchKey(String uuid );
 
     public abstract void insertResume( T index, Resume resume );
 
