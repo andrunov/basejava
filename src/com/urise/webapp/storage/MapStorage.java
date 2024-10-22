@@ -15,16 +15,12 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
 
     @Override
     protected boolean isExist(String key) {
-        return key != null;
+        return storage.containsKey(key);
     }
 
     @Override
     protected String getSearchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return uuid;
-        } else {
-            return null;
-        }
+        return uuid;
     }
 
     @Override
