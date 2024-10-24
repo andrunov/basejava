@@ -12,6 +12,15 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
         this.storage = new HashMap<>();
     }
 
+    @Override
+    public String getKeyForSave(Resume resume) {
+        return getNotExistingSearchKey( resume.getUuid() );
+    }
+
+    @Override
+    public void doSave(String index, Resume resume) {
+        insertResume( index, resume );
+    }
 
     @Override
     protected boolean isExist(String key) {

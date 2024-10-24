@@ -23,7 +23,17 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
         return storage.toArray(new Resume[0]);
     }
 
-    public final void delete( String uuid ) {
+    @Override
+    public Integer getKeyForSave(Resume resume) {
+        return getNotExistingSearchKey( resume.getUuid() );
+    }
+
+    @Override
+    public void doSave(Integer index, Resume resume) {
+        insertResume( index, resume );
+    }
+
+    public final void delete(String uuid ) {
         int index = getExistingSearchKey( uuid );
         removeResume(index);
     }

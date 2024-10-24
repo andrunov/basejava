@@ -34,10 +34,14 @@ public abstract class AbstractStorage <T> {
         }
     }
 
-    public void save(Resume resume) {
-        T index = getNotExistingSearchKey( resume.getUuid() );
-        insertResume( index, resume );
+    public final void save(Resume resume) {
+        T index = getKeyForSave( resume );
+        doSave(index, resume);
     }
+
+    public abstract T getKeyForSave( Resume resume );
+
+    public abstract void doSave( T index, Resume resume );
 
     protected abstract boolean isExist(T key);
 
