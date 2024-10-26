@@ -27,7 +27,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
     }
 
     @Override
-    public Integer getKey(Resume resume) {
+    public Integer getKeyForSave(Resume resume) {
         if ( size == STORAGE_LIMIT ) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
@@ -35,8 +35,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
     }
 
     @Override
-    public void doSave(Integer index, Resume resume) {
-        insertResume( index, resume );
+    public void doSave(Integer key, Resume resume) {
+        insertResume(key, resume );
         size++;
     }
 
@@ -53,13 +53,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
     }
 
     @Override
-    public final void doUpdate(Integer index, Resume resume) {
-        storage[index] = resume;
+    public final void doUpdate(Integer key, Resume resume) {
+        storage[key] = resume;
     }
 
     @Override
-    public final Resume doGet(Integer index) {
-        return storage[index];
+    public final Resume doGet(Integer key) {
+        return storage[key];
     }
 
     public abstract void insertResume( Integer index, Resume resume );

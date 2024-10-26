@@ -17,7 +17,7 @@ public abstract class AbstractStorage <T> {
     }
 
     public final void save(Resume resume) {
-        T key = getKey( resume );
+        T key = getKeyForSave( resume );
         doSave(key, resume);
     }
 
@@ -40,17 +40,15 @@ public abstract class AbstractStorage <T> {
         }
     }
 
+    public abstract Resume doGet(T key );
 
+    public abstract void doSave( T key, Resume resume );
 
-    public abstract Resume doGet(T index );
+    public abstract void doUpdate(T key, Resume resume );
 
-    public abstract void doSave( T index, Resume resume );
+    public abstract void doDelete(T key );
 
-    public abstract void doUpdate(T index, Resume resume );
-
-    public abstract void doDelete(T index );
-
-    public abstract T getKey(Resume resume );
+    public abstract T getKeyForSave(Resume resume );
 
     protected abstract boolean isExist(T key);
 

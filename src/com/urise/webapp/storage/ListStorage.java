@@ -24,12 +24,12 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    public Integer getKey(Resume resume) {
+    public Integer getKeyForSave(Resume resume) {
         return getNotExistingSearchKey( resume.getUuid() );
     }
 
     @Override
-    public void doSave(Integer index, Resume resume) {
+    public void doSave(Integer key, Resume resume) {
         storage.add(resume);
     }
 
@@ -53,19 +53,19 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    public void doUpdate(Integer index, Resume resume) {
-        storage.remove(index.intValue());
+    public void doUpdate(Integer key, Resume resume) {
+        storage.remove(key.intValue());
         storage.add(resume);
     }
 
     @Override
-    public Resume doGet(Integer index) {
-        return storage.get( index );
+    public Resume doGet(Integer key) {
+        return storage.get(key);
     }
 
     @Override
-    public void doDelete(Integer index) {
-        storage.remove(index.intValue());
+    public void doDelete(Integer key) {
+        storage.remove(key.intValue());
     }
 
     @Override
