@@ -23,7 +23,7 @@ public abstract class AbstractStorage <T> {
 
 
     protected T getExistingSearchKey(String uuid) {
-        T key = getSearchKey( uuid );
+        T key = searchKey( uuid );
         if ( ! isExist(key) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -32,7 +32,7 @@ public abstract class AbstractStorage <T> {
     }
 
     protected T getNotExistingSearchKey(String uuid ) {
-        T key = getSearchKey( uuid );
+        T key = searchKey( uuid );
         if ( isExist(key)) {
             throw new ExistStorageException( uuid );
         } else {
@@ -52,7 +52,7 @@ public abstract class AbstractStorage <T> {
 
     protected abstract boolean isExist(T key);
 
-    protected abstract T getSearchKey(String uuid );
+    protected abstract T searchKey(String uuid );
 
 
 
