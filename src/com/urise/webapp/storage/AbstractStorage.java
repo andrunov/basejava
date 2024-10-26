@@ -7,36 +7,36 @@ import com.urise.webapp.model.Resume;
 public abstract class AbstractStorage <T> {
 
     public final Resume get(String uuid ) {
-        T index = getExistingSearchKey( uuid );
-        return getResume( index );
+        T key = getExistingSearchKey( uuid );
+        return getResume( key );
     }
 
     public final void update( Resume resume ) {
-        T index = getExistingSearchKey( resume.getUuid() );
-        updateResume(index, resume);
+        T key = getExistingSearchKey( resume.getUuid() );
+        doUpdate(key, resume);
     }
 
     public final void save(Resume resume) {
-        T index = doGet( resume );
-        doSave(index, resume);
+        T key = doGet( resume );
+        doSave(key, resume);
     }
 
 
     protected T getExistingSearchKey(String uuid) {
-        T searchKey = getSearchKey( uuid );
-        if ( ! isExist(searchKey) ) {
+        T key = getSearchKey( uuid );
+        if ( ! isExist(key) ) {
             throw new NotExistStorageException( uuid );
         } else {
-            return searchKey;
+            return key;
         }
     }
 
     protected T getNotExistingSearchKey(String uuid ) {
-        T searchKey = getSearchKey( uuid );
-        if ( isExist(searchKey)) {
+        T key = getSearchKey( uuid );
+        if ( isExist(key)) {
             throw new ExistStorageException( uuid );
         } else {
-            return searchKey;
+            return key;
         }
     }
 
@@ -45,11 +45,11 @@ public abstract class AbstractStorage <T> {
 
     public abstract void doSave( T index, Resume resume );
 
+    public abstract void doUpdate(T index, Resume resume );
+
     protected abstract boolean isExist(T key);
 
     protected abstract T getSearchKey(String uuid );
-
-    public abstract void updateResume( T index, Resume resume );
 
     public abstract Resume getResume(T index );
 

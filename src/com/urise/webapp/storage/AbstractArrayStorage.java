@@ -53,7 +53,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
     }
 
     @Override
-    public final void updateResume(Integer index, Resume resume) {
+    public final void doUpdate(Integer index, Resume resume) {
         storage[index] = resume;
     }
 

@@ -53,7 +53,7 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    public void updateResume(Integer index, Resume resume) {
+    public void doUpdate(Integer index, Resume resume) {
         storage.remove(index.intValue());
         storage.add(resume);
     }

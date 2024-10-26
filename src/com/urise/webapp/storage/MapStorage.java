@@ -33,7 +33,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public void updateResume(String index, Resume resume) {
+    public void doUpdate(String index, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
