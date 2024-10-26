@@ -16,6 +16,12 @@ public abstract class AbstractStorage <T> {
         updateResume(index, resume);
     }
 
+    public final void save(Resume resume) {
+        T index = doGet( resume );
+        doSave(index, resume);
+    }
+
+
     protected T getExistingSearchKey(String uuid) {
         T searchKey = getSearchKey( uuid );
         if ( ! isExist(searchKey) ) {
@@ -34,20 +40,14 @@ public abstract class AbstractStorage <T> {
         }
     }
 
-    public final void save(Resume resume) {
-        T index = getKeyForSave( resume );
-        doSave(index, resume);
-    }
 
-    public abstract T getKeyForSave( Resume resume );
+    public abstract T doGet(Resume resume );
 
     public abstract void doSave( T index, Resume resume );
 
     protected abstract boolean isExist(T key);
 
     protected abstract T getSearchKey(String uuid );
-
-    public abstract void insertResume( T index, Resume resume );
 
     public abstract void updateResume( T index, Resume resume );
 
