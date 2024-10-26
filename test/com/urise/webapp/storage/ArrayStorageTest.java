@@ -30,7 +30,7 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
 
     @Test
     public void removeResume() {
-        arrayStorage.removeResume(0);
+        arrayStorage.doDelete(0);
         Assert.assertNotEquals(RESUME_01, arrayStorage.storage[0]);
     }
 

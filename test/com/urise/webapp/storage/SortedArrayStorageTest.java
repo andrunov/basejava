@@ -31,7 +31,7 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
     @Test
     public void removeResume() {
-        sortedArrayStorage.removeResume(0);
+        sortedArrayStorage.doDelete(0);
         Assert.assertNotEquals(RESUME_01, sortedArrayStorage.storage[0]);
     }
 

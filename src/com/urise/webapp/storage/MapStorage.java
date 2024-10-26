@@ -13,7 +13,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public String doGet(Resume resume) {
+    public String getKey(Resume resume) {
         return getNotExistingSearchKey( resume.getUuid() );
     }
 
@@ -38,12 +38,12 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public Resume getResume(String index) {
+    public Resume doGet(String index) {
         return storage.get(index);
     }
 
     @Override
-    public void removeResume(String index) {
+    public void doDelete(String index) {
         storage.remove(index);
     }
 

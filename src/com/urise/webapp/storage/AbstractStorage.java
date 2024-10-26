@@ -8,7 +8,7 @@ public abstract class AbstractStorage <T> {
 
     public final Resume get(String uuid ) {
         T key = getExistingSearchKey( uuid );
-        return getResume( key );
+        return doGet( key );
     }
 
     public final void update( Resume resume ) {
@@ -17,7 +17,7 @@ public abstract class AbstractStorage <T> {
     }
 
     public final void save(Resume resume) {
-        T key = doGet( resume );
+        T key = getKey( resume );
         doSave(key, resume);
     }
 
@@ -41,18 +41,21 @@ public abstract class AbstractStorage <T> {
     }
 
 
-    public abstract T doGet(Resume resume );
+
+    public abstract Resume doGet(T index );
 
     public abstract void doSave( T index, Resume resume );
 
     public abstract void doUpdate(T index, Resume resume );
 
+    public abstract void doDelete(T index );
+
+    public abstract T getKey(Resume resume );
+
     protected abstract boolean isExist(T key);
 
     protected abstract T getSearchKey(String uuid );
 
-    public abstract Resume getResume(T index );
 
-    public abstract void removeResume(T index );
 
 }
