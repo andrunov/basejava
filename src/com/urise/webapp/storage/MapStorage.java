@@ -13,11 +13,6 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public String getKeyForSave(Resume resume) {
-        return getNotExistingSearchKey( resume.getUuid() );
-    }
-
-    @Override
     public void doSave(String key, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }

@@ -17,7 +17,7 @@ public abstract class AbstractStorage <T> {
     }
 
     public final void save(Resume resume) {
-        T key = getKeyForSave( resume );
+        T key = getNotExistingSearchKey( resume.getUuid() );
         doSave(key, resume);
     }
 
@@ -47,8 +47,6 @@ public abstract class AbstractStorage <T> {
     public abstract void doUpdate(T key, Resume resume );
 
     public abstract void doDelete(T key );
-
-    public abstract T getKeyForSave(Resume resume );
 
     protected abstract boolean isExist(T key);
 
