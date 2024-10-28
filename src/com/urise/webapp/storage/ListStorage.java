@@ -24,11 +24,6 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    public Integer getKeyForSave(Resume resume) {
-        return getNotExistingSearchKey( resume.getUuid() );
-    }
-
-    @Override
     public void doSave(Integer key, Resume resume) {
         storage.add(resume);
     }
