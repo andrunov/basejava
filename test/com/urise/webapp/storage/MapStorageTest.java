@@ -86,7 +86,7 @@ public class MapStorageTest {
     public void getAll() {
         Resume[] allResume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
         Resume[] sortedResult = Arrays.copyOf(storage.getAll(), storage.size());
-        Arrays.sort(sortedResult);
+        Arrays.sort(sortedResult, (o1, o2) -> o1.getUuid().compareTo(o2.getUuid()));
         Assert.assertArrayEquals(allResume, sortedResult);
     }
 
