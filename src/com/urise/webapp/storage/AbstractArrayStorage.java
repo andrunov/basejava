@@ -35,8 +35,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> impl
         size++;
     }
 
-    public final void delete(String uuid ) {
-        int index = getExistingSearchKey( uuid );
+    public final void delete(String uuid, String fullName ) {
+        int index = getExistingSearchKey( uuid, fullName );
         doDelete(index);
         storage[size] = null;
         size--;

@@ -12,10 +12,20 @@ import java.util.Arrays;
 public class MapStorageTest {
 
     protected static final String UUID_01 = "uuid1";
+    protected static final String FIO_01 = "First Middle Last 1";
+
     protected static final String UUID_02 = "uuid2";
+    protected static final String FIO_02 = "First Middle Last 2";
+
     protected static final String UUID_03 = "uuid3";
+    protected static final String FIO_03 = "First Middle Last 3";
+
     protected static final String UUID_04 = "uuid4";
+    protected static final String FIO_04 = "First Middle Last 4";
+
     protected static final String UUID_05 = "uuid5";
+    protected static final String FIO_05 = "First Middle Last 5";
+
     protected static final Resume RESUME_01;
     protected static final Resume RESUME_02;
     protected static final Resume RESUME_03;
@@ -23,11 +33,11 @@ public class MapStorageTest {
     protected static final Resume RESUME_05;
 
     static {
-        RESUME_01 = new Resume(UUID_01);
-        RESUME_02 = new Resume(UUID_02);
-        RESUME_03 = new Resume(UUID_03);
-        RESUME_04 = new Resume(UUID_04);
-        RESUME_05 = new Resume(UUID_05);
+        RESUME_01 = new Resume(UUID_01, FIO_01);
+        RESUME_02 = new Resume(UUID_02, FIO_02);
+        RESUME_03 = new Resume(UUID_03, FIO_03);
+        RESUME_04 = new Resume(UUID_04, FIO_04);
+        RESUME_05 = new Resume(UUID_05, FIO_05);
     }
 
     protected final Storage storage;
@@ -61,19 +71,19 @@ public class MapStorageTest {
     }
 
     private void assertGet(Resume resume) {
-        Assert.assertEquals(resume, storage.get(resume.getUuid()));
+        Assert.assertEquals(resume, storage.get(resume.getUuid(), resume.getFullName()));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNotFound() {
-        storage.get(UUID_05);
+        storage.get(UUID_05, FIO_05);
     }
 
     @Test
     public void update() {
-        Resume toBeUpdated = new Resume(UUID_02);
+        Resume toBeUpdated = new Resume(UUID_02, FIO_02);
         storage.update(toBeUpdated);
-        Assert.assertEquals(RESUME_02, storage.get(UUID_02));
+        Assert.assertEquals(RESUME_02, storage.get(UUID_02, FIO_02));
     }
 
 
@@ -118,8 +128,8 @@ public class MapStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(UUID_02);
+        storage.delete(UUID_02, FIO_02);
         assertSize(2);
-        storage.get(UUID_02);
+        storage.get(UUID_02, FIO_02);
     }
 }

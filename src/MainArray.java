@@ -24,6 +24,7 @@ public class MainArray {
                 continue;
             }
             String uuid = null;
+            String fullName = null;
             if (params.length == 2) {
                 uuid = params[1].intern();
             }
@@ -35,16 +36,16 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid,fullName);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
+                    ARRAY_STORAGE.delete(uuid, fullName);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    System.out.println(ARRAY_STORAGE.get(uuid, fullName));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();

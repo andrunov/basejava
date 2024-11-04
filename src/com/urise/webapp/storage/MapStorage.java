@@ -23,7 +23,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    protected String searchKey(String uuid) {
+    protected String searchKey(String uuid, String fullName) {
         return uuid;
     }
 
@@ -48,7 +48,7 @@ public class MapStorage extends  AbstractStorage<String> implements Storage {
     }
 
     @Override
-    public void delete(String uuid) {
+    public void delete(String uuid, String fullName) {
         storage.remove(uuid);
     }
 

@@ -27,7 +27,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     /*
     return index in array storage if element is present, else return -1
      */
-    protected Integer searchKey(String uuid) {
+    protected Integer searchKey(String uuid, String fullName) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;

@@ -6,24 +6,24 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage <T> {
 
-    public final Resume get(String uuid ) {
-        T key = getExistingSearchKey( uuid );
+    public final Resume get(String uuid, String fullName ) {
+        T key = getExistingSearchKey( uuid, fullName );
         return doGet( key );
     }
 
     public final void update( Resume resume ) {
-        T key = getExistingSearchKey( resume.getUuid() );
+        T key = getExistingSearchKey( resume.getUuid(), resume.getFullName() );
         doUpdate(key, resume);
     }
 
     public final void save(Resume resume) {
-        T key = getNotExistingSearchKey( resume.getUuid() );
+        T key = getNotExistingSearchKey( resume.getUuid(), resume.getFullName() );
         doSave(key, resume);
     }
 
 
-    protected T getExistingSearchKey(String uuid) {
-        T key = searchKey( uuid );
+    protected T getExistingSearchKey(String uuid, String fullName) {
+        T key = searchKey( uuid, fullName );
         if ( ! isExist(key) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -31,8 +31,8 @@ public abstract class AbstractStorage <T> {
         }
     }
 
-    protected T getNotExistingSearchKey(String uuid ) {
-        T key = searchKey( uuid );
+    protected T getNotExistingSearchKey(String uuid, String fullName ) {
+        T key = searchKey( uuid, fullName );
         if ( isExist(key)) {
             throw new ExistStorageException( uuid );
         } else {
@@ -50,7 +50,7 @@ public abstract class AbstractStorage <T> {
 
     protected abstract boolean isExist(T key);
 
-    protected abstract T searchKey(String uuid );
+    protected abstract T searchKey(String uuid, String fullName );
 
 
 

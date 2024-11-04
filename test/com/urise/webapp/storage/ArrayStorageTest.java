@@ -36,6 +36,6 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
 
     @Test
     public void getIndex() {
-        Assert.assertEquals(Integer.valueOf(0), arrayStorage.searchKey(UUID_01));
+        Assert.assertEquals(Integer.valueOf(0), arrayStorage.searchKey(UUID_01, FIO_02));
     }
 }
