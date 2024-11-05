@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage<Integer> implements Storage{
+public class ListStorage extends AbstractStorage<Integer> {
 
     protected final List<Resume> storage;
 

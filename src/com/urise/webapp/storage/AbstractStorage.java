@@ -4,7 +4,7 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
-public abstract class AbstractStorage <T> {
+public abstract class AbstractStorage <T> implements Storage {
 
     public final Resume get(String uuid, String fullName ) {
         T key = getExistingSearchKey( uuid, fullName );

@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends  AbstractStorage<String> implements Storage {
+public class MapStorage extends  AbstractStorage<String> {
 
     protected final Map<String, Resume> storage;
 
