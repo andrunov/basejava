@@ -2,7 +2,12 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+import java.util.List;
+
 public interface Storage {
+
+    static final Comparator<Resume> RESUME_UUID_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
 
     void clear();
 
@@ -14,7 +19,7 @@ public interface Storage {
 
     void delete(String uuid, String fullName);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     int size();
 }

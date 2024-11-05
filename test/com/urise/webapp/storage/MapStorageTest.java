@@ -7,7 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MapStorageTest {
 
@@ -94,18 +96,17 @@ public class MapStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] allResume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
-        Resume[] sortedResult = Arrays.copyOf(storage.getAll(), storage.size());
-        Arrays.sort(sortedResult, (o1, o2) -> o1.getUuid().compareTo(o2.getUuid()));
-        Assert.assertArrayEquals(allResume, sortedResult);
+        List<Resume> allResume = Arrays.asList(RESUME_01, RESUME_02, RESUME_03);
+        List<Resume> result = storage.getAllSorted();
+        Assert.assertEquals(allResume, result);
     }
 
     @Test
     public void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] allResume = new Resume[0];
-        Assert.assertArrayEquals(allResume, storage.getAll());
+        List<Resume> allResume = new ArrayList<>();
+        Assert.assertEquals(allResume, storage.getAllSorted());
     }
 
     @Test

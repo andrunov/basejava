@@ -19,8 +19,10 @@ public class ListStorage extends AbstractStorage<Integer> implements Storage{
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> result = new ArrayList<>(storage);
+        result.sort(RESUME_UUID_COMPARATOR);
+        return result;
     }
 
     @Override

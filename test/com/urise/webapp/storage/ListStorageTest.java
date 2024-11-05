@@ -7,6 +7,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ListStorageTest {
 
     protected static final String UUID_01 = "uuid1";
@@ -92,8 +96,8 @@ public class ListStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] allResume = new Resume[]{RESUME_01, RESUME_02, RESUME_03};
-        Assert.assertArrayEquals(allResume, storage.getAll());
+        List<Resume> allResume = Arrays.asList(RESUME_01, RESUME_02, RESUME_03);
+        Assert.assertEquals(allResume, storage.getAllSorted());
 
     }
 
@@ -101,8 +105,8 @@ public class ListStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Resume[] allResume = new Resume[0];
-        Assert.assertArrayEquals(allResume, storage.getAll());
+        List<Resume> allResume = new ArrayList<>();
+        Assert.assertEquals(allResume, storage.getAllSorted());
     }
 
     @Test
