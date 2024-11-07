@@ -43,6 +43,11 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
 
     @Override
     protected Resume searchKey(String uuid) {
+        for (Resume resume : storage.keySet()){
+            if (resume.getUuid().equals(uuid)) {
+                return resume;
+            }
+        }
         return null;
     }
 
@@ -58,7 +63,8 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
 
     @Override
     public void delete(String uuid) {
-        storage.remove(uuid);
+        Resume key = searchKey(uuid);
+        storage.remove(key);
     }
 
     @Override
