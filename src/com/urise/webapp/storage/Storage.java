@@ -7,13 +7,6 @@ import java.util.List;
 
 public interface Storage {
 
-    static final Comparator<Resume> RESUME_UUID_COMPARATOR = (o1, o2) -> {
-        int result = o1.getFullName().compareTo(o2.getFullName());
-        if (result == 0) {
-            result = o1.getUuid().compareTo(o2.getUuid());
-        }
-        return result;
-    };
 
     void clear();
 
@@ -25,7 +18,7 @@ public interface Storage {
 
     void delete(String uuid, String fullName);
 
-    List<Resume> getAllSorted();
+    List<Resume> getAll();
 
     int size();
 }

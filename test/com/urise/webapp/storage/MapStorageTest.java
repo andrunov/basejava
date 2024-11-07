@@ -97,7 +97,8 @@ public class MapStorageTest {
     @Test
     public void getAll() {
         List<Resume> allResume = Arrays.asList(RESUME_01, RESUME_02, RESUME_03);
-        List<Resume> result = storage.getAllSorted();
+        List<Resume> result = storage.getAll();
+        result.sort((o1, o2) -> o1.getUuid().compareTo(o2.getUuid()));
         Assert.assertEquals(allResume, result);
     }
 
@@ -106,7 +107,7 @@ public class MapStorageTest {
         storage.clear();
         assertSize(0);
         List<Resume> allResume = new ArrayList<>();
-        Assert.assertEquals(allResume, storage.getAllSorted());
+        Assert.assertEquals(allResume, storage.getAll());
     }
 
     @Test
