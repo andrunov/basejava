@@ -73,19 +73,19 @@ public class MapStorageTest {
     }
 
     private void assertGet(Resume resume) {
-        Assert.assertEquals(resume, storage.get(resume.getUuid(), resume.getFullName()));
+        Assert.assertEquals(resume, storage.get(resume.getUuid()));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNotFound() {
-        storage.get(UUID_05, FIO_05);
+        storage.get(UUID_05);
     }
 
     @Test
     public void update() {
         Resume toBeUpdated = new Resume(UUID_02, FIO_02);
         storage.update(toBeUpdated);
-        Assert.assertEquals(RESUME_02, storage.get(UUID_02, FIO_02));
+        Assert.assertEquals(RESUME_02, storage.get(UUID_02));
     }
 
 
@@ -130,8 +130,8 @@ public class MapStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
-        storage.delete(UUID_02, FIO_02);
+        storage.delete(UUID_02);
         assertSize(2);
-        storage.get(UUID_02, FIO_02);
+        storage.get(UUID_02);
     }
 }

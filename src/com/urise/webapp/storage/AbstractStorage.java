@@ -9,7 +9,6 @@ import java.util.List;
 
 public abstract class AbstractStorage <T> implements Storage {
 
-
     private static final Comparator<Resume> RESUME_UUID_COMPARATOR = (o1, o2) -> {
         int result = o1.getFullName().compareTo(o2.getFullName());
         if (result == 0) {
@@ -18,24 +17,24 @@ public abstract class AbstractStorage <T> implements Storage {
         return result;
     };
 
-    public final Resume get(String uuid, String fullName ) {
-        T key = getExistingSearchKey( uuid, fullName );
+    public final Resume get(String uuid) {
+        T key = getExistingSearchKey( uuid );
         return doGet( key );
     }
 
     public final void update( Resume resume ) {
-        T key = getExistingSearchKey( resume.getUuid(), resume.getFullName() );
+        T key = getExistingSearchKey( resume.getUuid());
         doUpdate(key, resume);
     }
 
     public final void save(Resume resume) {
-        T key = getNotExistingSearchKey( resume.getUuid(), resume.getFullName() );
+        T key = getNotExistingSearchKey( resume.getUuid());
         doSave(key, resume);
     }
 
 
-    protected T getExistingSearchKey(String uuid, String fullName) {
-        T key = searchKey( uuid, fullName );
+    protected T getExistingSearchKey(String uuid) {
+        T key = searchKey( uuid );
         if ( ! isExist(key) ) {
             throw new NotExistStorageException( uuid );
         } else {
@@ -43,8 +42,8 @@ public abstract class AbstractStorage <T> implements Storage {
         }
     }
 
-    protected T getNotExistingSearchKey(String uuid, String fullName ) {
-        T key = searchKey( uuid, fullName );
+    protected T getNotExistingSearchKey(String uuid ) {
+        T key = searchKey( uuid );
         if ( isExist(key)) {
             throw new ExistStorageException( uuid );
         } else {
@@ -67,7 +66,7 @@ public abstract class AbstractStorage <T> implements Storage {
 
     protected abstract boolean isExist(T key);
 
-    protected abstract T searchKey(String uuid, String fullName );
+    protected abstract T searchKey(String uuid );
 
 
 

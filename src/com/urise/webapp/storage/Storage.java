@@ -2,7 +2,6 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Comparator;
 import java.util.List;
 
 public interface Storage {
@@ -14,9 +13,9 @@ public interface Storage {
 
     void save(Resume resume);
 
-    <T> Resume get(String uuid, String fullName);
+    <T> Resume get(String uuid);
 
-    void delete(String uuid, String fullName);
+    void delete(String uuid);
 
     List<Resume> getAll();
 

@@ -28,8 +28,8 @@ public class ListStorage extends AbstractStorage<Integer> {
         storage.add(resume);
     }
 
-    public final void delete(String uuid, String fullName ) {
-        int index = getExistingSearchKey( uuid, fullName );
+    public final void delete(String uuid) {
+        int index = getExistingSearchKey( uuid );
         doDelete(index);
     }
 
@@ -38,7 +38,7 @@ public class ListStorage extends AbstractStorage<Integer> {
         return storage.size();
     }
 
-    protected Integer searchKey(String uuid, String fullName ) {
+    protected Integer searchKey(String uuid ) {
         for (int i = 0; i < storage.size(); i++) {
             if ( storage.get(i).getUuid().equals(uuid) ) {
                 return i;
