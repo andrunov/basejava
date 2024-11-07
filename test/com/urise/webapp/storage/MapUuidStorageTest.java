@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapStorageTest {
+public class MapUuidStorageTest {
 
     protected static final String UUID_01 = "uuid1";
     protected static final String FIO_01 = "First Middle Last 1";
@@ -44,8 +44,8 @@ public class MapStorageTest {
 
     protected final Storage storage;
 
-    public MapStorageTest() {
-        this.storage = new MapStorage();
+    public MapUuidStorageTest() {
+        this.storage = new MapUuidStorage();
     }
 
     @Before
