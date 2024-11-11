@@ -97,7 +97,7 @@ public class ListStorageTest {
     @Test
     public void getAll() {
         List<Resume> allResume = Arrays.asList(RESUME_01, RESUME_02, RESUME_03);
-        Assert.assertEquals(allResume, storage.getAll());
+        Assert.assertEquals(allResume, storage.getAllSorted());
 
     }
 
@@ -106,7 +106,7 @@ public class ListStorageTest {
         storage.clear();
         assertSize(0);
         List<Resume> allResume = new ArrayList<>();
-        Assert.assertEquals(allResume, storage.getAll());
+        Assert.assertEquals(allResume, storage.getAllSorted());
     }
 
     @Test
