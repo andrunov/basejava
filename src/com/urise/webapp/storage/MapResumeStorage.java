@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapResumeStorage extends AbstractStorage<String> {
+public class MapResumeStorage extends AbstractStorage<Resume> {
 
     protected final Map<String, Resume> storage;
 
@@ -17,36 +17,33 @@ public class MapResumeStorage extends AbstractStorage<String> {
 
 
     @Override
-    public Resume doGet(String key) {
-        return storage.get(key);
+    public Resume doGet(Resume key) {
+        return key;
     }
 
     @Override
-    public void doSave(String key, Resume resume) {
+    public void doSave(Resume key, Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    public void doUpdate(String key, Resume resume) {
-        storage.put(key, resume);
+    public void doUpdate(Resume key, Resume resume) {
+        storage.put(key.getUuid(), resume);
     }
 
     @Override
-    public void doDelete(String key) {
-        storage.remove(key);
+    public void doDelete(Resume key) {
+        storage.remove(key.getUuid());
     }
 
     @Override
-    protected boolean isExist(String key) {
+    protected boolean isExist(Resume key) {
         return key != null;
     }
 
     @Override
-    protected String searchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return storage.get(uuid).getUuid();
-        }
-        return null;
+    protected Resume searchKey(String uuid) {
+        return storage.get(uuid);
     }
 
     @Override
@@ -61,8 +58,7 @@ public class MapResumeStorage extends AbstractStorage<String> {
 
     @Override
     public void delete(String uuid) {
-        String key = searchKey(uuid);
-        storage.remove(key);
+        storage.remove(uuid);
     }
 
     @Override
