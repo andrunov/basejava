@@ -48,11 +48,6 @@ public class MapUuidStorage extends  AbstractStorage<String> {
     }
 
     @Override
-    public void delete(String uuid) {
-        storage.remove(uuid);
-    }
-
-    @Override
     public List<Resume> getAllSorted() {
         return getAllSorted(new ArrayList<>(storage.values()));
     }

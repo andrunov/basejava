@@ -57,11 +57,6 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    public void delete(String uuid) {
-        storage.remove(uuid);
-    }
-
-    @Override
     public int size() {
         return storage.size();
     }

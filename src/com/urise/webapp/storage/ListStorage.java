@@ -28,11 +28,6 @@ public class ListStorage extends AbstractStorage<Integer> {
         storage.add(resume);
     }
 
-    public final void delete(String uuid) {
-        int index = getExistingSearchKey( uuid );
-        doDelete(index);
-    }
-
     @Override
     public int size() {
         return storage.size();

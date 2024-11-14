@@ -26,6 +26,11 @@ public abstract class AbstractStorage <T> implements Storage {
         doSave(key, resume);
     }
 
+    public final void delete(String uuid ) {
+        T key = getExistingSearchKey( uuid );
+        doDelete(key);
+    }
+
 
     protected T getExistingSearchKey(String uuid) {
         T key = searchKey( uuid );
