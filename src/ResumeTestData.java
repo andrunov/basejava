@@ -20,8 +20,8 @@ public class ResumeTestData {
         resume.setContact(ContactType.STACKOVERFLOW, "");
         resume.setContact(ContactType.HOMEPAGE, "");
 
-        resume.setSection(SectionType.OBJECTIVE, new Section<>("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        resume.setSection(PERSONAL, new Section<>("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        resume.setSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        resume.setSection(PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
         List<String> achievements = new ArrayList<>();
         achievements.add("Организация команды и успешная реализация Java проектов для сторонних заказчиков: приложения автопарк на стеке Spring Cloud/микросервисы, система мониторинга показателей спортсменов на Spring Boot, участие в проекте МЭШ на Play-2, многомодульный Spring Boot + Vaadin проект для комплексных DIY смет");
@@ -31,7 +31,7 @@ public class ResumeTestData {
         achievements.add("Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.");
         achievements.add("Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).");
         achievements.add("Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        resume.setSection(ACHIEVEMENT, new Section<>(achievements));
+        resume.setSection(ACHIEVEMENT, new ListSection(achievements));
 
         List<String> qualifications = new ArrayList<>();
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -48,7 +48,7 @@ public class ResumeTestData {
         qualifications.add("Администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer");
         qualifications.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования");
         qualifications.add("Родной русский, английский \"upper intermediate\"");
-        resume.setSection(QUALIFICATIONS, new Section<>(qualifications));
+        resume.setSection(QUALIFICATIONS, new ListSection(qualifications));
 
         List<Company> companies = new ArrayList<>();
 
@@ -205,7 +205,7 @@ public class ResumeTestData {
         company14.addPeriod(period15);
         companies.add(company14);
 
-        resume.setSection(EXPERIENCE, new Section<>(companies));
+        resume.setSection(EXPERIENCE, new CompanySection(companies));
         System.out.println(resume);
 
     }

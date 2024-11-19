@@ -1,6 +1,7 @@
 package com.urise.webapp.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,6 +65,7 @@ public class Company {
     @Override
     public String toString() {
 
+        periods.sort(Comparator.comparing(Period::getStart));
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%s\n", name));
         if (website != null && !website.isEmpty()) {
