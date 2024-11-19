@@ -50,162 +50,162 @@ public class ResumeTestData {
         qualifications.add("Родной русский, английский \"upper intermediate\"");
         resume.setSection(QUALIFICATIONS, new Section<>(qualifications));
 
-        List<Company> companies = new ArrayList<>();
+        List<Experience> experiences = new ArrayList<>();
 
-        Company company1 = new Company();
-        company1.setName("Java Online Projects");
-        company1.setWebsite("https://javaops.ru/");
+        Experience experience1 = new Experience("Java Online Projects", Experience.ExperienceType.JOB);
+        experience1.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://javaops.ru/"));
         Period period1 = new Period();
         period1.setStart(new GregorianCalendar(2013, Calendar.OCTOBER, 1));
         period1.setEnd(Calendar.getInstance());
-        period1.setTitle("Автор проекта.");
-        period1.setDescription("Создание, организация и проведение Java онлайн проектов и стажировок.");
-        company1.addPeriod(period1);
-        companies.add(company1);
+        experience1.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period1));
+        experience1.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Автор проекта."));
+        experience1.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Создание, организация и проведение Java онлайн проектов и стажировок."));
+        experiences.add(experience1);
 
-        Company company2 = new Company();
-        company2.setName("Wrike");
-        company2.setWebsite("https://www.wrike.com/");
+        Experience experience2 = new Experience("Wrike", Experience.ExperienceType.JOB);
+        experience2.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://www.wrike.com/"));
         Period period2 = new Period();
         period2.setStart(new GregorianCalendar(2014, Calendar.OCTOBER, 1));
         period2.setEnd(new GregorianCalendar(2016, Calendar.JANUARY, 1));
-        period2.setTitle("Старший разработчик (backend)");
-        period1.setDescription("Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        company2.addPeriod(period2);
-        companies.add(company2);
+        experience2.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period2));
+        experience2.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Старший разработчик (backend)"));
+        experience2.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+        experiences.add(experience2);
 
-        Company company3 = new Company();
-        company3.setName("RIT Center");
-        company3.setWebsite("");
+        Experience experience3 = new Experience("RIT Center", Experience.ExperienceType.JOB);
         Period period3 = new Period();
         period3.setStart(new GregorianCalendar(2012, Calendar.APRIL, 1));
         period3.setEnd(new GregorianCalendar(2014, Calendar.NOVEMBER, 1));
-        period3.setTitle("Java архитектор");
-        period3.setDescription("Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        company3.addPeriod(period3);
-        companies.add(company3);
+        experience3.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period3));
+        experience3.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Java архитектор"));
+        experience3.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python"));
+        experiences.add(experience3);
 
-        Company company4 = new Company();
-        company4.setName("Luxoft (Deutsche Bank)");
-        company4.setWebsite("https://luxoft.ru/");
+        Experience experience4 = new Experience("Luxoft (Deutsche Bank)", Experience.ExperienceType.JOB);
+        experience4.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://luxoft.ru/"));
         Period period4 = new Period();
         period4.setStart(new GregorianCalendar(2010, Calendar.JANUARY, 1));
         period4.setEnd(new GregorianCalendar(2012, Calendar.APRIL, 1));
-        period4.setTitle("Ведущий программист");
-        period4.setDescription("Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
-        company4.addPeriod(period4);
-        companies.add(company4);
+        experience4.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period4));
+        experience4.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Ведущий программист"));
+        experience4.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5."));
+        experiences.add(experience4);
 
-        Company company5 = new Company();
-        company5.setName("Yota");
-        company5.setWebsite("https://www.yota.ru/");
+        Experience experience5 = new Experience("Yota", Experience.ExperienceType.JOB);
+        experience5.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://www.yota.ru/"));
         Period period5 = new Period();
         period5.setStart(new GregorianCalendar(2008, Calendar.JUNE, 1));
         period5.setEnd(new GregorianCalendar(2010, Calendar.JANUARY, 1));
-        period5.setTitle("Ведущий специалист");
-        period5.setDescription("Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
-        company5.addPeriod(period5);
-        companies.add(company5);
+        experience5.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period5));
+        experience5.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Ведущий специалист"));
+        experience5.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)"));
+        experiences.add(experience5);
 
-        Company company6 = new Company();
-        company6.setName("Enkata");
-        company6.setWebsite("http://enkata.com/");
+        Experience experience6 = new Experience("Enkata", Experience.ExperienceType.JOB);
+        experience6.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("http://enkata.com/"));
         Period period6 = new Period();
         period6.setStart(new GregorianCalendar(2007, Calendar.MARCH, 1));
         period6.setEnd(new GregorianCalendar(2008, Calendar.JUNE, 1));
-        period6.setTitle("Разработчик ПО");
-        period6.setDescription("Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
-        company6.addPeriod(period6);
-        companies.add(company6);
+        experience6.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period6));
+        experience6.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Разработчик ПО"));
+        experience6.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining)."));
+        experiences.add(experience6);
 
-        Company company7 = new Company();
-        company7.setName("Siemens AG");
-        company7.setWebsite("https://www.siemens.com");
+        Experience experience7 = new Experience("Siemens AG", Experience.ExperienceType.JOB);
+        experience7.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://www.siemens.com"));
         Period period7 = new Period();
         period7.setStart(new GregorianCalendar(2005, Calendar.JANUARY, 1));
         period7.setEnd(new GregorianCalendar(2007, Calendar.FEBRUARY, 1));
-        period7.setTitle("Разработчик ПО");
-        period7.setDescription("Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
-        company7.addPeriod(period7);
-        companies.add(company7);
+        experience7.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period7));
+        experience7.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Разработчик ПО"));
+        experience7.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix)."));
+        experiences.add(experience7);
 
-        Company company8 = new Company();
-        company8.setName("Alcatel");
-        company8.setWebsite("http://www.alcatel.ru/");
+        Experience experience8 = new Experience("Alcatel", Experience.ExperienceType.JOB);
+        experience8.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("http://www.alcatel.ru/"));
         Period period8 = new Period();
         period8.setStart(new GregorianCalendar(1997, Calendar.SEPTEMBER, 1));
         period8.setEnd(new GregorianCalendar(2005, Calendar.JANUARY, 1));
-        period8.setTitle("Инженер по аппаратному и программному тестированию");
-        period8.setDescription("Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
-        company8.addPeriod(period8);
-        companies.add(company8);
+        experience8.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period8));
+        experience8.setSection(Experience.ExperienceSectionType.POSITION, new Section<>("Инженер по аппаратному и программному тестированию"));
+        experience8.setSection(Experience.ExperienceSectionType.POSITION,
+                new Section<>("Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."));
+        experiences.add(experience8);
 
-        Company company9 = new Company();
-        company9.setName("Coursera");
-        company9.setWebsite("https://www.coursera.org");
+        Experience experience9 = new Experience("Coursera", Experience.ExperienceType.EDUCATION);
+        experience9.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://www.coursera.org"));
         Period period9 = new Period();
         period9.setStart(new GregorianCalendar(2013, Calendar.MARCH, 1));
         period9.setEnd(new GregorianCalendar(2013, Calendar.MAY, 1));
-        period9.setTitle("Functional Programming Principles in Scala' by Martin Odersky");
-        company9.addPeriod(period9);
-        companies.add(company9);
+        experience9.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period9));
+        experience9.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("Functional Programming Principles in Scala' by Martin Odersky"));
+        experiences.add(experience9);
 
-        Company company10 = new Company();
-        company10.setName("Luxoft");
-        company10.setWebsite("http://www.luxoft-training.ru");
+        Experience experience10 = new Experience("Luxoft", Experience.ExperienceType.EDUCATION);
+        experience10.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("http://www.luxoft-training.ru"));
         Period period10 = new Period();
         period10.setStart(new GregorianCalendar(2011, Calendar.MARCH, 1));
         period10.setEnd(new GregorianCalendar(2011, Calendar.APRIL, 1));
-        period10.setTitle("Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'");
-        company10.addPeriod(period10);
-        companies.add(company10);
+        experience10.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period10));
+        experience10.setSection(Experience.ExperienceSectionType.DUTIES,
+                new Section<>("Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'"));
+        experiences.add(experience10);
 
-        Company company11 = new Company();
-        company11.setName("Siemens AG");
-        company11.setWebsite("http://www.siemens.ru/");
+        Experience experience11 = new Experience("Siemens AG", Experience.ExperienceType.EDUCATION);
+        experience11.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("http://www.siemens.ru/"));
         Period period11 = new Period();
         period11.setStart(new GregorianCalendar(2005, Calendar.JANUARY, 1));
         period11.setEnd(new GregorianCalendar(2005, Calendar.APRIL, 1));
-        period11.setTitle("3 месяца обучения мобильным IN сетям (Берлин)");
-        company11.addPeriod(period11);
-        companies.add(company11);
+        experience11.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period11));
+        experience11.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("3 месяца обучения мобильным IN сетям (Берлин)"));
+        experiences.add(experience11);
 
-        Company company12 = new Company();
-        company12.setName("Alcatel");
-        company12.setWebsite("http://www.alcatel.ru/");
+        Experience experience12 = new Experience("Alcatel", Experience.ExperienceType.EDUCATION);
+        experience12.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("http://www.alcatel.ru/"));
         Period period12 = new Period();
         period12.setStart(new GregorianCalendar(1997, Calendar.SEPTEMBER, 1));
         period12.setEnd(new GregorianCalendar(1998, Calendar.MARCH, 1));
-        period12.setTitle("6 месяцев обучения цифровым телефонным сетям (Москва)");
-        company12.addPeriod(period12);
-        companies.add(company12);
+        experience12.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period12));
+        experience12.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("6 месяцев обучения цифровым телефонным сетям (Москва)"));
+        experiences.add(experience12);
 
-        Company company13 = new Company();
-        company13.setName("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики");
-        company13.setWebsite("https://itmo.ru/");
+        Experience experience13 = new Experience("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                Experience.ExperienceType.EDUCATION);
+        experience13.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://itmo.ru/"));
         Period period13 = new Period();
         period13.setStart(new GregorianCalendar(1993, Calendar.SEPTEMBER, 1));
         period13.setEnd(new GregorianCalendar(1996, Calendar.JULY, 1));
-        period13.setTitle("Аспирантура (программист С, С++)");
-        company13.addPeriod(period13);
+        experience13.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period13));
+        experience13.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("Аспирантура (программист С, С++)"));
+        experiences.add(experience13);
+
+        Experience experience14 = new Experience("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
+                Experience.ExperienceType.EDUCATION);
+        experience14.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://itmo.ru/"));
         Period period14 = new Period();
         period14.setStart(new GregorianCalendar(1987, Calendar.SEPTEMBER, 1));
         period14.setEnd(new GregorianCalendar(1993, Calendar.JULY, 1));
-        period14.setTitle("Инженер (программист Fortran, C)");
-        company13.addPeriod(period14);
-        companies.add(company13);
+        experience14.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period14));
+        experience14.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("Инженер (программист Fortran, C)"));
+        experiences.add(experience14);
 
-        Company company14 = new Company();
-        company14.setName("Заочная физико-техническая школа при МФТИ");
-        company14.setWebsite("https://mipt.ru/");
+        Experience experience15 = new Experience("Заочная физико-техническая школа при МФТИ", Experience.ExperienceType.EDUCATION);
+        experience15.setSection(Experience.ExperienceSectionType.WEBSITE, new Section<>("https://mipt.ru/"));
         Period period15 = new Period();
         period15.setStart(new GregorianCalendar(1984, Calendar.SEPTEMBER, 1));
         period15.setEnd(new GregorianCalendar(1987, Calendar.JUNE, 1));
-        period15.setTitle("Закончил с отличием");
-        company14.addPeriod(period15);
-        companies.add(company14);
+        experience15.setSection(Experience.ExperienceSectionType.PERIOD, new Section<>(period15));
+        experience15.setSection(Experience.ExperienceSectionType.DUTIES, new Section<>("Закончил с отличием"));
+        experiences.add(experience15);
 
-        resume.setSection(EXPERIENCE, new Section<>(companies));
+        resume.setSection(EXPERIENCE, new Section<>(experiences));
         System.out.println(resume);
 
     }

@@ -14,12 +14,12 @@
 
 ## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 1. [Разработка ПО](https://drive.google.com/file/d/0B_4NpoQW1xfpVjZUTEpvVUN1TTA/view?usp=sharing&resourcekey=0-hnn1HIBU3WIuDMVuQAxA8w)
 - [Мифический человеко-месяц](https://ru.wikipedia.org/wiki/Мифический_человеко-месяц)
-- [Подборка книг для руководителей в сфере IT](https://habr.com/ru/company/skyeng/blog/465215/)
+- [Подборка книг для руководителей в сфере IT](https://habr.com/ru/experience/skyeng/blog/465215/)
 - [Размеры проектов в количестве строк кода](https://www.freecodecamp.org/news/the-biggest-codebases-in-history-a128bb3eea73)
 - [Соглашения по оформлению кода](https://topjava.ru/blog/google-java-style-guide)
 - Методологии разработки ПО: [Agile, Scrum](https://youtu.be/cDvZaXzQezs), [Kanban](https://youtu.be/1_Zti9v5ugA)
 - [Методологии разработки и их влияние на качество](https://youtu.be/y4B2Hv3HgpE)
-- [Ещё раз про семь основных методологий разработки](https://habrahabr.ru/company/edison/blog/269789/)
+- [Ещё раз про семь основных методологий разработки](https://habrahabr.ru/experience/edison/blog/269789/)
 
 ## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 2. [Обзор инструментов и технологий](https://drive.google.com/file/d/0B_4NpoQW1xfpTXJYU2xZbjN2d2M/view?usp=sharing&resourcekey=0-Uw_lRGW12YNjwY7phXzVdg)
 - [Популярность Java-технологий в 2019 году](https://topjava.ru/blog/sostoyanie-java-v-2019-godu)

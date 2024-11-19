@@ -76,8 +76,7 @@ public class Resume  {
         sb.append(fullName);
         sb.append("\n\n");
         for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-            sb.append(String.format("%-23s :    %-30.30s",entry.getKey().getTitle(), entry.getValue()));
-            sb.append("\n");
+            sb.append(String.format("%-23s :    %-30.30s\n",entry.getKey().getTitle(), entry.getValue()));
         }
         sb.append("\n");
         for (Map.Entry<SectionType, Section<?>> entry : sections.entrySet()) {
