@@ -5,8 +5,7 @@ import com.urise.webapp.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
@@ -24,11 +23,16 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
+        Iterator<File> iterator = Arrays.stream(Objects.requireNonNull(directory.listFiles())).iterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            doDelete(file);
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        return Objects.requireNonNull(directory.list()).length;
     }
 
     @Override
@@ -38,6 +42,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void doUpdate(File file, Resume r) {
+        try {
+            doWrite(r, file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
@@ -56,15 +65,36 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
+    protected abstract void doRead(File file) throws IOException;
 
 
     @Override
     public Resume doGet(File file) {
-        return null;
+        Resume resume = null;
+        if (isExist(file)) {
+            try {
+                doRead(file);
+            } catch (IOException e) {
+                throw new StorageException("IO error", file.getName(), e);
+            }
+        }
+        return resume;
     }
 
     @Override
     public void doDelete(File file) {
+        if (isExist(file) && file.isFile()) {
+            file.delete();
+        }
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> result = new ArrayList<>();
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
+            result.add(doGet(file));
+        }
+        result = getAllSorted(result);
+        return result;
+    }
 }
