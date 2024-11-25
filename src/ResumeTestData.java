@@ -1,8 +1,8 @@
 import com.urise.webapp.model.*;
+import com.urise.webapp.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.urise.webapp.model.SectionType.*;
@@ -56,7 +56,7 @@ public class ResumeTestData {
         company1.setName("Java Online Projects");
         company1.setWebsite("https://javaops.ru/");
         Period period1 = new Period();
-        period1.setStart(new GregorianCalendar(2013, Calendar.OCTOBER, 1));
+        period1.setStart(DateUtil.of(2013, Calendar.OCTOBER));
         period1.setEnd(Calendar.getInstance());
         period1.setTitle("Автор проекта.");
         period1.setDescription("Создание, организация и проведение Java онлайн проектов и стажировок.");
@@ -67,8 +67,8 @@ public class ResumeTestData {
         company2.setName("Wrike");
         company2.setWebsite("https://www.wrike.com/");
         Period period2 = new Period();
-        period2.setStart(new GregorianCalendar(2014, Calendar.OCTOBER, 1));
-        period2.setEnd(new GregorianCalendar(2016, Calendar.JANUARY, 1));
+        period2.setStart(DateUtil.of(2014, Calendar.OCTOBER));
+        period2.setEnd(DateUtil.of(2016, Calendar.JANUARY));
         period2.setTitle("Старший разработчик (backend)");
         period1.setDescription("Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         company2.addPeriod(period2);
@@ -78,8 +78,8 @@ public class ResumeTestData {
         company3.setName("RIT Center");
         company3.setWebsite("");
         Period period3 = new Period();
-        period3.setStart(new GregorianCalendar(2012, Calendar.APRIL, 1));
-        period3.setEnd(new GregorianCalendar(2014, Calendar.NOVEMBER, 1));
+        period3.setStart(DateUtil.of(2012, Calendar.APRIL));
+        period3.setEnd(DateUtil.of(2014, Calendar.NOVEMBER));
         period3.setTitle("Java архитектор");
         period3.setDescription("Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
         company3.addPeriod(period3);
@@ -89,8 +89,8 @@ public class ResumeTestData {
         company4.setName("Luxoft (Deutsche Bank)");
         company4.setWebsite("https://luxoft.ru/");
         Period period4 = new Period();
-        period4.setStart(new GregorianCalendar(2010, Calendar.JANUARY, 1));
-        period4.setEnd(new GregorianCalendar(2012, Calendar.APRIL, 1));
+        period4.setStart(DateUtil.of(2010, Calendar.JANUARY));
+        period4.setEnd(DateUtil.of(2012, Calendar.APRIL));
         period4.setTitle("Ведущий программист");
         period4.setDescription("Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. Реализация RIA-приложения для администрирования, мониторинга и анализа результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
         company4.addPeriod(period4);
@@ -100,8 +100,8 @@ public class ResumeTestData {
         company5.setName("Yota");
         company5.setWebsite("https://www.yota.ru/");
         Period period5 = new Period();
-        period5.setStart(new GregorianCalendar(2008, Calendar.JUNE, 1));
-        period5.setEnd(new GregorianCalendar(2010, Calendar.JANUARY, 1));
+        period5.setStart(DateUtil.of(2008, Calendar.JUNE));
+        period5.setEnd(DateUtil.of(2010, Calendar.JANUARY));
         period5.setTitle("Ведущий специалист");
         period5.setDescription("Дизайн и имплементация Java EE фреймворка для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
         company5.addPeriod(period5);
@@ -111,8 +111,8 @@ public class ResumeTestData {
         company6.setName("Enkata");
         company6.setWebsite("http://enkata.com/");
         Period period6 = new Period();
-        period6.setStart(new GregorianCalendar(2007, Calendar.MARCH, 1));
-        period6.setEnd(new GregorianCalendar(2008, Calendar.JUNE, 1));
+        period6.setStart(DateUtil.of(2007, Calendar.MARCH));
+        period6.setEnd(DateUtil.of(2008, Calendar.JUNE));
         period6.setTitle("Разработчик ПО");
         period6.setDescription("Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
         company6.addPeriod(period6);
@@ -122,8 +122,8 @@ public class ResumeTestData {
         company7.setName("Siemens AG");
         company7.setWebsite("https://www.siemens.com");
         Period period7 = new Period();
-        period7.setStart(new GregorianCalendar(2005, Calendar.JANUARY, 1));
-        period7.setEnd(new GregorianCalendar(2007, Calendar.FEBRUARY, 1));
+        period7.setStart(DateUtil.of(2005, Calendar.JANUARY));
+        period7.setEnd(DateUtil.of(2007, Calendar.FEBRUARY));
         period7.setTitle("Разработчик ПО");
         period7.setDescription("Разработка информационной модели, проектирование интерфейсов, реализация и отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
         company7.addPeriod(period7);
@@ -133,8 +133,8 @@ public class ResumeTestData {
         company8.setName("Alcatel");
         company8.setWebsite("http://www.alcatel.ru/");
         Period period8 = new Period();
-        period8.setStart(new GregorianCalendar(1997, Calendar.SEPTEMBER, 1));
-        period8.setEnd(new GregorianCalendar(2005, Calendar.JANUARY, 1));
+        period8.setStart(DateUtil.of(1997, Calendar.SEPTEMBER));
+        period8.setEnd(DateUtil.of(2005, Calendar.JANUARY));
         period8.setTitle("Инженер по аппаратному и программному тестированию");
         period8.setDescription("Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM).");
         company8.addPeriod(period8);
@@ -144,8 +144,8 @@ public class ResumeTestData {
         company9.setName("Coursera");
         company9.setWebsite("https://www.coursera.org");
         Period period9 = new Period();
-        period9.setStart(new GregorianCalendar(2013, Calendar.MARCH, 1));
-        period9.setEnd(new GregorianCalendar(2013, Calendar.MAY, 1));
+        period9.setStart(DateUtil.of(2013, Calendar.MARCH));
+        period9.setEnd(DateUtil.of(2013, Calendar.MAY));
         period9.setTitle("Functional Programming Principles in Scala' by Martin Odersky");
         company9.addPeriod(period9);
         companies.add(company9);
@@ -154,8 +154,8 @@ public class ResumeTestData {
         company10.setName("Luxoft");
         company10.setWebsite("http://www.luxoft-training.ru");
         Period period10 = new Period();
-        period10.setStart(new GregorianCalendar(2011, Calendar.MARCH, 1));
-        period10.setEnd(new GregorianCalendar(2011, Calendar.APRIL, 1));
+        period10.setStart(DateUtil.of(2011, Calendar.MARCH));
+        period10.setEnd(DateUtil.of(2011, Calendar.APRIL));
         period10.setTitle("Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'");
         company10.addPeriod(period10);
         companies.add(company10);
@@ -164,8 +164,8 @@ public class ResumeTestData {
         company11.setName("Siemens AG");
         company11.setWebsite("http://www.siemens.ru/");
         Period period11 = new Period();
-        period11.setStart(new GregorianCalendar(2005, Calendar.JANUARY, 1));
-        period11.setEnd(new GregorianCalendar(2005, Calendar.APRIL, 1));
+        period11.setStart(DateUtil.of(2005, Calendar.JANUARY));
+        period11.setEnd(DateUtil.of(2005, Calendar.APRIL));
         period11.setTitle("3 месяца обучения мобильным IN сетям (Берлин)");
         company11.addPeriod(period11);
         companies.add(company11);
@@ -174,8 +174,8 @@ public class ResumeTestData {
         company12.setName("Alcatel");
         company12.setWebsite("http://www.alcatel.ru/");
         Period period12 = new Period();
-        period12.setStart(new GregorianCalendar(1997, Calendar.SEPTEMBER, 1));
-        period12.setEnd(new GregorianCalendar(1998, Calendar.MARCH, 1));
+        period12.setStart(DateUtil.of(1997, Calendar.SEPTEMBER));
+        period12.setEnd(DateUtil.of(1998, Calendar.MARCH));
         period12.setTitle("6 месяцев обучения цифровым телефонным сетям (Москва)");
         company12.addPeriod(period12);
         companies.add(company12);
@@ -184,13 +184,13 @@ public class ResumeTestData {
         company13.setName("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики");
         company13.setWebsite("https://itmo.ru/");
         Period period13 = new Period();
-        period13.setStart(new GregorianCalendar(1993, Calendar.SEPTEMBER, 1));
-        period13.setEnd(new GregorianCalendar(1996, Calendar.JULY, 1));
+        period13.setStart(DateUtil.of(1993, Calendar.SEPTEMBER));
+        period13.setEnd(DateUtil.of(1996, Calendar.JULY));
         period13.setTitle("Аспирантура (программист С, С++)");
         company13.addPeriod(period13);
         Period period14 = new Period();
-        period14.setStart(new GregorianCalendar(1987, Calendar.SEPTEMBER, 1));
-        period14.setEnd(new GregorianCalendar(1993, Calendar.JULY, 1));
+        period14.setStart(DateUtil.of(1987, Calendar.SEPTEMBER));
+        period14.setEnd(DateUtil.of(1993, Calendar.JULY));
         period14.setTitle("Инженер (программист Fortran, C)");
         company13.addPeriod(period14);
         companies.add(company13);
@@ -199,8 +199,8 @@ public class ResumeTestData {
         company14.setName("Заочная физико-техническая школа при МФТИ");
         company14.setWebsite("https://mipt.ru/");
         Period period15 = new Period();
-        period15.setStart(new GregorianCalendar(1984, Calendar.SEPTEMBER, 1));
-        period15.setEnd(new GregorianCalendar(1987, Calendar.JUNE, 1));
+        period15.setStart(DateUtil.of(1984, Calendar.SEPTEMBER));
+        period15.setEnd(DateUtil.of(1987, Calendar.JUNE));
         period15.setTitle("Закончил с отличием");
         company14.addPeriod(period15);
         companies.add(company14);
