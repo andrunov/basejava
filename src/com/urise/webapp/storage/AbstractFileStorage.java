@@ -9,7 +9,7 @@ import java.util.*;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
-    private File directory;
+    private final File directory;
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
@@ -65,26 +65,24 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
-    protected abstract void doRead(File file) throws IOException;
+    protected abstract Resume doRead(File file) throws IOException;
 
 
     @Override
     public Resume doGet(File file) {
         Resume resume = null;
-        if (isExist(file)) {
-            try {
-                doRead(file);
-            } catch (IOException e) {
-                throw new StorageException("IO error", file.getName(), e);
-            }
+        try {
+             resume = doRead(file);
+        } catch (IOException e) {
+             throw new StorageException("IO error", file.getName(), e);
         }
         return resume;
     }
 
     @Override
     public void doDelete(File file) {
-        if (isExist(file) && file.isFile()) {
-            file.delete();
+        if (!file.delete()) {
+            throw new StorageException("Deleting file was not succeed", file.getName());
         }
     }
 
