@@ -1,6 +1,8 @@
 package com.urise.webapp.model;
 
-public enum ContactType {
+import java.io.Serializable;
+
+public enum ContactType implements Serializable {
     PHONE("Телефон",1),
     SKYPE("Skype",2),
     EMAIL("Почта",3),
@@ -9,6 +11,7 @@ public enum ContactType {
     STACKOVERFLOW("Профиль Stackoverflow",6),
     HOMEPAGE("Домашняя страница", 7);
 
+    private static final long serialVersionUID = 1L;
     private final String title;
     private final int order;
 

@@ -2,6 +2,8 @@ package com.urise.webapp.model;
 
 public class TextSection implements Section<String> {
 
+    private static final long serialVersionUID = 1L;
+
     private String value;
 
     public TextSection(String value) {

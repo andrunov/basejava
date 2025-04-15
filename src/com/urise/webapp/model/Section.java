@@ -1,6 +1,8 @@
 package com.urise.webapp.model;
 
-public interface Section <V> {
+import java.io.Serializable;
+
+public interface Section <V> extends Serializable {
 
     public V getValue();
 

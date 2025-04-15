@@ -1,5 +1,6 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -7,9 +8,10 @@ import java.util.Objects;
 /**
  * Initial resume class
  */
-public class Resume  {
+public class Resume implements Serializable {
 
-    // Unique identifier
+    private static final long serialVersionUID = 1L;
+
     private String uuid;
 
     private String fullName;

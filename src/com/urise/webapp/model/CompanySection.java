@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public class CompanySection implements Section<List<Company>> {
 
+    private static final long serialVersionUID = 1L;
     private List<Company> value;
 
     public CompanySection(List<Company> value) {

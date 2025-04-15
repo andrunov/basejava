@@ -1,10 +1,13 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Period {
+public class Period implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Calendar start;
     private Calendar end;
     private String title;
