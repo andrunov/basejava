@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -17,6 +18,8 @@ import java.util.List;
 import static com.urise.webapp.model.SectionType.*;
 
 public abstract class AbstractStorageTest {
+
+    protected static final File STORAGE_DIR = new File("E:\\PROJECTS\\Learninig\\basejava\\storage");
     protected static final String UUID_01 = "uuid1";
     protected static final String FIO_01 = "First Middle Last 1";
     protected static final String UUID_02 = "uuid2";
