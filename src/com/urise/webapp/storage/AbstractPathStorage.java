@@ -7,9 +7,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     private Path directory;
@@ -24,17 +23,29 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        directory.forEach(this::doDelete);
+        try (Stream<Path> list = Files.list(directory)) {
+            Iterator<Path> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Path path = iterator.next();
+                doDelete(path);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int size() {
-        return directory.getNameCount();
+        try (Stream<Path> list = Files.list(directory))  {
+            return (int) list.count();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected Path searchKey(String uuid) {
-        return directory.resolve(uuid);
+        return Paths.get(directory.toString(), uuid);
     }
 
 
@@ -49,7 +60,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected boolean isExist(Path path) {
-        return path.isAbsolute();
+        return Files.exists(path);
     }
 
     @Override
@@ -77,7 +88,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public void doDelete(Path path) {
-        if (!path.toFile().delete()) {
+        try {
+            if (!Files.deleteIfExists(path)) {
+                throw new StorageException("Path delete error", path.toString());
+            }
+        } catch (IOException e) {
             throw new StorageException("Path delete error", path.toString());
         }
     }
@@ -86,8 +101,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> result = new ArrayList<>();
-        for (Path path : Objects.requireNonNull(directory)) {
-            result.add(doGet(path));
+        try (Stream<Path> list = Files.list(directory)) {
+           Iterator<Path> iterator = list.iterator();
+           while (iterator.hasNext()) {
+               result.add(doGet(iterator.next()));
+           }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         result = getAllSorted(result);
         return result;

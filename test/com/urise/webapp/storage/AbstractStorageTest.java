@@ -19,7 +19,8 @@ import static com.urise.webapp.model.SectionType.*;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("E:\\PROJECTS\\Learninig\\basejava\\file_storage");
+    protected static final String STORAGE_PATH = "E:\\PROJECTS\\Learninig\\basejava\\file_storage";
+    protected static final File STORAGE_DIR = new File(STORAGE_PATH);
     protected static final String UUID_01 = "uuid1";
     protected static final String FIO_01 = "First Middle Last 1";
     protected static final String UUID_02 = "uuid2";
