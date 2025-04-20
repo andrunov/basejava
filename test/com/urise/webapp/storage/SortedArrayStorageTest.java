@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.urise.webapp.storage.TestData.*;
+
 public class SortedArrayStorageTest extends AbstractStorageTest {
 
     protected SortedArrayStorage sortedArrayStorage;

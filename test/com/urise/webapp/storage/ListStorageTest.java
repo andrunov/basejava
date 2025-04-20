@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.urise.webapp.storage.TestData.*;
+
 public class ListStorageTest extends AbstractStorageTest{
 
     public ListStorageTest() {
