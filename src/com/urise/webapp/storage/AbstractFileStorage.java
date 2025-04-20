@@ -6,11 +6,13 @@ import com.urise.webapp.model.Resume;
 import java.io.*;
 import java.util.*;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class AbstractFileStorage extends AbstractStorage<File> implements SerializationStrategy{
 
     private final File directory;
 
-    protected AbstractFileStorage(File directory) {
+    private final ObjectStreamStorage objectStreamStorage;
+
+    protected AbstractFileStorage(File directory, ObjectStreamStorage objectStreamStorage) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -19,6 +21,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.objectStreamStorage = objectStreamStorage;
     }
 
     @Override
@@ -93,7 +96,13 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return result;
     }
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+    @Override
+    public void doWrite(Resume r, OutputStream os) throws IOException {
+        objectStreamStorage.doWrite(r, os);
+    }
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    @Override
+    public Resume doRead(InputStream is) throws IOException {
+        return objectStreamStorage.doRead(is);
+    }
 }

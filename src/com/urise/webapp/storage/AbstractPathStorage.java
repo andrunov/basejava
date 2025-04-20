@@ -10,11 +10,15 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-    private Path directory;
+public class AbstractPathStorage extends AbstractStorage<Path> implements SerializationStrategy {
 
-    protected AbstractPathStorage(String dir) {
+    private final Path directory;
+
+    private final ObjectStreamStorage objectStreamStorage;
+
+    protected AbstractPathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
         directory = Paths.get(dir);
+        this.objectStreamStorage = objectStreamStorage;
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
@@ -113,8 +117,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
         return result;
     }
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+    @Override
+    public void doWrite(Resume r, OutputStream os) throws IOException {
+        objectStreamStorage.doWrite(r, os);
+    }
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
-
+    @Override
+    public Resume doRead(InputStream is) throws IOException {
+        return objectStreamStorage.doRead(is);
+    }
 }

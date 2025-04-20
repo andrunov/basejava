@@ -5,21 +5,31 @@ import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage extends AbstractFileStorage {
+public class ObjectStreamStorage {
 
-    protected ObjectStreamStorage(File directory) {
-        super(directory);
+    private static final String STORAGE_PATH = "E:\\PROJECTS\\Learninig\\basejava\\file_storage";
+
+    private AbstractStorage<?> storage;
+
+    public void setStrategy(Strategy strategy) {
+        switch (strategy) {
+            case FILE:
+                File file = new File(STORAGE_PATH);
+                this.storage = new AbstractFileStorage(file, this);
+                return;
+            case PATH:
+                this.storage = new AbstractPathStorage(STORAGE_PATH, this);
+        }
     }
 
-    @Override
-    protected void doWrite(Resume r, OutputStream os) throws IOException {
+
+    public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         }
     }
 
-    @Override
-    protected Resume doRead(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
@@ -27,5 +37,12 @@ public class ObjectStreamStorage extends AbstractFileStorage {
         }
     }
 
+    public AbstractStorage<?> getStorage() {
+        return storage;
+    }
 
+    enum Strategy {
+        FILE,
+        PATH
+    }
 }
