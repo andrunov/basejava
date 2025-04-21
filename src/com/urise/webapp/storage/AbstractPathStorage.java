@@ -27,12 +27,8 @@ public class AbstractPathStorage extends AbstractStorage<Path> implements Serial
 
     @Override
     public void clear() {
-        try (Stream<Path> list = Files.list(directory)) {
-            Iterator<Path> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                Path path = iterator.next();
-                doDelete(path);
-            }
+        try (Stream<Path> stream = Files.list(directory)) {
+            stream.forEach(this::doDelete);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -40,8 +36,8 @@ public class AbstractPathStorage extends AbstractStorage<Path> implements Serial
 
     @Override
     public int size() {
-        try (Stream<Path> list = Files.list(directory))  {
-            return (int) list.count();
+        try (Stream<Path> stream = Files.list(directory))  {
+            return (int) stream.count();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -104,17 +100,13 @@ public class AbstractPathStorage extends AbstractStorage<Path> implements Serial
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> result = new ArrayList<>();
-        try (Stream<Path> list = Files.list(directory)) {
-           Iterator<Path> iterator = list.iterator();
-           while (iterator.hasNext()) {
-               result.add(doGet(iterator.next()));
-           }
+        final List<Resume> result = new ArrayList<>();
+        try (Stream<Path> stream = Files.list(directory)) {
+            stream.forEach(path -> result.add(doGet(path)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        result = getAllSorted(result);
-        return result;
+        return getAllSorted(result);
     }
 
     @Override
