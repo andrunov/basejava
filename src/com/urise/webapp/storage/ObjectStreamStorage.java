@@ -15,10 +15,10 @@ public class ObjectStreamStorage {
         switch (strategy) {
             case FILE:
                 File file = new File(STORAGE_PATH);
-                this.storage = new AbstractFileStorage(file, this);
+                this.storage = new FileStorage(file, this);
                 return;
             case PATH:
-                this.storage = new AbstractPathStorage(STORAGE_PATH, this);
+                this.storage = new PathStorage(STORAGE_PATH, this);
         }
     }
 

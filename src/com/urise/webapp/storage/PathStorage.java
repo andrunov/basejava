@@ -10,13 +10,13 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class AbstractPathStorage extends AbstractStorage<Path> implements SerializationStrategy {
+public class PathStorage extends AbstractStorage<Path> implements SerializationStrategy {
 
     private final Path directory;
 
     private final ObjectStreamStorage objectStreamStorage;
 
-    protected AbstractPathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
+    protected PathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
         directory = Paths.get(dir);
         this.objectStreamStorage = objectStreamStorage;
         Objects.requireNonNull(directory, "directory must not be null");

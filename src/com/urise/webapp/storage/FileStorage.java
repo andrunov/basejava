@@ -6,13 +6,13 @@ import com.urise.webapp.model.Resume;
 import java.io.*;
 import java.util.*;
 
-public class AbstractFileStorage extends AbstractStorage<File> implements SerializationStrategy{
+public class FileStorage extends AbstractStorage<File> implements SerializationStrategy{
 
     private final File directory;
 
     private final ObjectStreamStorage objectStreamStorage;
 
-    protected AbstractFileStorage(File directory, ObjectStreamStorage objectStreamStorage) {
+    protected FileStorage(File directory, ObjectStreamStorage objectStreamStorage) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
