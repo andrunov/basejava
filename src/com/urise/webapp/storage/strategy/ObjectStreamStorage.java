@@ -1,7 +1,10 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.strategy;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.AbstractStorage;
+import com.urise.webapp.storage.FileStorage;
+import com.urise.webapp.storage.PathStorage;
 
 import java.io.*;
 
@@ -41,7 +44,7 @@ public class ObjectStreamStorage {
         return storage;
     }
 
-    enum Strategy {
+    public enum Strategy {
         FILE,
         PATH
     }

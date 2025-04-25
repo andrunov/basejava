@@ -2,17 +2,19 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.strategy.ObjectStreamStorage;
+import com.urise.webapp.storage.strategy.SerializationStrategy;
 
 import java.io.*;
 import java.util.*;
 
-public class FileStorage extends AbstractStorage<File> implements SerializationStrategy{
+public class FileStorage extends AbstractStorage<File> implements SerializationStrategy {
 
     private final File directory;
 
     private final ObjectStreamStorage objectStreamStorage;
 
-    protected FileStorage(File directory, ObjectStreamStorage objectStreamStorage) {
+    public FileStorage(File directory, ObjectStreamStorage objectStreamStorage) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -61,22 +63,20 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
     public void doSave(File file, Resume r) {
         try {
             file.createNewFile();
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(file, r);
     }
 
 
     @Override
     public Resume doGet(File file) {
-        Resume resume = null;
         try {
-             resume = doRead(new BufferedInputStream(new FileInputStream(file)));
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-             throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("IO error", file.getName(), e);
         }
-        return resume;
     }
 
     @Override

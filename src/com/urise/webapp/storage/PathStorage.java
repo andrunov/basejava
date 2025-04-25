@@ -2,6 +2,9 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.AbstractStorage;
+import com.urise.webapp.storage.strategy.ObjectStreamStorage;
+import com.urise.webapp.storage.strategy.SerializationStrategy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,7 +19,7 @@ public class PathStorage extends AbstractStorage<Path> implements SerializationS
 
     private final ObjectStreamStorage objectStreamStorage;
 
-    protected PathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
+    public PathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
         directory = Paths.get(dir);
         this.objectStreamStorage = objectStreamStorage;
         Objects.requireNonNull(directory, "directory must not be null");
