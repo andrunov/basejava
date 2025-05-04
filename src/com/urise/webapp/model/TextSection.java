@@ -1,10 +1,17 @@
 package com.urise.webapp.model;
 
-public class TextSection implements Section<String> {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+public class TextSection extends Section<String> {
 
     private static final long serialVersionUID = 1L;
 
     private String value;
+
+    public TextSection() {
+    }
 
     public TextSection(String value) {
         this.value = value;

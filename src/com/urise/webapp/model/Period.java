@@ -1,15 +1,26 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.CalendarAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlJavaTypeAdapter(CalendarAdapter.class)
     private Calendar start;
+
+    @XmlJavaTypeAdapter(CalendarAdapter.class)
     private Calendar end;
+
     private String title;
     private String description;
 

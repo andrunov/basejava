@@ -2,26 +2,26 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.AbstractStorage;
-import com.urise.webapp.storage.strategy.ObjectStreamStorage;
 import com.urise.webapp.storage.strategy.SerializationStrategy;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> implements SerializationStrategy {
 
     private final Path directory;
 
-    private final ObjectStreamStorage objectStreamStorage;
+    private final SerializationStrategy serializationStrategy;
 
-    public PathStorage(String dir, ObjectStreamStorage objectStreamStorage) {
+    public PathStorage(String dir, SerializationStrategy serializationStrategy) {
         directory = Paths.get(dir);
-        this.objectStreamStorage = objectStreamStorage;
+        this.serializationStrategy = serializationStrategy;
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
@@ -114,11 +114,11 @@ public class PathStorage extends AbstractStorage<Path> implements SerializationS
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
-        objectStreamStorage.doWrite(r, os);
+        serializationStrategy.doWrite(r, os);
     }
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
-        return objectStreamStorage.doRead(is);
+        return serializationStrategy.doRead(is);
     }
 }

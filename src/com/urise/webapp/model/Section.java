@@ -1,11 +1,14 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 
-public interface Section <V> extends Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class Section <V> implements Serializable {
 
-    public V getValue();
+    public abstract V getValue();
 
-    public void setValue(V value);
+    public abstract void setValue(V value);
 
 }

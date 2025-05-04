@@ -1,13 +1,12 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.storage.strategy.ObjectStreamStorage;
-import org.junit.Before;
 
 import static com.urise.webapp.storage.TestData.*;
 
 public class ObjectStreamFileStorageTest extends AbstractObjectStreamStorageTest{
 
-    @Before
+    @Override
     public void setUp() {
         objectStreamStorage.setStrategy(ObjectStreamStorage.Strategy.FILE);
         objectStreamStorage.getStorage().clear();

@@ -1,13 +1,19 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class CompanySection implements Section<List<Company>> {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class CompanySection extends Section<List<Company>> {
 
     private static final long serialVersionUID = 1L;
     private List<Company> value;
+
+    public CompanySection() {
+    }
 
     public CompanySection(List<Company> value) {
         this.value = value;

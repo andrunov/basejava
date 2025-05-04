@@ -1,12 +1,18 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.util.List;
 
-public class ListSection implements Section<List<String>> {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ListSection extends Section<List<String>> {
 
     private static final long serialVersionUID = 1L;
 
     private List<String> value;
+
+    public ListSection() {
+    }
 
     public ListSection(List<String> value) {
         this.value = value;
