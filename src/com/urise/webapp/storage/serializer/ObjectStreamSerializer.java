@@ -1,23 +1,20 @@
-package com.urise.webapp.storage.strategy;
+package com.urise.webapp.storage.serializer;
 
-import com.urise.webapp.model.*;
+import com.urise.webapp.exception.StorageException;
+import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.AbstractStorage;
 import com.urise.webapp.storage.FileStorage;
 import com.urise.webapp.storage.PathStorage;
-import com.urise.webapp.util.XmlParser;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
-public class XmlStreamSerializer implements  SerializationStrategy{
+public class ObjectStreamSerializer implements StreamSerializer {
 
     private static final String STORAGE_PATH = "E:\\PROJECTS\\Learninig\\basejava\\file_storage";
 
-    private XmlParser xmlParser;
-
     private AbstractStorage<?> storage;
 
-    public void setStrategy(ObjectStreamStorage.Strategy strategy) {
+    public void setStrategy(Strategy strategy) {
         switch (strategy) {
             case FILE:
                 File file = new File(STORAGE_PATH);
@@ -28,21 +25,18 @@ public class XmlStreamSerializer implements  SerializationStrategy{
         }
     }
 
-    public XmlStreamSerializer() {
-        xmlParser = new XmlParser(Resume.class, Company.class, CompanySection.class, TextSection.class, ListSection.class, Period.class);
-    }
 
-    @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
-        try (Writer w = new OutputStreamWriter(os, StandardCharsets.UTF_8)) {
-            xmlParser.marshall(r, w);
+        try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
+            oos.writeObject(r);
         }
     }
 
-    @Override
     public Resume doRead(InputStream is) throws IOException {
-        try (Reader r = new InputStreamReader(is, StandardCharsets.UTF_8)) {
-            return xmlParser.unmarshall(r);
+        try (ObjectInputStream ois = new ObjectInputStream(is)) {
+            return (Resume) ois.readObject();
+        } catch (ClassNotFoundException e) {
+            throw new StorageException("Error read resume", null, e);
         }
     }
 

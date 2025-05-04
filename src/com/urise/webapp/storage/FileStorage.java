@@ -2,18 +2,18 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.strategy.SerializationStrategy;
+import com.urise.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.util.*;
 
-public class FileStorage extends AbstractStorage<File> implements SerializationStrategy {
+public class FileStorage extends AbstractStorage<File> implements StreamSerializer {
 
     private final File directory;
 
-    private final SerializationStrategy serializationStrategy;
+    private final StreamSerializer streamSerializer;
 
-    public FileStorage(File directory, SerializationStrategy serializationStrategy) {
+    public FileStorage(File directory, StreamSerializer streamSerializer) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -22,7 +22,7 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
-        this.serializationStrategy = serializationStrategy;
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -97,11 +97,11 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
-        serializationStrategy.doWrite(r, os);
+        streamSerializer.doWrite(r, os);
     }
 
     @Override
     public Resume doRead(InputStream is) throws IOException {
-        return serializationStrategy.doRead(is);
+        return streamSerializer.doRead(is);
     }
 }
