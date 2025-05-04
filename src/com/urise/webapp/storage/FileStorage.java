@@ -7,7 +7,7 @@ import com.urise.webapp.storage.serializer.StreamSerializer;
 import java.io.*;
 import java.util.*;
 
-public class FileStorage extends AbstractStorage<File> implements StreamSerializer {
+public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
 
@@ -47,7 +47,7 @@ public class FileStorage extends AbstractStorage<File> implements StreamSerializ
     @Override
     public void doUpdate(File file, Resume r) {
         try {
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
+            streamSerializer.doWrite(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -72,7 +72,7 @@ public class FileStorage extends AbstractStorage<File> implements StreamSerializ
     @Override
     public Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return streamSerializer.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -93,15 +93,5 @@ public class FileStorage extends AbstractStorage<File> implements StreamSerializ
         }
         result = getAllSorted(result);
         return result;
-    }
-
-    @Override
-    public void doWrite(Resume r, OutputStream os) throws IOException {
-        streamSerializer.doWrite(r, os);
-    }
-
-    @Override
-    public Resume doRead(InputStream is) throws IOException {
-        return streamSerializer.doRead(is);
     }
 }

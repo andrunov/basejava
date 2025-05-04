@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class PathStorage extends AbstractStorage<Path> implements StreamSerializer {
+public class PathStorage extends AbstractStorage<Path> {
 
     private final Path directory;
 
@@ -55,7 +55,7 @@ public class PathStorage extends AbstractStorage<Path> implements StreamSerializ
     @Override
     public void doUpdate(Path key, Resume resume) {
         try {
-            doWrite(resume, new BufferedOutputStream(Files.newOutputStream(key.toFile().toPath())));
+            streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(key.toFile().toPath())));
         } catch (IOException e) {
             throw new StorageException("Path write error", resume.getUuid(), e);
         }
@@ -70,7 +70,7 @@ public class PathStorage extends AbstractStorage<Path> implements StreamSerializ
     public void doSave(Path path, Resume resume) {
         try {
             if (path.toFile().createNewFile()) {
-                doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+                streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
             } else {
                 throw new StorageException("Couldn't create file from path %s ", path.toString());
             }
@@ -83,7 +83,7 @@ public class PathStorage extends AbstractStorage<Path> implements StreamSerializ
     @Override
     public Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path read error", path.toString());
         }
@@ -110,15 +110,5 @@ public class PathStorage extends AbstractStorage<Path> implements StreamSerializ
             throw new RuntimeException(e);
         }
         return getAllSorted(result);
-    }
-
-    @Override
-    public void doWrite(Resume r, OutputStream os) throws IOException {
-        streamSerializer.doWrite(r, os);
-    }
-
-    @Override
-    public Resume doRead(InputStream is) throws IOException {
-        return streamSerializer.doRead(is);
     }
 }
