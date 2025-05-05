@@ -68,6 +68,14 @@ public class Resume implements Serializable {
         return sections.get(key);
     }
 
+    public Map<SectionType, Section<?>> getSections() {
+        return sections;
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,4 +108,7 @@ public class Resume implements Serializable {
         return sb.toString();
     }
 
+    public void addContact(ContactType key, String value) {
+        contacts.put(key, value);
+    }
 }
