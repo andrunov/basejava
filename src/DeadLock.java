@@ -1,3 +1,6 @@
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 public class DeadLock {
 
     static class Account {
@@ -9,7 +12,7 @@ public class DeadLock {
         public Account(String name, double amount) {
             this.name = name;
             this.amount = amount;
-            //System.out.println("Создан счет " + this);
+            System.out.println("Создан счет " + this);
         }
 
         public void deposit(double value) {
@@ -38,14 +41,22 @@ public class DeadLock {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         Account account_1 = new Account("Deposit 1", 100);
         Account account_2 = new Account("Deposit 2", 50);
+        System.out.println();
+
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    cyclicBarrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    throw new RuntimeException(e);
+                }
                 account_1.sillyBlock(10, account_2);
 
             }
@@ -54,15 +65,17 @@ public class DeadLock {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    cyclicBarrier.await();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    throw new RuntimeException(e);
+                }
                 account_2.sillyBlock(15, account_1);
             }
         }).start();
 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Thread.sleep(100);
+
         System.out.println();
         System.out.println("Проверяем счета - должно успеть списаться 10 с \"Deposit 1\" и 15 с \"Deposit 2\"");
         System.out.println("Текущее состояние счета " + account_1);
