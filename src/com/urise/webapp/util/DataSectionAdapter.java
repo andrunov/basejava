@@ -26,34 +26,44 @@ public class DataSectionAdapter {
             for (Map.Entry<SectionType, Section<?>> entry : sections.entrySet()) {
                 SectionType sectionType = entry.getKey();
                 dos.writeUTF(sectionType.name());
-                if (sectionType == SectionType.EXPERIENCE) {
-                    List<?> section = (List<?>) entry.getValue().getValue();
-                    dos.writeInt(section.size());
-                    for (Object element : section) {
-                        Company company = (Company) element;
-                        dos.writeUTF(company.getName());
-                        dos.writeUTF(StringUtil.write(company.getWebsite()));
-                        dos.writeInt(company.getPeriods().size());
-                        for (Period period : company.getPeriods()) {
-                            try {
-                                dos.writeUTF(calendarAdapter.marshal(period.getStart()));
-                                dos.writeUTF(calendarAdapter.marshal(period.getEnd()));
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
+                List<Section> section = null;
+                switch (sectionType) {
+                    case EXPERIENCE:
+                        section = (List<Section>) entry.getValue().getValue();
+                        dos.writeInt(section.size());
+                        for (Object element : section) {
+                            Company company = (Company) element;
+                            dos.writeUTF(company.getName());
+                            dos.writeUTF(write(company.getWebsite()));
+                            dos.writeInt(company.getPeriods().size());
+                            for (Period period : company.getPeriods()) {
+                                try {
+                                    dos.writeUTF(calendarAdapter.marshal(period.getStart()));
+                                    dos.writeUTF(calendarAdapter.marshal(period.getEnd()));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                                dos.writeUTF(write(period.getTitle()));
+                                dos.writeUTF(write(period.getDescription()));
                             }
-                            dos.writeUTF(StringUtil.write(period.getTitle()));
-                            dos.writeUTF(StringUtil.write(period.getDescription()));
                         }
-                    }
-                } else if (sectionType == SectionType.EDUCATION || sectionType == SectionType.QUALIFICATIONS || sectionType == SectionType.ACHIEVEMENT) {
-                    List<?> section = (List<?>) entry.getValue().getValue();
-                    dos.writeInt(section.size());
-                    for (Object string : section) {
-                        dos.writeUTF((String) string);
-                    }
-                } else if (sectionType == SectionType.PERSONAL || sectionType == SectionType.OBJECTIVE) {
-                    String section = (String) entry.getValue().getValue();
-                    dos.writeUTF(section);
+                        break;
+
+                    case EDUCATION :
+                    case QUALIFICATIONS:
+                    case ACHIEVEMENT:
+                        section = (List<Section>) entry.getValue().getValue();
+                        dos.writeInt(section.size());
+                        for (Object string : section) {
+                            dos.writeUTF((String) string);
+                        }
+                        break;
+
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        String sectionStr = (String) entry.getValue().getValue();
+                        dos.writeUTF(sectionStr);
+
                 }
             }
         }
@@ -79,7 +89,7 @@ public class DataSectionAdapter {
                         Company company = new Company();
                         section.getValue().add(company);
                         company.setName(dis.readUTF());
-                        company.setWebsite(StringUtil.read(dis.readUTF()));
+                        company.setWebsite(read(dis.readUTF()));
                         int periodsQty = dis.readInt();
                         for (int n = 0; n < periodsQty; n++) {
                             Period period = new Period();
@@ -90,8 +100,8 @@ public class DataSectionAdapter {
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
-                            period.setTitle(StringUtil.read(dis.readUTF()));
-                            period.setDescription(StringUtil.read(dis.readUTF()));
+                            period.setTitle(read(dis.readUTF()));
+                            period.setDescription(read(dis.readUTF()));
                         }
                     }
                     resume.setSection(sectionType, section);
@@ -114,5 +124,28 @@ public class DataSectionAdapter {
             }
             return resume;
         }
+    }
+
+
+    /**
+     * Используется для сериализации где недопуcтимо передавать пустую строку
+     * возвращает строку "null" если строка равна null
+     * иначе возвращает строку без изменений
+     * @param string - входная строка
+     * @return - возвращаемое значение
+     */
+    public static String write(String string) {
+        return string == null ? "null" : string;
+    }
+
+    /**
+     * Используется для десериализации где необхрдимо явно указать пустое значение
+     * возвращает  null если строка равна "null"
+     * иначе возвращает строку без изменений
+     * @param string - входная строка
+     * @return - возвращаемое значение
+     */
+    public static String read(String string) {
+        return string.equals("null") ? null : string;
     }
 }
