@@ -1,11 +1,13 @@
 package com.urise.webapp.util;
 
 import com.urise.webapp.model.*;
+import com.urise.webapp.storage.serializer.Container;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DataSectionAdapter {
 
@@ -17,26 +19,26 @@ public class DataSectionAdapter {
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
             dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            forEach(contacts.entrySet(), entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
+
             Map<SectionType, Section<?>> sections = r.getSections();
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section<?>> entry : sections.entrySet()) {
                 SectionType sectionType = entry.getKey();
                 dos.writeUTF(sectionType.name());
-                List<Section> section = null;
                 switch (sectionType) {
                     case EXPERIENCE:
-                        section = (List<Section>) entry.getValue().getValue();
+                        List<Section> section = (List<Section>) entry.getValue().getValue();
                         dos.writeInt(section.size());
-                        for (Object element : section) {
+                        forEach(section, (Container) element -> {
                             Company company = (Company) element;
                             dos.writeUTF(company.getName());
                             dos.writeUTF(write(company.getWebsite()));
                             dos.writeInt(company.getPeriods().size());
-                            for (Period period : company.getPeriods()) {
+                            forEach(company.getPeriods(), period -> {
                                 try {
                                     dos.writeUTF(calendarAdapter.marshal(period.getStart()));
                                     dos.writeUTF(calendarAdapter.marshal(period.getEnd()));
@@ -45,8 +47,8 @@ public class DataSectionAdapter {
                                 }
                                 dos.writeUTF(write(period.getTitle()));
                                 dos.writeUTF(write(period.getDescription()));
-                            }
-                        }
+                            });
+                        });
                         break;
 
                     case EDUCATION :
@@ -54,9 +56,7 @@ public class DataSectionAdapter {
                     case ACHIEVEMENT:
                         section = (List<Section>) entry.getValue().getValue();
                         dos.writeInt(section.size());
-                        for (Object string : section) {
-                            dos.writeUTF((String) string);
-                        }
+                        forEach(section, (Container) element -> dos.writeUTF((String) element));
                         break;
 
                     case PERSONAL:
@@ -123,6 +123,21 @@ public class DataSectionAdapter {
                 }
             }
             return resume;
+        }
+    }
+
+    /**
+     * Функция для реализации различных вариантов чтения и записи коллекций
+     * @param collection любая коллекция
+     * @param container - класс-обертка
+     * @param <T> - оборачиваемый класс
+     * @throws IOException - выбрасываем для дальнейшей обработки
+     */
+    static <T> void forEach(Iterable<T> collection, Container<T> container) throws IOException {
+        Objects.requireNonNull(collection);
+        for (T element : collection) {
+            Objects.requireNonNull(element);
+            container.apply(element);
         }
     }
 
