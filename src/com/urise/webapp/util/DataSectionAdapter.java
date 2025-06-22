@@ -75,51 +75,65 @@ public class DataSectionAdapter {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
             int contactSize = dis.readInt();
-            for (int i = 0; i < contactSize; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
+            forWhile(contactSize, new Container<Resume>() {
+                @Override
+                public void apply(Resume resumeToApply) throws IOException {
+                    resumeToApply.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
+                }
+            }, resume);
             int sectionsQty = dis.readInt();
             for (int i = 0; i < sectionsQty; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                if (sectionType == SectionType.EXPERIENCE) {
-                    CompanySection section = new CompanySection(new ArrayList<>());
-                    int sectionSize = dis.readInt();
-                    for (int j = 0; j < sectionSize; j++) {
-                        Company company = new Company();
-                        section.getValue().add(company);
-                        company.setName(dis.readUTF());
-                        company.setWebsite(read(dis.readUTF()));
-                        int periodsQty = dis.readInt();
-                        for (int n = 0; n < periodsQty; n++) {
-                            Period period = new Period();
-                            company.addPeriod(period);
-                            try {
-                                period.setStart(calendarAdapter.unmarshal(dis.readUTF()));
-                                period.setEnd(calendarAdapter.unmarshal(dis.readUTF()));
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
+                switch (sectionType) {
+                    case EXPERIENCE:
+                        CompanySection companySection = new CompanySection(new ArrayList<>());
+                        int sectionSize = dis.readInt();
+                        forWhile(sectionSize, new Container<CompanySection>() {
+                            @Override
+                            public void apply(CompanySection companySection) throws IOException {
+                                Company company = new Company();
+                                companySection.getValue().add(company);
+                                company.setName(dis.readUTF());
+                                company.setWebsite(read(dis.readUTF()));
+                                int periodsQty = dis.readInt();
+                                for (int n = 0; n < periodsQty; n++) {
+                                    Period period = new Period();
+                                    company.addPeriod(period);
+                                    try {
+                                        period.setStart(calendarAdapter.unmarshal(dis.readUTF()));
+                                        period.setEnd(calendarAdapter.unmarshal(dis.readUTF()));
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    period.setTitle(read(dis.readUTF()));
+                                    period.setDescription(read(dis.readUTF()));
+                                }
                             }
-                            period.setTitle(read(dis.readUTF()));
-                            period.setDescription(read(dis.readUTF()));
-                        }
-                    }
-                    resume.setSection(sectionType, section);
+                        }, companySection);
+                        resume.setSection(sectionType, companySection);
+                        break;
 
-                } else if (sectionType == SectionType.EDUCATION || sectionType == SectionType.QUALIFICATIONS || sectionType == SectionType.ACHIEVEMENT) {
-                    ListSection section = new ListSection();
-                    int sectionSize = dis.readInt();
-                    List<String> list = new ArrayList<>();
-                    for (int j = 0; j < sectionSize; j++) {
-                        list.add(dis.readUTF());
-                    }
-                    section.setValue(list);
-                    resume.setSection(sectionType, section);
+                    case EDUCATION :
+                    case QUALIFICATIONS:
+                    case ACHIEVEMENT:
+                        ListSection section = new ListSection();
+                        sectionSize = dis.readInt();
+                        List<String> list = new ArrayList<>();
+                        forWhile(sectionSize, new Container<List<String>>() {
+                            @Override
+                            public void apply(List<String> strings) throws IOException {
+                                list.add(dis.readUTF());
+                            }
+                        }, list);
+                        section.setValue(list);
+                        resume.setSection(sectionType, section);
+                        break;
 
-                } else if (sectionType == SectionType.PERSONAL || sectionType == SectionType.OBJECTIVE) {
-                    TextSection section = new TextSection();
-                    section.setValue(dis.readUTF());
-                    resume.setSection(sectionType, section);
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        TextSection textSection = new TextSection();
+                        textSection.setValue(dis.readUTF());
+                        resume.setSection(sectionType, textSection);
                 }
             }
             return resume;
@@ -127,7 +141,7 @@ public class DataSectionAdapter {
     }
 
     /**
-     * Функция для реализации различных вариантов чтения и записи коллекций
+     * Функция для реализации различных вариантов записи коллекций
      * @param collection любая коллекция
      * @param container - класс-обертка
      * @param <T> - оборачиваемый класс
@@ -138,6 +152,12 @@ public class DataSectionAdapter {
         for (T element : collection) {
             Objects.requireNonNull(element);
             container.apply(element);
+        }
+    }
+
+    static <T> void forWhile(int counter, Container<T> container, T applier) throws IOException {
+        for (int j = 0; j < counter; j++) {
+           container.apply(applier);
         }
     }
 
