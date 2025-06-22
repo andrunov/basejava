@@ -75,12 +75,7 @@ public class DataSectionAdapter {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
             int contactSize = dis.readInt();
-            forWhile(contactSize, new Container<Resume>() {
-                @Override
-                public void apply(Resume resumeToApply) throws IOException {
-                    resumeToApply.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-                }
-            }, resume);
+            forWhile(contactSize, resumeToApply -> resumeToApply.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()), resume);
             int sectionsQty = dis.readInt();
             for (int i = 0; i < sectionsQty; i++) {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
@@ -88,27 +83,24 @@ public class DataSectionAdapter {
                     case EXPERIENCE:
                         CompanySection companySection = new CompanySection(new ArrayList<>());
                         int sectionSize = dis.readInt();
-                        forWhile(sectionSize, new Container<CompanySection>() {
-                            @Override
-                            public void apply(CompanySection companySection) throws IOException {
-                                Company company = new Company();
-                                companySection.getValue().add(company);
-                                company.setName(dis.readUTF());
-                                company.setWebsite(read(dis.readUTF()));
-                                int periodsQty = dis.readInt();
-                                for (int n = 0; n < periodsQty; n++) {
-                                    Period period = new Period();
-                                    company.addPeriod(period);
-                                    try {
-                                        period.setStart(calendarAdapter.unmarshal(dis.readUTF()));
-                                        period.setEnd(calendarAdapter.unmarshal(dis.readUTF()));
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    period.setTitle(read(dis.readUTF()));
-                                    period.setDescription(read(dis.readUTF()));
+                        forWhile(sectionSize, companySectionToApply -> {
+                            Company company = new Company();
+                            companySectionToApply.getValue().add(company);
+                            company.setName(dis.readUTF());
+                            company.setWebsite(read(dis.readUTF()));
+                            int periodsQty = dis.readInt();
+                            forWhile(periodsQty, companyToApply -> {
+                                Period period = new Period();
+                                companyToApply.addPeriod(period);
+                                try {
+                                    period.setStart(calendarAdapter.unmarshal(dis.readUTF()));
+                                    period.setEnd(calendarAdapter.unmarshal(dis.readUTF()));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
                                 }
-                            }
+                                period.setTitle(read(dis.readUTF()));
+                                period.setDescription(read(dis.readUTF()));
+                            }, company);
                         }, companySection);
                         resume.setSection(sectionType, companySection);
                         break;
@@ -119,12 +111,7 @@ public class DataSectionAdapter {
                         ListSection section = new ListSection();
                         sectionSize = dis.readInt();
                         List<String> list = new ArrayList<>();
-                        forWhile(sectionSize, new Container<List<String>>() {
-                            @Override
-                            public void apply(List<String> strings) throws IOException {
-                                list.add(dis.readUTF());
-                            }
-                        }, list);
+                        forWhile(sectionSize, strings -> list.add(dis.readUTF()), list);
                         section.setValue(list);
                         resume.setSection(sectionType, section);
                         break;
