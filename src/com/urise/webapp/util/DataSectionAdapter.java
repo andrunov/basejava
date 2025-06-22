@@ -131,7 +131,7 @@ public class DataSectionAdapter {
      * Функция для реализации различных вариантов записи коллекций
      * @param collection любая коллекция
      * @param container - класс-обертка
-     * @param <T> - оборачиваемый класс
+     * @param <T> - оборачиваемый класс для записи
      * @throws IOException - выбрасываем для дальнейшей обработки
      */
     static <T> void forEach(Iterable<T> collection, Container<T> container) throws IOException {
@@ -142,6 +142,14 @@ public class DataSectionAdapter {
         }
     }
 
+    /**
+     * Функция для реализации различных вариантов чтения коллекций
+     * @param counter счетчик по которому итерируемся
+     * @param container - класс-обертка
+     * @param applier - принимающий прочитываемые данные класс
+     * @param <T> - оборачиваемый класс для чтения
+     * @throws IOException - выбрасываем для дальнейшей обработки
+     */
     static <T> void forWhile(int counter, Container<T> container, T applier) throws IOException {
         for (int j = 0; j < counter; j++) {
            container.apply(applier);
