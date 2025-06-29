@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.model.*;
 import com.urise.webapp.util.DateUtil;
 
@@ -11,8 +12,8 @@ import java.util.List;
 import static com.urise.webapp.model.SectionType.*;
 
 public class TestData {
-    static final String STORAGE_PATH = "E:\\PROJECTS\\Learninig\\basejava\\file_storage";
-    static final File STORAGE_DIR = new File(STORAGE_PATH);
+    //static final String STORAGE_PATH = Config.get().getStorageDir();
+    static final File STORAGE_DIR = Config.get().getStorageDir();
     static final String UUID_01 = "uuid1";
     static final String FIO_01 = "First Middle Last 1";
     static final String UUID_02 = "uuid2";
