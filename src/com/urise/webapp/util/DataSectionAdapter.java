@@ -26,47 +26,42 @@ public class DataSectionAdapter {
 
             Map<SectionType, Section<?>> sections = r.getSections();
             dos.writeInt(sections.size());
-            forEach(dos, sections.entrySet(), new Container<Map.Entry<SectionType, Section<?>>>() {
-                @Override
-                public void apply(Map.Entry<SectionType, Section<?>> entry) throws IOException {
-                    SectionType sectionType = entry.getKey();
-                    dos.writeUTF(sectionType.name());
-                    switch (sectionType) {
-                        case EXPERIENCE:
-                            List<Section> section = (List<Section>) entry.getValue().getValue();
-                            dos.writeInt(section.size());
-                            forEach(dos, section, (Container) element -> {
-                                Company company = (Company) element;
-                                dos.writeUTF(company.getName());
-                                dos.writeUTF(write(company.getWebsite()));
-                                dos.writeInt(company.getPeriods().size());
-                                forEach(dos, company.getPeriods(), period -> {
-                                    try {
-                                        dos.writeUTF(calendarAdapter.marshal(period.getStart()));
-                                        dos.writeUTF(calendarAdapter.marshal(period.getEnd()));
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    dos.writeUTF(write(period.getTitle()));
-                                    dos.writeUTF(write(period.getDescription()));
-                                });
+            forEach(dos, sections.entrySet(), entry -> {
+                SectionType sectionType = entry.getKey();
+                dos.writeUTF(sectionType.name());
+                switch (sectionType) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        String sectionStr = (String) entry.getValue().getValue();
+                        dos.writeUTF(sectionStr);
+                        break;
+
+                    case QUALIFICATIONS:
+                    case ACHIEVEMENT:
+                        List<String> valueList = (List<String>) entry.getValue().getValue();
+                        dos.writeInt(valueList.size());
+                        forEach(dos, valueList, dos::writeUTF);
+                        break;
+
+                    case EXPERIENCE:
+                    case EDUCATION :
+                        List<Company> companyList = (List<Company>) entry.getValue().getValue();
+                        dos.writeInt(companyList.size());
+                        forEach(dos, companyList, company -> {
+                            dos.writeUTF(company.getName());
+                            dos.writeUTF(write(company.getWebsite()));
+                            dos.writeInt(company.getPeriods().size());
+                            forEach(dos, company.getPeriods(), period -> {
+                                try {
+                                    dos.writeUTF(calendarAdapter.marshal(period.getStart()));
+                                    dos.writeUTF(calendarAdapter.marshal(period.getEnd()));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                                dos.writeUTF(write(period.getTitle()));
+                                dos.writeUTF(write(period.getDescription()));
                             });
-                            break;
-
-                        case EDUCATION :
-                        case QUALIFICATIONS:
-                        case ACHIEVEMENT:
-                            section = (List<Section>) entry.getValue().getValue();
-                            dos.writeInt(section.size());
-                            forEach(dos, section, (Container) element -> dos.writeUTF((String) element));
-                            break;
-
-                        case PERSONAL:
-                        case OBJECTIVE:
-                            String sectionStr = (String) entry.getValue().getValue();
-                            dos.writeUTF(sectionStr);
-
-                    }
+                        });
                 }
             });
         }
@@ -84,9 +79,27 @@ public class DataSectionAdapter {
             forWhile(dis, sectionsQty, sectionType1 -> {
                 sectionType1 = SectionType.valueOf(dis.readUTF());
                 switch (sectionType1) {
-                    case EXPERIENCE:
-                        CompanySection companySection = new CompanySection(new ArrayList<>());
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        TextSection textSection = new TextSection();
+                        textSection.setValue(dis.readUTF());
+                        resume.setSection(sectionType1, textSection);
+                        break;
+
+                    case QUALIFICATIONS:
+                    case ACHIEVEMENT:
+                        ListSection section = new ListSection();
                         int sectionSize = dis.readInt();
+                        List<String> list = new ArrayList<>();
+                        forWhile(dis, sectionSize, strings -> list.add(dis.readUTF()), list);
+                        section.setValue(list);
+                        resume.setSection(sectionType1, section);
+                        break;
+
+                    case EXPERIENCE:
+                    case EDUCATION :
+                        CompanySection companySection = new CompanySection(new ArrayList<>());
+                        sectionSize = dis.readInt();
                         forWhile(dis, sectionSize, companySectionToApply -> {
                             Company company = new Company();
                             companySectionToApply.getValue().add(company);
@@ -108,23 +121,6 @@ public class DataSectionAdapter {
                         }, companySection);
                         resume.setSection(sectionType1, companySection);
                         break;
-
-                    case EDUCATION :
-                    case QUALIFICATIONS:
-                    case ACHIEVEMENT:
-                        ListSection section = new ListSection();
-                        sectionSize = dis.readInt();
-                        List<String> list = new ArrayList<>();
-                        forWhile(dis, sectionSize, strings -> list.add(dis.readUTF()), list);
-                        section.setValue(list);
-                        resume.setSection(sectionType1, section);
-                        break;
-
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        TextSection textSection = new TextSection();
-                        textSection.setValue(dis.readUTF());
-                        resume.setSection(sectionType1, textSection);
                 }
             }, sectionType);
             return resume;
