@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    public  static <R, P> R executeSQL(
+    public  static <R, P> R execute(
                                    P parameter,
                                    String sqlExpression,
                                    ConnectionFactory connectionFactory,
