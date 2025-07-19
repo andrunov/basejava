@@ -43,9 +43,12 @@ public class SqlStorage implements Storage {
                     ps.setString(1, uuid);
                     ResultSet rs = ps.executeQuery();
                     if (!rs.next()) {
+                        rs.close();
                         throw new NotExistStorageException(uuid);
                     }
-                    return new Resume(uuid, rs.getString("full_name"));
+                    Resume result = new Resume(uuid, rs.getString("full_name"));
+                    rs.close();
+                    return result;
                 });
     }
 
@@ -128,7 +131,9 @@ public class SqlStorage implements Storage {
                 (parameter, ps) -> {
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
-                        return rs.getInt(1);  // Получаем значение первого (и единственного) столбца
+                        int result = rs.getInt(1);
+                        rs.close();
+                        return result;
                     }
                     return 0;  // На случай, если результат пуст
                 }
