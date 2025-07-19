@@ -8,28 +8,6 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    private static  PreparedStatement createStatement(
-            String sqlExpression,
-            ConnectionFactory connectionFactory) throws SQLException {
-
-        Connection conn = connectionFactory.getConnection();
-        return conn.prepareStatement(sqlExpression);
-    }
-
-    public  static <R, P> R executeWithException(
-            P parameter,
-            String sqlExpression,
-            ConnectionFactory connectionFactory,
-            SqlExecutor<P, R> executor) {
-
-        try (PreparedStatement ps = createStatement(sqlExpression, connectionFactory)) {
-            return executor.execute(parameter, ps);
-
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-    }
-
     public  static <R, P> R executeSQL(
                                    P parameter,
                                    String sqlExpression,

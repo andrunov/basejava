@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
@@ -66,19 +67,23 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        SqlHelper.executeSQL(
-                resume,
-                "INSERT INTO resume (uuid, full_name) VALUES (?,?)",
-                connectionFactory,
-                new SqlExecutor<Resume, Object>() {
-                    @Override
-                    public Object execute(Resume parameter, PreparedStatement ps) throws SQLException {
-                        ps.setString(1, resume.getUuid());
-                        ps.setString(2, resume.getFullName());
-                        ps.execute();
-                        return null;
-                    }
-                });
+    SqlHelper.executeSQL(
+         resume,
+        "INSERT INTO resume (uuid, full_name) VALUES (?,?)",
+         connectionFactory,
+         new SqlExecutor<Resume, Object>() {
+             @Override
+             public Object execute(Resume parameter, PreparedStatement ps) throws SQLException {
+                ps.setString(1, resume.getUuid());
+                ps.setString(2, resume.getFullName());
+                try {
+                      ps.execute();
+                      return null;
+                } catch (SQLException e) {
+                      throw new ExistStorageException(e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
@@ -99,39 +104,42 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> resumes = new ArrayList<>();
-        String sql = "SELECT * FROM resume ORDER BY full_name, uuid";
-
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                String fullName = rs.getString("full_name");
-                resumes.add(new Resume(uuid.trim(), fullName.trim()));
-            }
-        } catch (SQLException e) {
-            throw new StorageException("Failed to get all resumes", e);
-        }
-
-        return resumes;
+        return SqlHelper.executeSQL(
+           null,
+           "SELECT * FROM resume ORDER BY full_name, uuid",
+            connectionFactory,
+            new SqlExecutor<Object, List<Resume>>() {
+               @Override
+               public List<Resume> execute(Object parameter, PreparedStatement ps) throws SQLException {
+                    List<Resume> resumes = new ArrayList<>();
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        String uuid = rs.getString("uuid");
+                        String fullName = rs.getString("full_name");
+                        resumes.add(new Resume(uuid.trim(), fullName.trim()));
+                    }
+                    rs.close();
+                    return resumes;
+               }
+           });
     }
 
     @Override
     public int size() {
-        String sql = "SELECT COUNT(*) FROM resume";
-
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            if (rs.next()) {
-                return rs.getInt(1);  // Получаем значение первого (и единственного) столбца
-            }
-            return 0;  // На случай, если результат пуст (маловероятно для COUNT)
-        } catch (SQLException e) {
-            throw new StorageException("Failed to get resume count", e);
-        }
+        return SqlHelper.executeSQL(
+                null,
+                "SELECT COUNT(*) FROM resume",
+                connectionFactory,
+                new SqlExecutor<Object, Integer>() {
+                    @Override
+                    public Integer execute(Object parameter, PreparedStatement ps) throws SQLException {
+                        ResultSet rs = ps.executeQuery();
+                        if (rs.next()) {
+                            return rs.getInt(1);  // Получаем значение первого (и единственного) столбца
+                        }
+                        return 0;  // На случай, если результат пуст
+                    }
+                }
+        );
     }
 }
