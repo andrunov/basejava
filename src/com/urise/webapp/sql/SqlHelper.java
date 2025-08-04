@@ -8,10 +8,15 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    public  static <R, P> R execute(
+    public final ConnectionFactory connectionFactory;
+
+    public SqlHelper(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
+    public  <R, P> R execute(
                                    P parameter,
                                    String sqlExpression,
-                                   ConnectionFactory connectionFactory,
                                    SqlExecutor<P, R> executor) {
 
         try (Connection conn = connectionFactory.getConnection();

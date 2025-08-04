@@ -15,18 +15,19 @@ import java.util.List;
 
 public class SqlStorage implements Storage {
 
-    public final ConnectionFactory connectionFactory;
+
+    private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        ConnectionFactory connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        sqlHelper = new SqlHelper(connectionFactory);
     }
 
     @Override
     public void clear() {
-        SqlHelper.execute(
+        sqlHelper.execute(
                 null,
                 "DELETE FROM resume",
-                connectionFactory,
                 (parameter, ps) -> {
                     ps.execute();
                     return null;
@@ -35,10 +36,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        return SqlHelper.execute(
+        return sqlHelper.execute(
                 uuid,
                 "SELECT * FROM resume r WHERE r.uuid =?",
-                connectionFactory,
                 (parameter, ps) -> {
                     ps.setString(1, uuid);
                     ResultSet rs = ps.executeQuery();
@@ -54,10 +54,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        SqlHelper.execute(
+        sqlHelper.execute(
                 resume,
                 "UPDATE resume SET full_name = ? WHERE uuid = ?",
-                connectionFactory,
                 (parameter, ps) -> {
                     ps.setString(1, resume.getFullName());
                     ps.setString(2, resume.getUuid());
@@ -71,10 +70,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-    SqlHelper.execute(
+    sqlHelper.execute(
          resume,
         "INSERT INTO resume (uuid, full_name) VALUES (?,?)",
-         connectionFactory,
             (parameter, ps) -> {
                ps.setString(1, resume.getUuid());
                ps.setString(2, resume.getFullName());
@@ -89,10 +87,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        SqlHelper.execute(
+        sqlHelper.execute(
                 uuid,
                 "DELETE FROM resume WHERE uuid = ?",
-                connectionFactory,
                 (parameter, ps) -> {
                     ps.setString(1, uuid);
                     int rowsDeleted = ps.executeUpdate();
@@ -105,10 +102,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return SqlHelper.execute(
+        return sqlHelper.execute(
            null,
            "SELECT * FROM resume ORDER BY full_name, uuid",
-            connectionFactory,
                 (parameter, ps) -> {
                      List<Resume> resumes = new ArrayList<>();
                      ResultSet rs = ps.executeQuery();
@@ -124,10 +120,9 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return SqlHelper.execute(
+        return sqlHelper.execute(
                 null,
                 "SELECT COUNT(*) FROM resume",
-                connectionFactory,
                 (parameter, ps) -> {
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
