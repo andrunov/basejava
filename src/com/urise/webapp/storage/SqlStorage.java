@@ -43,11 +43,9 @@ public class SqlStorage implements Storage {
                     ps.setString(1, uuid);
                     ResultSet rs = ps.executeQuery();
                     if (!rs.next()) {
-                        rs.close();
                         throw new NotExistStorageException(uuid);
                     }
                     Resume result = new Resume(uuid, rs.getString("full_name"));
-                    rs.close();
                     return result;
                 });
     }
@@ -113,7 +111,6 @@ public class SqlStorage implements Storage {
                          String fullName = rs.getString("full_name");
                          resumes.add(new Resume(uuid.trim(), fullName.trim()));
                      }
-                     rs.close();
                      return resumes;
                 });
     }
@@ -127,7 +124,6 @@ public class SqlStorage implements Storage {
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
                         int result = rs.getInt(1);
-                        rs.close();
                         return result;
                     }
                     return 0;  // На случай, если результат пуст
