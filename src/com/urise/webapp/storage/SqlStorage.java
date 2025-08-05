@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
@@ -9,7 +8,6 @@ import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class SqlStorage implements Storage {
     @Override
     public Resume get(String uuid) {
         return sqlHelper.execute(
-                uuid,
+                null,
                 "SELECT * FROM resume r WHERE r.uuid =?",
                 (parameter, ps) -> {
                     ps.setString(1, uuid);
@@ -53,7 +51,7 @@ public class SqlStorage implements Storage {
     @Override
     public void update(Resume resume) {
         sqlHelper.execute(
-                resume,
+                null,
                 "UPDATE resume SET full_name = ? WHERE uuid = ?",
                 (parameter, ps) -> {
                     ps.setString(1, resume.getFullName());
@@ -69,24 +67,20 @@ public class SqlStorage implements Storage {
     @Override
     public void save(Resume resume) {
     sqlHelper.execute(
-         resume,
+         null,
         "INSERT INTO resume (uuid, full_name) VALUES (?,?)",
             (parameter, ps) -> {
                ps.setString(1, resume.getUuid());
                ps.setString(2, resume.getFullName());
-               try {
-                     ps.execute();
-                     return null;
-               } catch (SQLException e) {
-                     throw new ExistStorageException(e.getMessage());
-               }
+               ps.execute();
+               return null;
            });
     }
 
     @Override
     public void delete(String uuid) {
         sqlHelper.execute(
-                uuid,
+                null,
                 "DELETE FROM resume WHERE uuid = ?",
                 (parameter, ps) -> {
                     ps.setString(1, uuid);
@@ -122,11 +116,7 @@ public class SqlStorage implements Storage {
                 "SELECT COUNT(*) FROM resume",
                 (parameter, ps) -> {
                     ResultSet rs = ps.executeQuery();
-                    if (rs.next()) {
-                        int result = rs.getInt(1);
-                        return result;
-                    }
-                    return 0;  // На случай, если результат пуст
+                    return rs.next() ? rs.getInt(1) : 0;
                 }
         );
     }
