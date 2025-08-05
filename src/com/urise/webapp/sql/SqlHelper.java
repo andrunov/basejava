@@ -26,7 +26,6 @@ public class SqlHelper {
             return executor.execute(parameter, ps);
 
         } catch (SQLException e) {
-            //throw new ExistStorageException(e.getMessage());
             if (e.getSQLState().equals("23505")) {
                 throw new ExistStorageException(e.getMessage());
             } else {
