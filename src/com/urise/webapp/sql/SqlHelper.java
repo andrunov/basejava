@@ -15,15 +15,12 @@ public class SqlHelper {
         this.connectionFactory = connectionFactory;
     }
 
-    public  <R, P> R execute(
-                                   P parameter,
-                                   String sqlExpression,
-                                   SqlExecutor<P, R> executor) throws RuntimeException {
+    public  <R> R execute(String sqlExpression, SqlExecutor<R> executor) throws RuntimeException {
 
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlExpression)) {
 
-            return executor.execute(parameter, ps);
+            return executor.execute(ps);
 
         } catch (SQLException e) {
             if (e.getSQLState().equals("23505")) {
