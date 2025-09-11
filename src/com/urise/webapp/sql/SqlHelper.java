@@ -2,13 +2,10 @@ package com.urise.webapp.sql;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.StorageException;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class SqlHelper {
 
@@ -48,16 +45,6 @@ public class SqlHelper {
         } catch (SQLException e) {
             throw new StorageException(e);
         }
-    }
-
-    public void executeSections(Resume resume, PreparedStatement ps) throws SQLException {
-        for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
-            ps.setString(1, resume.getUuid());
-            ps.setString(2, e.getKey().name());
-            ps.setString(3, e.getValue());
-            ps.addBatch();
-        }
-        ps.executeBatch();
     }
 
 }
