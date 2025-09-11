@@ -3,6 +3,7 @@ out
 file_storage
 *.iml
 log
+lib
 
 
 
