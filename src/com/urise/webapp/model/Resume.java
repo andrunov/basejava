@@ -122,8 +122,9 @@ public class Resume implements Serializable {
 
     public void addContactOf(ResultSet rs) throws SQLException {
         String value = rs.getString("value");
-        ContactType type = ContactType.valueOf(rs.getString("type"));
-        if (type != null && value != null) {
+        String str_type = rs.getString("type");
+        if (str_type != null && value != null) {
+            ContactType type = ContactType.valueOf(str_type);
             this.addContact(type, value);
         }
     }
