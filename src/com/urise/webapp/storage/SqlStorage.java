@@ -9,6 +9,7 @@ import com.urise.webapp.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,11 +44,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume resume = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        if (type != null && value != null) {
-                            resume.addContact(type, value);
-                        }
+                        resume.addContactOf(rs);
                     } while (rs.next());
 
                     return resume;
@@ -102,25 +99,22 @@ public class SqlStorage implements Storage {
                 "SELECT * FROM resume r "
                         + "LEFT JOIN contact c ON r.uuid = c.resume_uuid "
                         + "ORDER BY full_name, uuid", ps -> {
-                    List<Resume> resumes = new ArrayList<>();
+                    List<Resume> result = new ArrayList<>();
+                    HashMap<String, Resume> extracted = new HashMap<>();
                     ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
-                        String uuid = rs.getString("uuid");
-                        String fullName = rs.getString("full_name");
-                        Resume resume = new Resume(uuid.trim(), fullName.trim());
-                        int position = resumes.indexOf(resume);
-                        if (position == -1) {
-                            resumes.add(resume);
+                        Resume resume = null;
+                        String key = rs.getString("uuid");
+                        if (extracted.containsKey(key)) {
+                            resume = extracted.get(key);
                         } else {
-                            resume = resumes.get(position);
+                            resume = Resume.of(rs);
+                            extracted.put(key, resume);
+                            result.add(resume);
                         }
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        if (type != null && value != null) {
-                            resume.addContact(type, value);
-                        }
+                        resume.addContactOf(rs);
                     }
-                    return resumes;
+                    return result;
                 });
     }
 
