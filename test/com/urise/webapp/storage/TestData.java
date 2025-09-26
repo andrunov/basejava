@@ -79,7 +79,6 @@ public class TestData {
         companies3.add(company3);
 
         RESUME_01 = new Resume(UUID_01, FIO_01);
-        /*
         RESUME_01.setContact(ContactType.PHONE, "+7(111) 111-1111");
         RESUME_01.setContact(ContactType.SKYPE, "skype:skype1");
         RESUME_01.setContact(ContactType.EMAIL, "some1@yandex.ru");
@@ -96,10 +95,8 @@ public class TestData {
         qualifications1.add("Квалификация 3");
         RESUME_01.setSection(QUALIFICATIONS, new ListSection(qualifications1));
         RESUME_01.setSection(EXPERIENCE, new CompanySection(companies1));
-         */
 
         RESUME_02 = new Resume(UUID_02, FIO_02);
-        /*
         RESUME_02.setContact(ContactType.PHONE, "+7(222) 222-2222");
         RESUME_02.setContact(ContactType.SKYPE, "skype:skype2");
         RESUME_02.setContact(ContactType.EMAIL, "some2@yandex.ru");
@@ -116,10 +113,8 @@ public class TestData {
         qualifications2.add("Квалификация 378");
         RESUME_02.setSection(QUALIFICATIONS, new ListSection(qualifications2));
         RESUME_02.setSection(EXPERIENCE, new CompanySection(companies2));
-         */
 
         RESUME_03 = new Resume(UUID_03, FIO_03);
-        /*
         RESUME_03.setContact(ContactType.PHONE, "+7(333) 333-3333");
         RESUME_03.setContact(ContactType.SKYPE, "skype:skype3");
         RESUME_03.setContact(ContactType.EMAIL, "some3@yandex.ru");
@@ -136,7 +131,6 @@ public class TestData {
         qualifications3.add("Квалификация 34525");
         RESUME_03.setSection(QUALIFICATIONS, new ListSection(qualifications3));
         RESUME_03.setSection(EXPERIENCE, new CompanySection(companies3));
-         */
 
         RESUME_04 = new Resume(UUID_04, FIO_04);
         RESUME_04.setContact(ContactType.PHONE, "+7(444) 444-4444");

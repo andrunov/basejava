@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -15,6 +17,12 @@ import java.util.Objects;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
+
+    public static Resume of(ResultSet rs) throws SQLException {
+        String uuid = rs.getString("uuid");
+        String fullName = rs.getString("full_name");
+        return new Resume(uuid.trim(), fullName.trim());
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -110,5 +118,14 @@ public class Resume implements Serializable {
 
     public void addContact(ContactType key, String value) {
         contacts.put(key, value);
+    }
+
+    public void addContactOf(ResultSet rs) throws SQLException {
+        String value = rs.getString("value");
+        String str_type = rs.getString("type");
+        if (str_type != null && value != null) {
+            ContactType type = ContactType.valueOf(str_type);
+            this.addContact(type, value);
+        }
     }
 }
