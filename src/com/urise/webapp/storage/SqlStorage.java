@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 // TODO implement Section (except OrganizationSection)
 // TODO Join and split ListSection by `\n`
 public class SqlStorage implements Storage {
@@ -96,6 +97,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
+        /*
         return sqlHelper.execute(
                 "SELECT * FROM resume r "
                         + "LEFT JOIN contact c ON r.uuid = c.resume_uuid "
@@ -114,6 +116,18 @@ public class SqlStorage implements Storage {
                             result.add(resume);
                         }
                         resume.addContactOf(rs);
+                    }
+                    return result;
+                });
+         */
+        return sqlHelper.execute(
+                "SELECT * FROM resume r ORDER BY full_name, uuid", ps -> {
+                    List<Resume> result = new ArrayList<>();
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        Resume resume = Resume.of(rs);
+                        extractAndSetContacts(resume);
+                        result.add(resume);
                     }
                     return result;
                 });
@@ -144,5 +158,18 @@ public class SqlStorage implements Storage {
             }
             ps.executeBatch();
         }
+    }
+
+    public void extractAndSetContacts(Resume resume) {
+        sqlHelper.execute(
+                "SELECT * FROM contact c WHERE c.resume_uuid =? ", ps -> {
+                    Map<ContactType, String> result = new HashMap<>();
+                    ps.setString(1, resume.getUuid());
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        resume.addContactOf(rs);
+                    }
+                    return null;
+                });
     }
 }
