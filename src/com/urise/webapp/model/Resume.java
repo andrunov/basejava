@@ -121,6 +121,10 @@ public class Resume implements Serializable {
         contacts.put(key, value);
     }
 
+    public void addSection(SectionType key, Section<?> value) {
+        sections.put(key, value);
+    }
+
     public void addContactOf(ResultSet rs) throws SQLException {
         String value = rs.getString("value");
         String str_type = rs.getString("type");
@@ -154,4 +158,5 @@ public class Resume implements Serializable {
             }
         }
     }
+
 }
