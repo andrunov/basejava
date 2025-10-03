@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -139,23 +138,7 @@ public class Resume implements Serializable {
         String str_type = rs.getString("type");
         if (str_type != null && value != null) {
             SectionType type = SectionType.valueOf(str_type);
-            this.addSection(type, value);
-        }
-    }
-
-    private void addSection(SectionType key, String value) {
-        if (!SectionType.EXPERIENCE.equals(key)) {
-            //TEXT section
-            if (SectionType.OBJECTIVE.equals(key) || SectionType.PERSONAL.equals(key)) {
-                TextSection textSection = new TextSection();
-                textSection.setValue(value);
-                sections.put(key, textSection);
-            //LIST section
-            } else {
-                ListSection textSection = new ListSection();
-                textSection.setValue(Arrays.asList(value.split("\n")));
-                sections.put(key, textSection);
-            }
+            this.addSection(type, Section.of(type, value));
         }
     }
 
