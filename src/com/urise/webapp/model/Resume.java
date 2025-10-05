@@ -138,7 +138,10 @@ public class Resume implements Serializable {
         String str_type = rs.getString("type");
         if (str_type != null && value != null) {
             SectionType type = SectionType.valueOf(str_type);
-            this.addSection(type, Section.of(type, value));
+            Section<?> section = Section.of(type, value);
+            if (section != null) {
+                this.addSection(type, section);
+            }
         }
     }
 

@@ -90,24 +90,32 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute(
-                "SELECT * FROM resume r ORDER BY full_name, uuid", ps -> {
-                    List<Resume> result = new ArrayList<>();
-                    Map<String, Map<ContactType, String>> contactMap = getAllContacts();
-                    Map<String, Map<SectionType, Section<?>>> sectionMap = getAllSections();
-                    ResultSet rs = ps.executeQuery();
-                    while (rs.next()) {
-                        Resume resume = Resume.of(rs);
-                        for (Map.Entry<ContactType, String> contactEntry : contactMap.get(resume.getUuid()).entrySet()) {
-                            resume.addContact(contactEntry.getKey(), contactEntry.getValue());
-                        }
-                        for (Map.Entry<SectionType, Section<?>> sectionEntry : sectionMap.get(resume.getUuid()).entrySet()) {
-                            resume.addSection(sectionEntry.getKey(), sectionEntry.getValue());
-                        }
-                        result.add(resume);
-                    }
-                    return result;
-                });
+        return sqlHelper.transactionalExecute(conn -> {
+            Map<String, Resume> resumes = new LinkedHashMap<>();
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
+                }
+            }
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume r = resumes.get(rs.getString("resume_uuid"));
+                    r.addContactOf(rs);
+                }
+            }
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume r = resumes.get(rs.getString("resume_uuid"));
+                    r.addSectionOf(rs);
+                }
+            }
+
+            return new ArrayList<>(resumes.values());
+        });
     }
 
     @Override
@@ -146,49 +154,6 @@ public class SqlStorage implements Storage {
                         resume.addContactOf(rs);
                     }
                     return null;
-                });
-    }
-
-    public Map<String, Map<ContactType, String>> getAllContacts() {
-        return sqlHelper.execute(
-                "SELECT * FROM resume r LEFT JOIN contact c ON r.uuid = c.resume_uuid ", ps -> {
-                    ResultSet rs = ps.executeQuery();
-                    Map<String, Map<ContactType, String>> result = new HashMap<>();
-                    while (rs.next()) {
-                        String uuid = rs.getString("uuid").trim();
-                        if (!result.containsKey(uuid)) {
-                            result.put(uuid, new HashMap<>());
-                        }
-                        String value = rs.getString("value");
-                        String str_type = rs.getString("type");
-                        if (str_type != null && value != null) {
-                            ContactType type = ContactType.valueOf(str_type);
-
-                            result.get(uuid).put(type, value);
-                        }
-                    }
-                    return result;
-                });
-    }
-
-    public Map<String, Map<SectionType, Section<?>>> getAllSections() {
-        return sqlHelper.execute(
-                "SELECT * FROM resume r LEFT JOIN section s ON r.uuid = s.resume_uuid ", ps -> {
-                    ResultSet rs = ps.executeQuery();
-                    Map<String, Map<SectionType, Section<?>>> result = new HashMap<>();
-                    while (rs.next()) {
-                        String uuid = rs.getString("uuid").trim();
-                        if (!result.containsKey(uuid)) {
-                            result.put(uuid, new HashMap<>());
-                        }
-                        String value = rs.getString("value");
-                        String str_type = rs.getString("type");
-                        if (str_type != null && value != null) {
-                            SectionType type = SectionType.valueOf(str_type);
-                            result.get(uuid).put(type, Section.of(type, value));
-                        }
-                    }
-                    return result;
                 });
     }
 
