@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.JsonParser;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -134,14 +136,10 @@ public class Resume implements Serializable {
     }
 
     public void addSectionOf(ResultSet rs) throws SQLException {
-        String value = rs.getString("value");
-        String str_type = rs.getString("type");
-        if (str_type != null && value != null) {
-            SectionType type = SectionType.valueOf(str_type);
-            Section<?> section = Section.of(type, value);
-            if (section != null) {
-                this.addSection(type, section);
-            }
+        String content = rs.getString("value");
+        if (content != null) {
+            SectionType type = SectionType.valueOf(rs.getString("type"));
+            this.addSection(type, JsonParser.read(content, Section.class));
         }
     }
 
