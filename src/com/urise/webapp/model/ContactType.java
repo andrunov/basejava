@@ -4,12 +4,42 @@ import java.io.Serializable;
 
 public enum ContactType implements Serializable {
     PHONE("Телефон",1),
-    SKYPE("Skype",2),
-    EMAIL("Почта",3),
-    LINKEDIN("Профиль LinkedIn",4),
-    GITHUB("Профиль GitHub",5),
-    STACKOVERFLOW("Профиль Stackoverflow",6),
-    HOMEPAGE("Домашняя страница", 7);
+    SKYPE("Skype",2) {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("skype:" + value, value);
+        }
+    },
+    EMAIL("Почта",3) {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("mailto:" + value, value);
+        }
+    },
+    LINKEDIN("Профиль LinkedIn",4) {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    GITHUB("Профиль GitHub",5) {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    STACKOVERFLOW("Профиль Stackoverflow",6) {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    HOMEPAGE("Домашняя страница", 7) {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    };
 
     private static final long serialVersionUID = 1L;
     private final String title;
@@ -26,5 +56,21 @@ public enum ContactType implements Serializable {
 
     public int getOrder() {
         return order;
+    }
+
+    protected String toHtml0(String value) {
+        return title + ": " + value;
+    }
+
+    public String toHtml(String value) {
+        return (value == null) ? "" : toHtml0(value);
+    }
+
+    public String toLink(String href) {
+        return toLink(href, title);
+    }
+
+    public static String toLink(String href, String title) {
+        return "<a href='" + href + "'>" + title + "</a>";
     }
 }
