@@ -19,7 +19,7 @@
             <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
         </dl>
         <h3>Контакты:</h3>
-        <c:forEach var="type" items="<%=ContactType.values()%>">
+        <c:forEach var="type" items="${ContactType.values()}">
             <dl>
                 <dt>${type.title}</dt>
                 <dd><label>
@@ -28,14 +28,23 @@
             </dl>
         </c:forEach>
         <h3>Секции:</h3
-        <c:forEach var="type" items="<%=SectionType.values()%>">
+        <c:forEach var="type" items="${SectionType.values()}">
             <dl>
                 <dt>${type.title}</dt>
                 <c:choose>
-                    <c:when test="${type.order == 1 || type.order == 2}">
+                    <c:when test="${type.name().equals('PERSONAL') || type.name().equals('OBJECTIVE')}">
                         <dd><label>
                             <input type="text" name="${type.name()}" size=30 value="${resume.getSection(type)}">
                         </label></dd>
+                    </c:when>
+                    <c:when test="${type.name().equals('ACHIEVEMENT') || type.name().equals('QUALIFICATIONS')}">
+                        <c:forEach var="listSection" items="${resume.getSection(type).value}>">
+                            <dl>
+                                <dd><label>
+                                    <input type="text" name="${type.name()}" size=30 value="${listSection}">
+                                </label></dd>
+                            </dl>
+                        </c:forEach>
                     </c:when>
                     <c:otherwise>
 
