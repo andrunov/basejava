@@ -3,12 +3,11 @@
 <%@ page import="com.urise.webapp.model.Company" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
-    <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
-    <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -48,11 +47,21 @@
                         </c:forEach>
                     </c:when>
                     <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
-                        <c:forEach var="companySection" items="${resume.getSection(type).value}">
+                        <c:forEach var="company" items="${resume.getSection(type).value}">
                             <dl>
-                                <dd><label>
-                                        <input type="text" size=20 value="${companySection.getName()}">
-                                        <input type="text" size=30 value="${companySection.getWebsite()}">
+                                <dd><label>Компания:
+                                        <input type="text" size=20 value="${company.getName()}">
+                                        <input type="text" size=30 value="${company.getWebsite()}">
+                                        <c:forEach var="period" items="${company.getPeriods()}">
+                                            <dl>
+                                                <dd><label>Период:
+                                                    <input type="date" value="<fmt:formatDate value='${period.getStart().time}' pattern='yyyy-MM-dd' />" />
+                                                    <input type="date" value="<fmt:formatDate value='${period.getEnd().time}' pattern='yyyy-MM-dd' />" />
+                                                    <input type="text" size=20 value="${period.getTitle()}">
+                                                    <input type="text" size=20 value="${period.getDescription()}">
+                                                </label></dd>
+                                            </dl>
+                                        </c:forEach>
                                 </label></dd>
                             </dl>
                         </c:forEach>
