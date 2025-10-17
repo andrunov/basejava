@@ -1,5 +1,6 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
 <%@ page import="com.urise.webapp.model.SectionType" %>
+<%@ page import="com.urise.webapp.model.Company" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -34,11 +35,11 @@
                 <c:choose>
                     <c:when test="${type.name().equals('PERSONAL') || type.name().equals('OBJECTIVE')}">
                         <dd><label>
-                            <input type="text" name="${type.name()}" size=30 value="${resume.getSection(type)}">
+                            <input type="text" name="${type.name()}" size=30 value="${resume.getSection(type).value}">
                         </label></dd>
                     </c:when>
                     <c:when test="${type.name().equals('ACHIEVEMENT') || type.name().equals('QUALIFICATIONS')}">
-                        <c:forEach var="listSection" items="${resume.getSection(type).value}>">
+                        <c:forEach var="listSection" items="${resume.getSection(type).value}">
                             <dl>
                                 <dd><label>
                                     <input type="text" name="${type.name()}" size=30 value="${listSection}">
@@ -46,9 +47,16 @@
                             </dl>
                         </c:forEach>
                     </c:when>
-                    <c:otherwise>
-
-                    </c:otherwise>
+                    <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
+                        <c:forEach var="companySection" items="${resume.getSection(type).value}">
+                            <dl>
+                                <dd><label>
+                                        <input type="text" size=20 value="${companySection.getName()}">
+                                        <input type="text" size=30 value="${companySection.getWebsite()}">
+                                </label></dd>
+                            </dl>
+                        </c:forEach>
+                    </c:when>
                 </c:choose>
             </dl>
         </c:forEach>
