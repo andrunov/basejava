@@ -1,10 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.model.SectionType;
-import com.urise.webapp.model.TextSection;
+import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -13,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -39,11 +37,20 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (SectionType type : SectionType.values()) {
-            if (type.getOrder() == 1 || type.getOrder() == 2) {
+            if (type.name().equals("PERSONAL") || type.name().equals("OBJECTIVE")) {
                 String value = request.getParameter(type.name());
                 if (value != null && value.trim().length() != 0) {
                     TextSection section = new TextSection();
                     section.setValue(value);
+                    r.setSection(type, section);
+                } else {
+                    r.getSections().remove(type);
+                }
+            } else if (type.name().equals("ACHIEVEMENT") || type.name().equals("QUALIFICATIONS")) {
+                String[] value = request.getParameterValues(type.name() + "[]");
+                if (value != null && value.length != 0) {
+                    ListSection section = new ListSection();
+                    section.setValue(Arrays.asList(value));
                     r.setSection(type, section);
                 } else {
                     r.getSections().remove(type);
