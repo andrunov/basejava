@@ -8,6 +8,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/style.css">
+    <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
+    <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -47,11 +49,11 @@
                         </c:forEach>
                     </c:when>
                     <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
-                        <c:forEach var="company" items="${resume.getSection(type).value}">
+                        <c:forEach var="company" items="${resume.getSection(type).value}" varStatus="companyStatus">
                             <dl>
                                 <dd><label>Компания:
-                                        <input type="text" size=20 value="${company.getName()}">
-                                        <input type="text" size=30 value="${company.getWebsite()}">
+                                        <input type="text" name="${type.name()}[${companyStatus.index}].name"  size=20 value="${company.getName()}">
+                                        <input type="text" name="${type.name()}[${companyStatus.index}].website" size=30 value="${company.getWebsite()}">
                                         <c:forEach var="period" items="${company.getPeriods()}">
                                             <dl>
                                                 <dd><label>Период:
@@ -71,7 +73,7 @@
         </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
-        <button type="button" onclick="window.history.back()">Отменить</button>p
+        <button type="button" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

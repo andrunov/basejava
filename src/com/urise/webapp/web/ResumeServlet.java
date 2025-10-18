@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -55,11 +57,21 @@ public class ResumeServlet extends HttpServlet {
                 } else {
                     r.getSections().remove(type);
                 }
+            } else if (type.name().equals("EXPERIENCE") || type.name().equals("EDUCATION")) {
+                List<Company> companies = parseCompanies(request, type.name());
+                if (companies.size() != 0) {
+                    CompanySection section = new CompanySection();
+                    section.setValue(companies);
+                    r.setSection(type, section);
+                } else {
+                    r.getSections().remove(type);
+                }
             }
         }
         storage.update(r);
         response.sendRedirect("resume");
     }
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String uuid = request.getParameter("uuid");
@@ -86,5 +98,31 @@ public class ResumeServlet extends HttpServlet {
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
+    }
+
+
+    private List<Company> parseCompanies(HttpServletRequest request, String typeName) {
+        List<Company> companies = new ArrayList<>();
+        int index = 0;
+
+        while (true) {
+            // Проверяем, есть ли параметры для текущего индекса
+            String companyName = request.getParameter(typeName + "[" + index + "].name");
+            if (companyName == null) break;
+
+            // Создаем компанию
+            Company company = new Company();
+            company.setName(companyName);
+            company.setWebsite(request.getParameter(typeName + "[" + index + "].website"));
+
+            // Парсим периоды для этой компании
+            //List<Period> periods = parsePeriods(request, typeName, index);
+            //company.setPeriods(periods);
+
+            companies.add(company);
+            index++;
+        }
+
+        return companies;
     }
 }
