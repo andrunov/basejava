@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -110,19 +110,66 @@ public class ResumeServlet extends HttpServlet {
             String companyName = request.getParameter(typeName + "[" + index + "].name");
             if (companyName == null) break;
 
-            // Создаем компанию
             Company company = new Company();
             company.setName(companyName);
             company.setWebsite(request.getParameter(typeName + "[" + index + "].website"));
 
-            // Парсим периоды для этой компании
-            //List<Period> periods = parsePeriods(request, typeName, index);
-            //company.setPeriods(periods);
+            List<Period> periods = parsePeriods(request, typeName, index);
+            company.setPeriods(periods);
 
             companies.add(company);
             index++;
         }
 
         return companies;
+    }
+
+    private List<Period> parsePeriods(HttpServletRequest request, String typeName, int companyIndex) {
+        List<Period> periods = new ArrayList<>();
+        int periodIndex = 0;
+
+        while (true) {
+            String periodStart = request.getParameter(
+                    typeName + "[" + companyIndex + "].periods[" + periodIndex + "].start");
+            if (periodStart == null) break;
+
+            Period period = new Period();
+
+            // Обрабатываем даты (нужна проверка на null)
+            if (!periodStart.isEmpty()) {
+                period.setStart(parseCalendarFromString(periodStart));
+            }
+
+            String periodEnd = request.getParameter(
+                    typeName + "[" + companyIndex + "].periods[" + periodIndex + "].end");
+            if (periodEnd != null && !periodEnd.isEmpty()) {
+                period.setEnd(parseCalendarFromString(periodEnd));
+            }
+
+            period.setTitle(request.getParameter(
+                    typeName + "[" + companyIndex + "].periods[" + periodIndex + "].title"));
+            period.setDescription(request.getParameter(
+                    typeName + "[" + companyIndex + "].periods[" + periodIndex + "].description"));
+
+            periods.add(period);
+            periodIndex++;
+        }
+
+        return periods;
+    }
+
+    private Calendar parseCalendarFromString(String dateString) {
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = sdf.parse(dateString);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar;
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Invalid date format: " + dateString, e);
+        }
     }
 }

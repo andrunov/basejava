@@ -54,13 +54,21 @@
                                 <dd><label>Компания:
                                         <input type="text" name="${type.name()}[${companyStatus.index}].name"  size=20 value="${company.getName()}">
                                         <input type="text" name="${type.name()}[${companyStatus.index}].website" size=30 value="${company.getWebsite()}">
-                                        <c:forEach var="period" items="${company.getPeriods()}">
+                                        <c:forEach var="period" items="${company.getPeriods()}" varStatus="periodStatus">
                                             <dl>
                                                 <dd><label>Период:
-                                                    <input type="date" value="<fmt:formatDate value='${period.getStart().time}' pattern='yyyy-MM-dd' />" />
-                                                    <input type="date" value="<fmt:formatDate value='${period.getEnd().time}' pattern='yyyy-MM-dd' />" />
-                                                    <input type="text" size=20 value="${period.getTitle()}">
-                                                    <input type="text" size=20 value="${period.getDescription()}">
+                                                    <input type="date"
+                                                           name="${type.name()}[${companyStatus.index}].periods[${periodStatus.index}].start"
+                                                           value="<fmt:formatDate value='${period.getStart().time}' pattern='yyyy-MM-dd' />" />
+                                                    <input type="date"
+                                                           name="${type.name()}[${companyStatus.index}].periods[${periodStatus.index}].end"
+                                                           value="<fmt:formatDate value='${period.getEnd().time}' pattern='yyyy-MM-dd' />" />
+                                                    <input type="text" size=20
+                                                           name="${type.name()}[${companyStatus.index}].periods[${periodStatus.index}].title"
+                                                           value="${period.getTitle()}">
+                                                    <input type="text" size=20
+                                                           name="${type.name()}[${companyStatus.index}].periods[${periodStatus.index}].description"
+                                                           value="${period.getDescription()}">
                                                 </label></dd>
                                             </dl>
                                         </c:forEach>
