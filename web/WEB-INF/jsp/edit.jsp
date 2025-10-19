@@ -1,6 +1,5 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
 <%@ page import="com.urise.webapp.model.SectionType" %>
-<%@ page import="com.urise.webapp.model.Company" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -40,13 +39,17 @@
                         </label></dd>
                     </c:when>
                     <c:when test="${type.name().equals('ACHIEVEMENT') || type.name().equals('QUALIFICATIONS')}">
-                        <c:forEach var="listSection" items="${resume.getSection(type).value}">
-                            <dl>
-                                <dd><label>
-                                    <input type="text" name="${type.name()}[]" size=30 value="${listSection}">
-                                </label></dd>
-                            </dl>
-                        </c:forEach>
+                        <div id="${type.name()}-container">
+                            <c:forEach var="listSection" items="${resume.getSection(type).value}">
+                                <dl>
+                                    <dd><label>
+                                        <input type="text" name="${type.name()}[]" size=30 value="${listSection}">
+                                        <button type="button" class="remove-btn">× Удалить</button>
+                                    </label></dd>
+                                </dl>
+                            </c:forEach>
+                        </div>
+                        <button type="button" onclick="addField('${type.name()}')">+ Добавить пункт</button>
                     </c:when>
                     <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
                         <c:forEach var="company" items="${resume.getSection(type).value}" varStatus="companyStatus">
@@ -85,5 +88,52 @@
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
+<script>
+    function addField(type) {
+        const container = document.getElementById(type + '-container');
+        const newField = document.createElement('dl');
+        const newDD = document.createElement('dd');
+        const newLabel = document.createElement('label');
+
+        // Создаем input через DOM
+        const newInput = document.createElement('input');
+        newInput.type = 'text';
+        newInput.name = type + '[]';  // Вот так правильно!
+        newInput.size = 30;
+        newInput.value = '';
+        newInput.placeholder = 'Введите новый пункт';
+
+        // Создаем кнопку удаления
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '× Удалить';
+
+        // Собираем структуру
+        newLabel.appendChild(newInput);
+        newLabel.appendChild(removeBtn);
+        newDD.appendChild(newLabel);
+        newField.appendChild(newDD);
+        container.appendChild(newField);
+
+        // Обработчик для кнопки удаления
+        removeBtn.addEventListener('click', function() {
+            newField.remove();
+        });
+    }
+    // Отдельная функция для инициализации существующих кнопок при загрузке страницы
+    function initRemoveButtons() {
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('dl').remove();
+            });
+        });
+    }
+
+    // Инициализация при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        initRemoveButtons();
+    });
+</script>
 </body>
 </html>
