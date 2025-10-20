@@ -38,7 +38,7 @@
                             <input type="text" name="${type.name()}" size=30 value="${resume.getSection(type).value}">
                         </label></dd>
                     </c:when>
-                    <c:when test="${type.name().equals('ACHIEVEMENT') || type.name().equals('QUALIFICATIONS')}">
+                    <c:when test="${type.name().equals('ACHIEVEMENT')}">
                         <div id="${type.name()}-container">
                             <c:forEach var="listSection" items="${resume.getSection(type).value}" varStatus="listStatus">
                                 <dl>
@@ -49,7 +49,20 @@
                                 </dl>
                             </c:forEach>
                         </div>
-                            <button type="button" class="add-btn" onclick="addField('${type.name()}')">+ Добавить пункт</button>
+                            <button type="button" class="add-btn" onclick="addField('${type.name()}')">+ Добавить достижение</button>
+                    </c:when>
+                    <c:when test="${type.name().equals('QUALIFICATIONS')}">
+                        <div id="${type.name()}-container">
+                            <c:forEach var="listSection" items="${resume.getSection(type).value}" varStatus="listStatus">
+                                <dl>
+                                    <dd><label>
+                                        <input type="text" name="${type.name()}[]" size=30 value="${listSection}">
+                                        <button type="button" class="remove-btn"<c:if test="${listStatus.first}">disabled</c:if>>× Удалить</button>
+                                    </label></dd>
+                                </dl>
+                            </c:forEach>
+                        </div>
+                        <button type="button" class="add-btn" onclick="addField('${type.name()}')">+ Добавить квалификацию</button>
                     </c:when>
                     <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
                         <div id="${type.name()}-container">
