@@ -54,46 +54,36 @@ dd {
 }
 
 h2, h3 {
-    margin: 15px 0 5px;
+    margin: 5px 0 5px;
 }
 
 li {
-    margin: 15px 0;
+    margin: 5px 0;
 }
 
 .company-block {
-    margin-bottom: 25px;
-    padding-bottom: 15px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
     border-bottom: 2px solid #eee;
 }
 
 .add-period-btn {
-    margin: 15px 0;
+    margin: 5px 0;
     display: inline-block;
+    color: #008c00;
 }
 
-a[href^="skype:"] {
-    padding-left: 20px !important;
-    background: url(../img/skype.png) no-repeat center left;
+.add-btn {
+    margin: 5px 0;
+    display: inline-block;
+    color: #008c00;
 }
 
-a[href^="mailto:"] {
-    padding-left: 20px !important;
-    background: url(../img/email.png) no-repeat center left;
+.remove-btn {
+    color: #fd0000;
 }
 
-a[href^="https://stackoverflow.com"] {
-    padding-left: 20px !important;
-    background: url(../img/so.png) no-repeat center left;
-}
-
-a[href^="https://www.linkedin.com"] {
-    padding-left: 20px !important;
-    background: url(../img/lin.png) no-repeat center left;
-}
-
-a[href*="github."] {
-    padding-left: 20px !important;
-    background: url(../img/gh.png) no-repeat center left;
+.remove-btn:disabled {
+    color: #8f8f8f;
 }
 

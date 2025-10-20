@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,8 +17,8 @@
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
-            <dt>Имя:</dt>
-            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
+            <dt style="vertical-align: middle;"><h3>Имя:</h3></dt>
+            <dd style="vertical-align: middle;"><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="${ContactType.values()}">
@@ -28,35 +29,34 @@
                 </label></dd>
             </dl>
         </c:forEach>
-        <h3>Секции:</h3
         <c:forEach var="type" items="${SectionType.values()}">
             <dl>
-                <dt>${type.title}</dt>
+                <dt style="vertical-align: middle;"><h3>${type.title}</h3></dt>
                 <c:choose>
                     <c:when test="${type.name().equals('PERSONAL') || type.name().equals('OBJECTIVE')}">
-                        <dd><label>
+                        <dd style="vertical-align: middle;"><label>
                             <input type="text" name="${type.name()}" size=30 value="${resume.getSection(type).value}">
                         </label></dd>
                     </c:when>
                     <c:when test="${type.name().equals('ACHIEVEMENT') || type.name().equals('QUALIFICATIONS')}">
                         <div id="${type.name()}-container">
-                            <c:forEach var="listSection" items="${resume.getSection(type).value}">
+                            <c:forEach var="listSection" items="${resume.getSection(type).value}" varStatus="listStatus">
                                 <dl>
                                     <dd><label>
                                         <input type="text" name="${type.name()}[]" size=30 value="${listSection}">
-                                        <button type="button" class="remove-btn">× Удалить</button>
+                                        <button type="button" class="remove-btn"<c:if test="${listStatus.first}">disabled</c:if>>× Удалить</button>
                                     </label></dd>
                                 </dl>
                             </c:forEach>
                         </div>
-                        <button type="button" onclick="addField('${type.name()}')">+ Добавить пункт</button>
+                            <button type="button" class="add-btn" onclick="addField('${type.name()}')">+ Добавить пункт</button>
                     </c:when>
                     <c:when test="${type.name().equals('EXPERIENCE') || type.name().equals('EDUCATION')}">
                         <div id="${type.name()}-container">
                             <c:forEach var="company" items="${resume.getSection(type).value}" varStatus="companyStatus">
                                 <div class="company-block">
                                     <dl>
-                                        <dd><label>Компания:
+                                        <dd><label><b>Компания:</b>
                                             <input type="text" name="${type.name()}[${companyStatus.index}].name"  size=20 value="${company.getName()}">
                                             <input type="text" name="${type.name()}[${companyStatus.index}].website" size=30 value="${company.getWebsite()}">
                                             <button type="button" class="remove-btn" onclick="this.closest('.company-block').remove()">× Удалить компанию</button>
@@ -92,7 +92,7 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        <button type="button" onclick="addCompany('${type.name()}')">+ Добавить компанию</button>
+                        <button type="button" class="add-btn" onclick="addCompany('${type.name()}')">+ Добавить компанию</button>
                     </c:when>
                 </c:choose>
             </dl>
