@@ -95,8 +95,8 @@
     </table>
 
     <div style="text-align: center; margin-top: 20px;">
-        <button type="button" onclick="location.href='resume?uuid=${resume.uuid}&action=edit'">Редактировать</button>
-        <button type="button" onclick="window.history.back()">Назад</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='resume?uuid=${resume.uuid}&action=edit'">Редактировать</button>
+        <button type="button" class="btn btn-secondary" onclick="window.history.back()">Назад</button>
     </div>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

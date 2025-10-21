@@ -112,8 +112,10 @@
             </dl>
         </c:forEach>
         <hr>
-        <button type="submit">Сохранить</button>
-        <button type="button" onclick="window.history.back()">Отменить</button>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Отменить</button>
+        </div>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
