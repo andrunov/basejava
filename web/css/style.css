@@ -34,23 +34,23 @@ footer {
 }
 
 .btn-primary {
-    background: #007bff;
+    background: #00cd00;
     color: white;
 }
 
 .btn-primary:hover {
-    background: #0056b3;
+    background: #006e00;
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .btn-secondary {
-    background: #6c757d;
+    background: #d20000;
     color: white;
 }
 
 .btn-secondary:hover {
-    background: #545b62;
+    background: #960000;
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
