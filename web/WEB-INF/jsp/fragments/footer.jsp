@@ -8,5 +8,5 @@
 <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <footer>
-    Проект <a href="http://javaops.ru/reg/basejava">Разработка Web приложения База данных резюме</a>
+    <a href="http://javaops.ru/reg/basejava">Разработка Web приложения База данных резюме</a>
 </footer>

@@ -6,42 +6,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/view.css">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
-    <style>
-        .resume-table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-        }
-        .resume-table td {
-            padding: 10px 15px;
-            vertical-align: top;
-            border-bottom: 1px solid #eee;
-        }
-        .resume-table .label-cell {
-            width: 30%;
-            font-weight: bold;
-            text-align: right;
-            background-color: #f5f5f5;
-        }
-        .resume-table .content-cell {
-            width: 70%;
-        }
-        .section-header {
-            background-color: #e9ecef;
-            font-size: 1.2em;
-            padding: 15px;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h2 style="text-align: center;">Просмотр резюме</h2>
-
     <table class="resume-table">
         <!-- Полное имя -->
         <tr>

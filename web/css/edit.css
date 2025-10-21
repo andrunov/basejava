@@ -1,0 +1,72 @@
+section {
+    width: 900px;
+    margin: auto;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+dl {
+    background: none repeat scroll 0 0 #FAFAFA;
+    margin: 8px 0;
+    padding: 0;
+}
+
+dt {
+    display: inline-block;
+    width: 170px;
+}
+
+dd {
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: top;
+}
+
+h2, h3 {
+    margin: 5px 0 5px;
+}
+
+li {
+    margin: 5px 0;
+}
+
+.company-block {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #eee;
+}
+
+.add-period-btn {
+    margin: 5px 0;
+    display: inline-block;
+    color: #008c00;
+}
+
+.add-btn {
+    margin: 5px 0;
+    display: inline-block;
+    color: #008c00;
+}
+
+.remove-btn {
+    color: #fd0000;
+}
+
+.remove-btn:disabled {
+    color: #8f8f8f;
+}
+
