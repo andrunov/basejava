@@ -12,6 +12,8 @@ import java.util.Objects;
 public class Company implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static final Company EMPTY = new Company("", "");
     private String name;
     private String website;
     private List<Period> periods;

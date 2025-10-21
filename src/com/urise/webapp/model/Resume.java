@@ -8,9 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -20,6 +18,17 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
 
+    public static final Resume EMPTY = new Resume();
+
+    static {
+        EMPTY.setSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY.setSection(SectionType.PERSONAL, TextSection.EMPTY);
+        EMPTY.setSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
+        EMPTY.setSection(SectionType.QUALIFICATIONS, ListSection.EMPTY);
+        EMPTY.setSection(SectionType.EXPERIENCE, new CompanySection(new ArrayList<>()));
+        EMPTY.setSection(SectionType.EDUCATION, new CompanySection(new ArrayList<>()));
+    }
+
     public static Resume of(ResultSet rs) throws SQLException {
         String uuid = rs.getString("uuid");
         String fullName = rs.getString("full_name");
@@ -27,6 +36,8 @@ public class Resume implements Serializable {
     }
 
     private static final long serialVersionUID = 1L;
+
+
 
     private String uuid;
 
@@ -37,6 +48,11 @@ public class Resume implements Serializable {
     private Map<ContactType, String> contacts;
 
     public Resume() {
+        this(null, null);
+    }
+
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {

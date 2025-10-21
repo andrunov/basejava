@@ -28,8 +28,16 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume r = storage.get(uuid);
-        r.setFullName(fullName);
+        final boolean isCreate = (uuid == null || uuid.length() == 0);
+
+        Resume r;
+        if (isCreate) {
+            r = new Resume(fullName);
+        } else {
+            r = storage.get(uuid);
+            r.setFullName(fullName);
+        }
+
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -39,36 +47,51 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (SectionType type : SectionType.values()) {
-            if (type.name().equals("PERSONAL") || type.name().equals("OBJECTIVE")) {
-                String value = request.getParameter(type.name());
-                if (value != null && value.trim().length() != 0) {
-                    TextSection section = new TextSection();
-                    section.setValue(value);
-                    r.setSection(type, section);
-                } else {
-                    r.getSections().remove(type);
+            switch (type.name()) {
+                case "PERSONAL":
+                case "OBJECTIVE": {
+                    String value = request.getParameter(type.name());
+                    if (value != null && value.trim().length() != 0) {
+                        TextSection section = new TextSection();
+                        section.setValue(value);
+                        r.setSection(type, section);
+                    } else {
+                        r.getSections().remove(type);
+                    }
+                    break;
                 }
-            } else if (type.name().equals("ACHIEVEMENT") || type.name().equals("QUALIFICATIONS")) {
-                String[] value = request.getParameterValues(type.name() + "[]");
-                if (value != null && value.length != 0) {
-                    ListSection section = new ListSection();
-                    section.setValue(Arrays.asList(value));
-                    r.setSection(type, section);
-                } else {
-                    r.getSections().remove(type);
+                case "ACHIEVEMENT":
+                case "QUALIFICATIONS": {
+                    String[] value = request.getParameterValues(type.name() + "[]");
+                    if (value != null && value.length != 0) {
+                        ListSection section = new ListSection();
+                        section.setValue(Arrays.asList(value));
+                        r.setSection(type, section);
+                    } else {
+                        r.getSections().remove(type);
+                    }
+                    break;
                 }
-            } else if (type.name().equals("EXPERIENCE") || type.name().equals("EDUCATION")) {
-                List<Company> companies = parseCompanies(request, type.name());
-                if (companies.size() != 0) {
-                    CompanySection section = new CompanySection();
-                    section.setValue(companies);
-                    r.setSection(type, section);
-                } else {
-                    r.getSections().remove(type);
-                }
+                case "EXPERIENCE":
+                case "EDUCATION":
+                    List<Company> companies = parseCompanies(request, type.name());
+                    if (companies.size() != 0) {
+                        CompanySection section = new CompanySection();
+                        section.setValue(companies);
+                        r.setSection(type, section);
+                    } else {
+                        r.getSections().remove(type);
+                    }
+                    break;
             }
         }
-        storage.update(r);
+
+        if (isCreate) {
+            storage.save(r);
+        } else {
+            storage.update(r);
+        }
+
         response.sendRedirect("resume");
     }
 
@@ -83,6 +106,9 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume r;
         switch (action) {
+            case "add":
+                r = Resume.EMPTY;
+                break;
             case "delete":
                 storage.delete(uuid);
                 response.sendRedirect("resume");
@@ -90,6 +116,37 @@ public class ResumeServlet extends HttpServlet {
             case "view":
             case "edit":
                 r = storage.get(uuid);
+                for (SectionType type : SectionType.values()) {
+                    Section<?> section = r.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE:
+                        case PERSONAL:
+                            if (section == null) {
+                                section = TextSection.EMPTY;
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            if (section == null) {
+                                section = ListSection.EMPTY;
+                            }
+                            break;
+                        case EXPERIENCE:
+                        case EDUCATION:
+                            CompanySection companySection = (CompanySection) section;
+                            if (companySection == null) {
+                                companySection = new CompanySection();
+                                List<Period> emptyPeriods = new ArrayList<>();
+                                emptyPeriods.add(Period.EMPTY);
+                                Company.EMPTY.setPeriods(emptyPeriods);
+                                List<Company> emptyCompanies = new ArrayList<>();
+                                emptyCompanies.add(Company.EMPTY);
+                                companySection.setValue(emptyCompanies);
+                            }
+                            break;
+                    }
+                    r.setSection(type, section);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
