@@ -7,13 +7,13 @@ public enum ContactType implements Serializable {
     SKYPE("Skype",2) {
         @Override
         public String toHtml0(String value) {
-            return getTitle() + ": " + toLink("skype:" + value, value);
+            return getTitle() + ": " + toLink("skype:", value);
         }
     },
     EMAIL("Почта",3) {
         @Override
         public String toHtml0(String value) {
-            return getTitle() + ": " + toLink("mailto:" + value, value);
+            return toLink("mailto:", value);
         }
     },
     LINKEDIN("Профиль LinkedIn",4) {
@@ -68,6 +68,10 @@ public enum ContactType implements Serializable {
 
     public String toLink(String href) {
         return toLink(href, title);
+    }
+
+    public static String toEmail(String email) {
+        return "<a href='mailto:" + email + "'>" + email + "</a>";
     }
 
     public static String toLink(String href, String title) {

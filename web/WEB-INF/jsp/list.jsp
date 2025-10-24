@@ -42,7 +42,7 @@
                         </a>
                     </td>
                     <td class="info-column">
-                        <%=ContactType.EMAIL.toLink(resume.getContact(ContactType.EMAIL))%>
+                        <%=ContactType.toEmail(resume.getContact(ContactType.EMAIL))%>
                     </td>
                     <td class="action-column">
                         <a class="action-link" href="resume?uuid=${resume.uuid}&action=view" title="Просмотр">
