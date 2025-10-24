@@ -110,6 +110,7 @@ public class ResumeServlet extends HttpServlet {
                 r = Resume.EMPTY;
                 break;
             case "delete":
+                Config.get().checkImmutable(uuid);
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
