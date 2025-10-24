@@ -13,4 +13,23 @@
         <url-pattern>/resume</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>exceptionFilter</filter-name>
+        <filter-class>com.urise.webapp.web.ExceptionHandlerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>exceptionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>errorServlet</servlet-name>
+        <servlet-class>com.urise.webapp.web.ErrorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>errorServlet</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

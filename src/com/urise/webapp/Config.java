@@ -1,5 +1,6 @@
 package com.urise.webapp;
 
+import com.urise.webapp.exception.ImmutableResumeException;
 import com.urise.webapp.storage.SqlStorage;
 import com.urise.webapp.storage.Storage;
 
@@ -68,6 +69,6 @@ public class Config {
 
     public void checkImmutable(String uuids) {
         if (immutableUuids.contains(uuids))
-            throw new RuntimeException("Зарезервированные резюме нельзя менять");
+            throw new ImmutableResumeException(uuids);
     }
 }
