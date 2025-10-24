@@ -71,7 +71,7 @@ public enum ContactType implements Serializable {
     }
 
     public static String toEmail(String email) {
-        return "<a href='mailto:" + email + "'>" + email + "</a>";
+        return String.format("<a href='mailto:%s' title='Написать письмо на %s'>%s</a>", email, email, email);
     }
 
     public static String toLink(String href, String title) {
