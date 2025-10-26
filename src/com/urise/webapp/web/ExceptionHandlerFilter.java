@@ -19,6 +19,8 @@ public class ExceptionHandlerFilter implements Filter {
             chain.doFilter(request, response);
         } catch (RuntimeException e) {
             handleException(e, (HttpServletRequest) request, (HttpServletResponse) response);
+        } catch (Throwable throwable) {
+            handleThrowable(throwable, (HttpServletRequest) request, (HttpServletResponse) response);
         }
     }
 
@@ -32,7 +34,15 @@ public class ExceptionHandlerFilter implements Filter {
         if (e.getMessage().contains("Зарезервированные резюме нельзя менять")) {
             response.sendRedirect(request.getContextPath() + "/error?message=immutable");
         } else {
+            request.getSession().setAttribute("error", e);
             response.sendRedirect(request.getContextPath() + "/error?message=general");
         }
+    }
+
+    private void handleThrowable(Throwable throwable, HttpServletRequest request,
+                                 HttpServletResponse response) throws IOException {
+
+            request.getSession().setAttribute("error", throwable);
+            response.sendRedirect(request.getContextPath() + "/error?message=general");
     }
 }
