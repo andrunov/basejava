@@ -29,7 +29,9 @@
                 <td class="content-cell">
                     <c:forEach var="type" items="${ContactType.values()}">
                         <c:if test="${not empty resume.getContact(type)}">
-                            <div><strong>${type.title}:</strong> ${resume.getContact(type)}</div>
+                            <ul>
+                                <li><div><strong>${type.title}:</strong> ${resume.getContact(type)}</div></li>
+                            </ul>
                         </c:if>
                     </c:forEach>
                 </td>
